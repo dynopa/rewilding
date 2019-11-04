@@ -1,0 +1,57 @@
+ok so
+puffs will try to satisfy their needs, with the way they do so affected by their emotions. If they satisfy these needs, or are incapable of doing so, they will then try to perform the goals set by their tribe.
+
+STATS- direct information about the creature
+- Size: determines position in hierarchy
+- Position in hierarchy
+- Age: determines whether it can reproduce, when it dies, affects size
+- Bravery: determines threshold for safety
+- Weight: determines threshold for being hungry, heavier they are, the less they need to eat
+- Social : determines threshold for shelter
+- Fun: determines threshold for play, more fun they are, the more they want to play
+KEEP IN MIND FUN AND WEIGHT ARE INVERSE!!!!
+NEEDS- affects what they are capable of doing, and if they can do it by satisfying their needs
++ Number for each
+- Safety: how safe they feel, if too safe they become more passive, the more in danger the more aggressive/paranoid they become
+-- Behavior: will try to get out of dangerous situations depending on their emotions
+--- Aggressive: Will fight
+--- Passive/Paranoid/Helpful: Will run away, Passive may not understand their situation
+-- Effect without: will become more paranoid
+-- Effect with: will become more passive
+- Hunger: needs to eat, can overeat or starve
+-- Behavior: will search out plants they like and "eat" them
+-- Effect without: will become more aggressive as they get hungrier
+-- Effect with: will become more passive
+- Shelter: how long they've been away from a nest
+-- Behavior: will go towards a nest when its been a while
+-- Effect without: will become 
+- Play: needs to play
+-- Behavior: will play with other puffs
+-- Effect without: will become more aggressive/paranoid
+-- Effect with: will become more helpful
+EMOTIONS- their current mood determined by their situation, affects how they do things
+- Aggressive: will try to fight and chase things
+- Passive: will not react
+- Paranoid: will run away from almost anything
+- Helpful: will try to "help"
+TRIBE - what does the tribe want to do
+- Intertribe relationships (hate, like, fight?)
+- Size of population? (fix by having more or staying the same)
+- Move tribe?
+- TRIBE TRAITS
+-- Whether they go up or down when faced with situations dealing with bravery, fun, and shelter
+-- Cowardly : if true they get less brave in dangerous situations
+-- Homebody : if true they get less social when they're home
+ACTION- what are they going to do
+
+Tribes are basically just collections of puffballs
+
+
+
+ALL CREATURES NEED TO
+--do stuff
+--hear stuff
+
+CHIEFS NEED TO
+--say stuff
+--think stuff
