@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
 
     //situation data
     [HideInInspector]
-    public ItemHandler ih;
 
 
     //private data
@@ -57,7 +56,6 @@ public class PlayerController : MonoBehaviour
         type = PlantType.Spread;
         mousePos = Input.mousePosition;
         instance = this;
-        ih = gameObject.AddComponent<ItemHandler>();
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
         cam = Camera.main;
@@ -203,21 +201,11 @@ public class PlayerController : MonoBehaviour
             }));
         }
 
-        if (ih.holdingItem)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            ih.HoldItem();
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                ih.DropItem();
-            }
+            CheckInteraction();
         }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                CheckInteraction();
-            }
-        }
+        
         //end items
 
         //time slow
@@ -246,7 +234,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform.tag == "Item")
             {
-                ih.PickUpItem(hit.transform.GetComponent<Item>());
+
             }
         }
     }
