@@ -257,20 +257,25 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            Debug.Log("Did Hit");
+            //Debug.Log("Did Hit");
             if (hit.transform.gameObject.layer == 8) //ground
             {
                 GameObject newHole = Instantiate(holePrefab, hit.point, Quaternion.identity);
                 PlantNeighborManager.instance.plants.Add(newHole.transform.GetComponent<Plant>());
-                Debug.Log("Dug");
+                //Debug.Log("Dug");
                 return newHole;
             }
             if (hit.transform.gameObject.tag == "Hole")
             {
-                Debug.Log("its a hole");
-                hit.transform.GetComponent<MeshRenderer>().enabled = false;
+                // Debug.Log("its a hole");
                 Plant plant = hit.transform.GetComponent<Plant>();
-                plant.SetType(type);
+                if (plant.type == PlantType.None)
+                {
+                    hit.transform.GetComponent<MeshRenderer>().enabled = false;
+                    plant.SetType(type);
+                    hit.transform.name = type.ToString();
+                    PlantNeighborManager.instance.CheckForConnections();
+                }
                 return hit.transform.gameObject;
             }
         }
