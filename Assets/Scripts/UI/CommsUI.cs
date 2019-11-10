@@ -20,7 +20,6 @@ public class CommsUI : MonoBehaviour
     public KeyCode interactComms;
     bool isSpeaking = false;
     bool isFocusing = false;
-    public SoundMaker sm;
 
     // Start is called before the first frame update
     void Start()
@@ -109,27 +108,7 @@ public class CommsUI : MonoBehaviour
                 }
 
             }));
-            //sends message to language broadcast and chat ticker
-            if (ticker.text.Length > 0)
-            {
-                if (PlayerController.instance.ih.holdingItem)
-                {
-                    Language.TakeMessage(ticker.text, sm, PlayerController.instance.ih.itemHeld.transform);
-                }
-                else
-                {
-                    Language.TakeMessage(ticker.text, sm);
-                }
-                ChatLog.instance.TakeMessage("You: " + ticker.text + "\n");
-            }
             
-            
-            // Debug.Log("_" + ticker.text + "_");
-            ticker.text = null;
-            letter_w.color = textColor;
-            letter_a.color = textColor;
-            letter_s.color = textColor;
-            letter_d.color = textColor;
         }
         //Focus UI
         if (Input.GetMouseButtonDown(0))
