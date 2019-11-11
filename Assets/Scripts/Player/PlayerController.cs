@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
 
     //situation data
     [HideInInspector]
-    public ItemHandler ih;
 
 
     //private data
@@ -50,6 +49,23 @@ public class PlayerController : MonoBehaviour
 
     //UI Data
     RectTransform UiIndicator;
+    Image mossIdx;
+    Image grassIdx;
+    Image shrubIdx;
+    Image treeIdx;
+    Image specialIdx;
+
+    //inventory data
+    float count_moss = 8f;
+    float count_moss_max = 8f;
+    float count_grass = 4f;
+    float count_grass_max = 4f;
+    float count_shrub = 2f;
+    float count_shrub_max = 2f;
+    float count_tree = 1f;
+    float count_tree_max = 1f;
+    float count_special = 2f;
+    float count_special_max = 2f;
 
     // Start is called before the first frame update
     void Awake()
@@ -57,7 +73,6 @@ public class PlayerController : MonoBehaviour
         type = PlantType.Spread;
         mousePos = Input.mousePosition;
         instance = this;
-        ih = gameObject.AddComponent<ItemHandler>();
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
         cam = Camera.main;
@@ -67,6 +82,11 @@ public class PlayerController : MonoBehaviour
 
         //ui
         UiIndicator = GameObject.Find("Indicator").GetComponent<RectTransform>();
+        mossIdx = GameObject.Find("MossIdx").GetComponent<Image>();
+        grassIdx = GameObject.Find("GrassIdx").GetComponent<Image>();
+        shrubIdx = GameObject.Find("ShrubIdx").GetComponent<Image>();
+        treeIdx = GameObject.Find("TreeIdx").GetComponent<Image>();
+        specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -203,21 +223,11 @@ public class PlayerController : MonoBehaviour
             }));
         }
 
-        if (ih.holdingItem)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            ih.HoldItem();
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                ih.DropItem();
-            }
+            CheckInteraction();
         }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                CheckInteraction();
-            }
-        }
+        
         //end items
 
         //time slow
@@ -246,7 +256,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform.tag == "Item")
             {
-                ih.PickUpItem(hit.transform.GetComponent<Item>());
+
             }
         }
     }
@@ -265,9 +275,61 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("Dug");
                 return newHole;
             }
-            if (hit.transform.gameObject.tag == "Hole")
+            if (hit.transform.gameObject.tag == "Hole" && hit.transform.GetComponent<Plant>().type == PlantType.None)
             {
-                // Debug.Log("its a hole");
+                hit.transform.GetComponent<MeshRenderer>().enabled = false;
+            
+                switch (type)
+                {
+                    case PlantType.Spread:
+                        if (count_moss > 0)
+                        {
+                            count_moss--;
+                            Debug.Log(count_moss + "" + count_moss_max + "" + count_moss / count_moss_max);
+                            mossIdx.fillAmount = count_moss / count_moss_max;
+                        }
+                        else
+                            return hit.transform.gameObject;
+                        break;
+                    case PlantType.Grass:
+                        if (count_grass > 0)
+                        {
+                            count_grass--;
+                            grassIdx.fillAmount = count_grass / count_grass_max;
+                        }
+                        else
+                            return hit.transform.gameObject;
+                        break;
+                    case PlantType.Shrub:
+                        if (count_shrub > 0)
+                        {
+                            count_shrub--;
+                            shrubIdx.fillAmount = count_shrub / count_shrub_max;
+                        }
+                        else
+                            return hit.transform.gameObject;
+                        break;
+                    case PlantType.Tree:
+                        if (count_tree > 0)
+                        {
+                            count_tree--;
+                            treeIdx.fillAmount = count_tree / count_tree_max;
+                        }
+                        else
+                            return hit.transform.gameObject;
+                        break;
+                    case PlantType.Special:
+                        if (count_special > 0)
+                        {
+                            count_special--;
+                            specialIdx.fillAmount = count_special / count_special_max;
+                        }
+                        else
+                            return hit.transform.gameObject;
+                        break;
+                    default:
+                        break;
+                }
                 Plant plant = hit.transform.GetComponent<Plant>();
                 if (plant.type == PlantType.None)
                 {
@@ -277,6 +339,21 @@ public class PlayerController : MonoBehaviour
                     PlantNeighborManager.instance.CheckForConnections();
                 }
                 return hit.transform.gameObject;
+            }
+            if (hit.transform.name == "Button")
+            {
+                count_moss = count_moss_max;
+                count_grass = count_grass_max;
+                count_shrub = count_shrub_max;
+                count_tree = count_tree_max;
+                count_special = count_special_max;
+
+                mossIdx.fillAmount = 1;
+                grassIdx.fillAmount =1;
+                shrubIdx.fillAmount =1;
+                treeIdx.fillAmount = 1;
+                specialIdx.fillAmount = 1;
+                Debug.Log("HIT BUTTON");
             }
         }
         return hit.transform.gameObject;
