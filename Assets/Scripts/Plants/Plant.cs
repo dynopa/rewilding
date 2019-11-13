@@ -19,7 +19,7 @@ public class Plant : MonoBehaviour
     public float supportNum = 1;//how many can this single thing support?
     public bool met = false;
     MeshRenderer mr;
-    public Material good;
+    Material good;
     public Material bad;
 
     GameObject child;
@@ -42,6 +42,10 @@ public class Plant : MonoBehaviour
         met = CheckNeeds();
         if (mr)
         {
+            if(good == null)
+            {
+                good = mr.material;
+            }
             mr.material = met ? good : bad;
             child.transform.localScale = met ? new Vector3(1, 1, 1)*size : new Vector3(0.5f, 0.5f, 0.5f)*size;
         }
