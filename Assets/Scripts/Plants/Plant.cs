@@ -297,4 +297,28 @@ public class Plant : MonoBehaviour
         Debug.Log(goal);
         return met;
     }
+    public void Propagate()
+    {//have a baby
+        Vector3 newSpot = new Vector3(Random.Range(0.5f, 1.5f), 0, Random.Range(0.5f, 1.5f));
+        if(Random.value < 0.5)
+        {
+            newSpot.x *= -1;
+        }
+        if(Random.value < 0.5)
+        {
+            newSpot.z *= -1;
+        }
+        newSpot += transform.position;
+        newSpot += Vector3.up * 5;//put it up!
+        RaycastHit hit;
+        Physics.Raycast(newSpot, Vector3.up * -1, out hit);
+        newSpot.y -= hit.distance;
+        GameObject newPlant = Instantiate(this.gameObject) as GameObject;
+        Plant newishPlant = newPlant.GetComponent<Plant>();
+        newPlant.transform.position = newSpot;
+        //newPlant.transform.GetComponent<MeshRenderer>().enabled = false;
+        //newPlant.GetComponent<Plant>().SetType(type);
+        newPlant.transform.name = type.ToString();
+        PlantNeighborManager.instance.newPlants.Add(newishPlant);
+    }
 }

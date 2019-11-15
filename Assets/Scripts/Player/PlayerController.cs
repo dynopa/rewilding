@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -66,6 +67,8 @@ public class PlayerController : MonoBehaviour
     float count_tree_max = 1f;
     float count_special = 2f;
     float count_special_max = 2f;
+
+    public UnityEvent buttonEvent;
 
     // Start is called before the first frame update
     void Awake()
@@ -334,9 +337,10 @@ public class PlayerController : MonoBehaviour
                 if (plant.type == PlantType.None)
                 {
                     hit.transform.GetComponent<MeshRenderer>().enabled = false;
+                    hit.transform.GetComponent<BoxCollider>().enabled = false;
                     plant.SetType(type);
                     hit.transform.name = type.ToString();
-                    PlantNeighborManager.instance.CheckForConnections();
+                    PlantNeighborManager.instance.PlantNewPlant(plant);
                 }
                 return hit.transform.gameObject;
             }
@@ -354,6 +358,7 @@ public class PlayerController : MonoBehaviour
                 treeIdx.fillAmount = 1;
                 specialIdx.fillAmount = 1;
                 Debug.Log("HIT BUTTON");
+                buttonEvent.Invoke();
             }
         }
         return hit.transform.gameObject;
