@@ -59,6 +59,7 @@ public class Plant : MonoBehaviour
         {
             Debug.Log("DELETE");
             Destroy(gameObject);
+            return;
         }
         projector.gameObject.SetActive(false);
         type = newType;
