@@ -628,7 +628,6 @@ MonoBehaviour:
   line: {fileID: 1003112696}
   maxDistance: 5
   numLines: 0
-  showLines: 0
 --- !u!4 &1571670645
 Transform:
   m_ObjectHideFlags: 0
@@ -946,7 +945,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5417106368263325060}
   m_LocalRotation: {x: -0.6123725, y: 0.35355338, z: 0.3535534, w: 0.61237246}
-  m_LocalPosition: {x: 515.35, y: 20.34, z: 438.96}
+  m_LocalPosition: {x: 515.35, y: 20.34, z: 438.8}
   m_LocalScale: {x: 10.073246, y: 10.073246, z: 10.073246}
   m_Children:
   - {fileID: 392690217}
