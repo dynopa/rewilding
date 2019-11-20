@@ -26,6 +26,11 @@ public class Plant : MonoBehaviour
     int age;
     float growthStage;
 
+    //radi-i
+    public List<float> clippingRadius = new List<float>() {0.6f,0.6f,0.6f, 0.48f, 1.6f,0.6f};
+    public List<float> supportRadius = new List<float>() { 0.6f, 0.6f, 0.6f, 0.48f, 1.6f, 0.6f };
+    public List<float> dependRadius = new List<float>() { 0.6f, 0.6f, 0.6f, 0.48f, 1.6f, 0.6f };
+
     Projector projector;
 
  
@@ -45,8 +50,6 @@ public class Plant : MonoBehaviour
         if (mr)
         {
             if(good == null)
-<<<<<<< HEAD
-=======
             {
                 good = mr.material;
             }
@@ -56,7 +59,6 @@ public class Plant : MonoBehaviour
         foreach(LineRenderer lr in lines)
         {
             if (lr.enabled)
->>>>>>> b6d7e91fe62cb3fb332e7e782d00a5a0132aa713
             {
                 good = mr.material;
             }
@@ -75,6 +77,7 @@ public class Plant : MonoBehaviour
         }
         projector.gameObject.SetActive(false);
         type = newType;
+        projector.orthographicSize = clippingRadius[(int)type];
         if (type != PlantType.None && !child)
         {
             string modelName = prefabs[(int)type];
@@ -182,6 +185,7 @@ public class Plant : MonoBehaviour
                         dependents.Add(neighbors[i]);
                     }
                 }
+                projector.gameObject.transform.position = new Vector3(0.54f, 2, 0.93f);
                 break;
         }
     }
