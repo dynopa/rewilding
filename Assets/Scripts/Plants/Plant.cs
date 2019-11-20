@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum PlantType
 {
-    None,Spread,Grass,Shrub,Tree,Special
+    None,Spread,Grass,Shrub,Tree,Special,Delete
 }
 
 public class Plant : MonoBehaviour
 {
     public string desc;
     public PlantType type;
-    public List<string> prefabs = new List<string>() {"None", "Spread", "Grass", "Shrub", "Tree", "Special" };
+    public List<string> prefabs = new List<string>() {"None", "Spread", "Grass", "Shrub", "Tree", "Special"};
     public List<Plant> neighbors = new List<Plant>();
     public List<LineRenderer> lines = new List<LineRenderer>();//shows the plants this plant supports
     public List<Plant> supportedBy = new List<Plant>();
@@ -26,11 +26,17 @@ public class Plant : MonoBehaviour
     int age;
     float growthStage;
 
-    // Start is called before the first frame update
+    Projector projector;
+
+ 
+        // Start is called before the first frame update
     void Awake()
     {
+        projector = gameObject.GetComponentInChildren<Projector>();
 
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -48,6 +54,13 @@ public class Plant : MonoBehaviour
     }
     public void SetType(PlantType newType)
     {
+        Debug.Log("SETPLANT");
+        if (newType == PlantType.Delete)
+        {
+            Debug.Log("DELETE");
+            Destroy(gameObject);
+        }
+        projector.gameObject.SetActive(false);
         type = newType;
         if (type != PlantType.None && !child)
         {
@@ -77,6 +90,7 @@ public class Plant : MonoBehaviour
                     break;
             }
         }
+        
         UpdateDependecies();
     }
     public void UpdateDependecies()
