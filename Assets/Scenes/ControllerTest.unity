@@ -628,6 +628,7 @@ MonoBehaviour:
   line: {fileID: 1003112696}
   maxDistance: 5
   numLines: 0
+  showLines: 0
 --- !u!4 &1571670645
 Transform:
   m_ObjectHideFlags: 0

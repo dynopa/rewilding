@@ -45,6 +45,18 @@ public class Plant : MonoBehaviour
         if (mr)
         {
             if(good == null)
+<<<<<<< HEAD
+=======
+            {
+                good = mr.material;
+            }
+            mr.material = met ? good : bad;
+            child.transform.localScale = met ? new Vector3(1, 1, 1)*size : new Vector3(0.5f, 0.5f, 0.5f)*size;
+        }
+        foreach(LineRenderer lr in lines)
+        {
+            if (lr.enabled)
+>>>>>>> b6d7e91fe62cb3fb332e7e782d00a5a0132aa713
             {
                 good = mr.material;
             }
