@@ -25,12 +25,23 @@ public class Plant : MonoBehaviour
     GameObject child;
     float size = 1;
     int age;
-    float growthStage;
+    public float growthStage;
     public bool used; //if this is true, its used up all its resources to support others
     float tempSupported; //used to check how much they're supporting in a day
     public bool[] filled = new bool[] { false, false, false, false, false, false };//true means its needs are met!
 
     // Start is called before the first frame update
+    public void Age()
+    {
+        age++;
+        size += (1 - size) * 0.1f;
+        if(size> 0.95f)
+        {
+            size = 1f;
+            growthStage = 1;
+        }
+        
+    }
     void Awake()
     {
         filled = new bool[] { false, false, false, false, false, false };
@@ -73,7 +84,7 @@ public class Plant : MonoBehaviour
         {
             string modelName = prefabs[(int)type];
             child = Instantiate(Resources.Load(modelName), transform) as GameObject;
-            size = child.transform.localScale.x;
+            size = child.transform.localScale.x*0.3f;
             mr = child.GetComponent<MeshRenderer>();
             supportNum = 1;
             switch (type)
@@ -315,6 +326,7 @@ public class Plant : MonoBehaviour
         newSpot.y -= hit.distance;
         GameObject newPlant = Instantiate(this.gameObject) as GameObject;
         Plant newishPlant = newPlant.GetComponent<Plant>();
+        newishPlant.SetType(type);
         newPlant.transform.position = newSpot;
         //newPlant.transform.GetComponent<MeshRenderer>().enabled = false;
         //newPlant.GetComponent<Plant>().SetType(type);

@@ -141,7 +141,11 @@ public class PlantNeighborManager : MonoBehaviour
         {
             if(plant.type != PlantType.None)
             {
-                plant.Propagate();
+                if(plant.growthStage == 1 && Random.value > 0.5f)
+                {
+                    plant.Propagate();
+                }
+                plant.Age();
             }
         }
         foreach(Plant newPlant in newPlants)
