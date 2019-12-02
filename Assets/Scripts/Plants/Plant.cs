@@ -15,15 +15,17 @@ public class Plant : MonoBehaviour
     public List<LineRenderer> lines = new List<LineRenderer>();//shows the plants this plant supports
     public List<Plant> supportedBy = new List<Plant>();
     public List<Plant> dependents = new List<Plant>();
-    public float[] needs = new float[] { 0, 0, 0, 0, 0, 0 };
+    public float[] needs = new float[] { 0, 0, 0, 0, 0, 0 };//how much of each thing to get to 100%
+    float[] needsMet = new float[] { 0, 0, 0, 0, 0, 0 };//how much does it have rn
     public float supportNum = 1;//how many can this single thing support?
     public bool met = false;
+    public float gradientSupport = 0; //1 means fully supported
     MeshRenderer mr;
     Material good;
     public Material bad;
 
     GameObject child;
-    float size = 1;
+    public float size = 1;
     int age;
     public float growthStage;
     public bool used; //if this is true, its used up all its resources to support others
@@ -34,7 +36,7 @@ public class Plant : MonoBehaviour
     public void Age()
     {
         age++;
-        size += (1 - size) * 0.1f;
+        size += ((1 - size) * 0.1f)*gradientSupport;
         if(size> 0.95f)
         {
             size = 1f;
@@ -50,7 +52,8 @@ public class Plant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        met = CheckNeeds();
+        gradientSupport = CheckNeeds();
+        met = gradientSupport >= 0.5;
         if (mr)
         {
             if(good == null)
@@ -85,6 +88,8 @@ public class Plant : MonoBehaviour
             string modelName = prefabs[(int)type];
             child = Instantiate(Resources.Load(modelName), transform) as GameObject;
             size = child.transform.localScale.x*0.3f;
+            age = 0;
+            growthStage = 0;
             mr = child.GetComponent<MeshRenderer>();
             supportNum = 1;
             switch (type)
@@ -120,13 +125,18 @@ public class Plant : MonoBehaviour
         used = false;
         for(int i = 0; i < filled.Length; i++)
         {
-            filled[i] = CheckNeedsByType((PlantType)i);
+            filled[i] = CheckNeedsByType((PlantType)i) >= 1.0f ;
+        }
+        for (int i = 0; i < neighbors.Count; i++)
+        {
+            lines[i].SetPosition(1, neighbors[i].transform.position + Vector3.up * 0.25f);
         }
         supportedBy.Clear();
         dependents.Clear();
     }
     public void UpdateDependecies()
     {
+        NewDay();
         switch (type)
         {
             case PlantType.None:
@@ -138,33 +148,29 @@ public class Plant : MonoBehaviour
             case PlantType.Spread:
                 for(int i = 0; i < neighbors.Count; i++)
                 {
-                    if(neighbors[i].type == PlantType.Spread || neighbors[i].type == PlantType.None)
+                    if (neighbors[i].type == PlantType.Spread || neighbors[i].type == PlantType.None)
                     {
                         lines[i].enabled = false;
                     }
+                    else if (!used && !neighbors[i].filled[(int)type])
+                    {
+                        lines[i].enabled = true;
+                        dependents.Add(neighbors[i]);
+                        neighbors[i].supportedBy.Add(this);
+                        tempSupported++;
+                        if (tempSupported >= supportNum)//they're supporting all they can
+                        {
+                            used = true;
+                            lines[i].startColor = Color.green;
+                        }
+                        float percent = neighbors[i].CheckNeedsByType(type);
+                        lines[i].startWidth = percent * 0.10f;
+                        lines[i].endWidth = percent * 0.10f;
+                        filled[i] = CheckNeedsByType((PlantType)i) >= 1.0f;
+                    }
                     else
                     {
-                        if (!used && !neighbors[i].filled[(int)type])
-                        {
-                            lines[i].enabled = true;
-                            dependents.Add(neighbors[i]);
-                            neighbors[i].supportedBy.Add(this);
-                            tempSupported++;
-                            if (tempSupported >= supportNum)//they're supporting all they can
-                            {
-                                used = true;
-                                lines[i].startColor = Color.green;
-                            }
-                            if (neighbors[i].CheckNeedsByType(type))//the neighbor has been supported
-                            {
-                                neighbors[i].filled[(int)type] = true;
-                                lines[i].endColor = Color.green;
-                            }
-                        }
-                        else
-                        {
-                            lines[i].enabled = false;
-                        }
+                        lines[i].enabled = false;
                     }
                 }
                 break;
@@ -179,29 +185,25 @@ public class Plant : MonoBehaviour
                         lines[i].enabled = false;
                         //supportedBy.Add(neighbors[i]);
                     }
+                    else if (!used && !neighbors[i].filled[(int)type])
+                    {
+                        lines[i].enabled = true;
+                        dependents.Add(neighbors[i]);
+                        neighbors[i].supportedBy.Add(this);
+                        tempSupported++;
+                        if (tempSupported >= supportNum)//they're supporting all they can
+                        {
+                            used = true;
+                            lines[i].startColor = Color.green;
+                        }
+                        float percent = neighbors[i].CheckNeedsByType(type);
+                        lines[i].startWidth = percent * 0.10f;
+                        lines[i].endWidth = percent * 0.10f;
+                        filled[i] = CheckNeedsByType((PlantType)i) >= 1.0f;
+                    }
                     else
                     {
-                        if (!used && !neighbors[i].filled[(int)type])
-                        {
-                            lines[i].enabled = true;
-                            dependents.Add(neighbors[i]);
-                            neighbors[i].supportedBy.Add(this);
-                            tempSupported++;
-                            if (tempSupported >= supportNum)//they're supporting all they can
-                            {
-                                used = true;
-                                lines[i].startColor = Color.green;
-                            }
-                            if (neighbors[i].CheckNeedsByType(type))//the neighbor has been supported
-                            {
-                                neighbors[i].filled[(int)type] = true;
-                                lines[i].endColor = Color.green;
-                            }
-                        }
-                        else
-                        {
-                            lines[i].enabled = false;
-                        }
+                        lines[i].enabled = false;
                     }
                 }
                 break;
@@ -216,29 +218,25 @@ public class Plant : MonoBehaviour
                         lines[i].enabled = false;
                         //supportedBy.Add(neighbors[i]);
                     }
+                    else if (!used && !neighbors[i].filled[(int)type])
+                    {
+                        lines[i].enabled = true;
+                        dependents.Add(neighbors[i]);
+                        neighbors[i].supportedBy.Add(this);
+                        tempSupported++;
+                        if (tempSupported >= supportNum)//they're supporting all they can
+                        {
+                            used = true;
+                            lines[i].startColor = Color.green;
+                        }
+                        float percent = neighbors[i].CheckNeedsByType(type);
+                        lines[i].startWidth = percent * 0.10f;
+                        lines[i].endWidth = percent * 0.10f;
+                        filled[i] = CheckNeedsByType((PlantType)i) >= 1.0f;
+                    }
                     else
                     {
-                        if (!used && !neighbors[i].filled[(int)type])
-                        {
-                            lines[i].enabled = true;
-                            dependents.Add(neighbors[i]);
-                            neighbors[i].supportedBy.Add(this);
-                            tempSupported++;
-                            if (tempSupported >= supportNum)//they're supporting all they can
-                            {
-                                used = true;
-                                lines[i].startColor = Color.green;
-                            }
-                            if (neighbors[i].CheckNeedsByType(type))//the neighbor has been supported
-                            {
-                                neighbors[i].filled[(int)type] = true;
-                                lines[i].endColor = Color.green;
-                            }
-                        }
-                        else
-                        {
-                            lines[i].enabled = false;
-                        }
+                        lines[i].enabled = false;
                     }
                 }
                 break;
@@ -262,51 +260,58 @@ public class Plant : MonoBehaviour
                 break;
         }
     }
-    public bool CheckNeeds()
+    public float CheckNeeds()
     {
-        bool met = false;
-        float[] needsMet = new float[6];
+        
+        needsMet = new float[6];
+        float[] needsGrad = new float[6];
         foreach(Plant plant in supportedBy)
         {
             int index = (int)plant.type;
             needsMet[index] += 1;
         }
-        for(int i =0; i < needs.Length; i++)
+        float howManyTypesNeeded = 0;
+        for(int i =0; i < needs.Length; i++)//figure out percentage of individual needs
         {
-            if (needsMet[i] >= needs[i])
+            if(needs[i] != 0)
             {
-                met = true;
-                continue;
-            }
-            else
-            {
-                met = false;
-                break;
+                howManyTypesNeeded++;
+                needsGrad[i] = needsMet[i] / needs[i];//what percentage of needs did you meet
+                if(needsGrad[i] > 1) { needsGrad[i] = 1; }//cap at 100%
             }
         }
-        return met;
+        float grad = 0;
+        for (int i = 0; i < needs.Length; i++)//figure out percent of total needs
+        {
+            if(needs[i] != 0)
+            {
+                grad += needsGrad[i] * (1 / howManyTypesNeeded);
+            }
+        }
+        if(howManyTypesNeeded == 0)
+        {
+            grad = 1;
+        }
+        return grad;
     }
-    public bool CheckNeedsByType(PlantType specific)
+    public float CheckNeedsByType(PlantType specific)
     {
-        bool met = false;
+        float met = 0;
         float goal = needs[(int)specific];
-        Debug.Log(goal);
         foreach(Plant plant in supportedBy)
         {
             Debug.Log(plant.type);
             if(plant.type == specific && plant.used)
             {
-                Debug.Log("A");
-                goal -= 1;
-                if(goal <= 0)
+                met += 1;
+                if(met >= goal)
                 {
-                    met = true;
                     break;
                 }
             }
         }
-        Debug.Log(goal);
-        return met;
+        Debug.Log(met+"/"+goal);
+        return met/goal;
     }
     public void Propagate()
     {//have a baby
@@ -324,8 +329,10 @@ public class Plant : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(newSpot, Vector3.up * -1, out hit);
         newSpot.y -= hit.distance;
-        GameObject newPlant = Instantiate(this.gameObject) as GameObject;
+        GameObject newPlant = Instantiate(Resources.Load("Hole",typeof(GameObject)),transform.parent)as GameObject;
         Plant newishPlant = newPlant.GetComponent<Plant>();
+        newPlant.transform.GetComponent<MeshRenderer>().enabled = false;
+        newPlant.transform.GetComponent<BoxCollider>().enabled = false;
         newishPlant.SetType(type);
         newPlant.transform.position = newSpot;
         //newPlant.transform.GetComponent<MeshRenderer>().enabled = false;
