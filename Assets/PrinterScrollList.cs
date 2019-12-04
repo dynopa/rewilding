@@ -36,7 +36,7 @@ public class PrinterScrollList : MonoBehaviour
     public void RefreshDisplay()
     {
         myResourceDisplay.text = resource.ToString() + "r";
-        //RemoveButtons();
+        RemoveButtons();
         AddButtons();
     }
 
@@ -55,7 +55,8 @@ public class PrinterScrollList : MonoBehaviour
     private void RemoveButtons()
     {
         Debug.Log("bout to remove");
-        while (contentPanel.childCount > 0)
+        //while (contentPanel.childCount > 0)
+        for (int i = 0; i < contentPanel.childCount; i++)
         {
             Debug.Log("REMOVE");
             GameObject toRemove = transform.GetChild(0).gameObject;
@@ -65,7 +66,19 @@ public class PrinterScrollList : MonoBehaviour
 
     public void TrySellItem(ShopItem shopItem)
     {
-        if (otherShop.resource >= shopItem.price)
+        if (!isPlayer && otherShop.resource >= shopItem.price)
+        {
+            resource += shopItem.price;
+            otherShop.resource -= shopItem.price;
+            RemoveItem(shopItem, this);
+            if (!shopItem.isJunk)
+            {
+                AddItem(shopItem, otherShop);
+            }
+            RefreshDisplay();
+            otherShop.RefreshDisplay();
+        }
+        else if (isPlayer)
         {
             resource += shopItem.price;
             otherShop.resource -= shopItem.price;
@@ -81,6 +94,11 @@ public class PrinterScrollList : MonoBehaviour
 
     private void AddItem(ShopItem itemToAdd, PrinterScrollList shopList)
     {
+        List<int> numItems = new List<int>() { 0, 0, 0, 0, 0 };
+        for (int i = 0; i < shopItemList.Count; i++)
+        {
+            //numItems[value]++;
+        }
         shopList.shopItemList.Add(itemToAdd);
     }
 

@@ -34,3 +34,6 @@ public class StoreButton : MonoBehaviour
         scrollList.TrySellItem(shopItem);
     }
 }
+//11 110
+//1001 1002
+//2001 2002
