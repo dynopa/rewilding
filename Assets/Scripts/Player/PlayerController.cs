@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour
     //public states
     public bool running;
 
+    //Fmod Crap
+    [SerializeField] bool isrunner;
+
+
     //public data
     public float walkSpeed;
     public float runSpeed;
@@ -73,6 +77,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+       
         type = PlantType.Spread;
         mousePos = Input.mousePosition;
         instance = this;
@@ -95,6 +100,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             type = PlantType.Spread;
@@ -132,6 +139,32 @@ public class PlayerController : MonoBehaviour
             vertical = Input.GetAxisRaw("Vertical");
         }
         moveDirection = (horizontal * transform.right + vertical * transform.forward).normalized;
+        if(moveDirection.magnitude > .1f)
+        {
+            //GetComponent<FMODUnity.StudioEventEmitter>().Play();
+            isrunner = true;
+        }
+        if(moveDirection.magnitude < .1f)
+        {
+            //GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+            isrunner = false;
+        }
+        if(isrunner)
+        {
+            if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
+            {
+                GetComponent<FMODUnity.StudioEventEmitter>().Play();
+            }
+            
+           
+            //GetComponent<FMODUnity.StudioEventEmitter>().is();
+        }
+        if(!isrunner)
+        {
+            GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+
+        }
+
         running = Input.GetKey(KeyCode.LeftShift);
         //end movement
         //items
@@ -369,6 +402,7 @@ public class PlayerController : MonoBehaviour
         Vector3 yVel = new Vector3(0, rb.velocity.y, 0);
         if (running)
         {
+            
             if (isSpeaking)
             {
                 rb.velocity = moveDirection * runSpeed * talkSpeed * Time.deltaTime;
