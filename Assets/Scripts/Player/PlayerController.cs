@@ -185,6 +185,7 @@ public class PlayerController : MonoBehaviour
         {
             if (lookEnabled == false)
             {
+                
                 mouseLook.enabled = true;
             }
             //CheckInteraction();
