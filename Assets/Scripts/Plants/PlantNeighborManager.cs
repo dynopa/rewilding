@@ -77,8 +77,8 @@ public class PlantNeighborManager : MonoBehaviour
         lr.positionCount = 2;
         lr.SetPosition(0, plant1.transform.position + Vector3.up * 0.25f);
         lr.SetPosition(1, plant2.transform.position + Vector3.up * 0.25f);
-        lr.startColor = Color.red;
-        lr.endColor = Color.red;
+        lr.startColor = Color.green;
+        lr.endColor = Color.green;
         plant1.lines.Add(lr);
     }
     public void CheckForConnections()
@@ -141,7 +141,11 @@ public class PlantNeighborManager : MonoBehaviour
         {
             if(plant.type != PlantType.None)
             {
-                plant.Propagate();
+                if(plant.growthStage == 1 && Random.value > 0.5f)
+                {
+                    plant.Propagate();
+                }
+                plant.Age();
             }
         }
         foreach(Plant newPlant in newPlants)
