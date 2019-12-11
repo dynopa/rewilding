@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: leafplates
+  m_Name: New Material 1
   m_Shader: {fileID: 4800000, guid: 85bf9b74e3072b64e8f7e15a84fbfa2e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 49f6e337f4cbeef48b7c76b6e92bb534, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3b44f40efce9efb4ea8d933f60b33d6b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -69,12 +69,12 @@ Material:
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NormalIntensity: 0
+    - _NormalIntensity: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpecularIntensity: 0
+    - _SpecularIntensity: 0.2
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
