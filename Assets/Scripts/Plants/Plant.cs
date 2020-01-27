@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum PlantType
 {
-    None,Spread,Grass,Shrub,Tree,Special
+    None,Spread,Grass,Shrub,Tree,Special,Delete
 }
 
 public class Plant : MonoBehaviour
@@ -53,7 +53,7 @@ public class Plant : MonoBehaviour
     void Update()
     {
         gradientSupport = CheckNeeds();
-        met = gradientSupport >= 0.5;
+        met = gradientSupport >= 0.1;
         if (mr)
         {
             if(good == null)
@@ -61,7 +61,7 @@ public class Plant : MonoBehaviour
                 good = mr.material;
             }
             mr.material = met ? good : bad;
-            child.transform.localScale = met ? new Vector3(1, 1, 1)*size : new Vector3(0.5f, 0.5f, 0.5f)*size;
+            child.transform.localScale = new Vector3(1, 1, 1);//met ? new Vector3(1, 1, 1)*size : new Vector3(0.5f, 0.5f, 0.5f)*size;
         }
         foreach(LineRenderer lr in lines)
         {
@@ -88,7 +88,7 @@ public class Plant : MonoBehaviour
             string modelName = prefabs[(int)type];
             child = Instantiate(Resources.Load(modelName), transform) as GameObject;
             size = child.transform.localScale.x*0.3f;
-            age = 0;
+            age = 20;
             growthStage = 0;
             mr = child.GetComponent<MeshRenderer>();
             supportNum = 1;
