@@ -328,7 +328,7 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.gameObject.layer == 8 && type != PlantType.Delete) //ground
             {
                 GameObject newHole = Instantiate(holePrefab, hit.point, Quaternion.identity);
-                PlantNeighborManager.instance.plants.Add(newHole.transform.GetComponent<Plant>());
+                PlantNeighborManager.instance.PlantNewPlant(newHole.transform.GetComponent<Plant>());
 
                 return newHole;
             }

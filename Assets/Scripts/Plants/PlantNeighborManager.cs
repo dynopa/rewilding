@@ -39,6 +39,7 @@ public class PlantNeighborManager : MonoBehaviour
     }
     public void PlantNewPlant(Plant plant)
     {
+        Debug.Log("A");
         plants.Add(plant);
         FindNeighbors(plant);
         plant.UpdateDependecies();

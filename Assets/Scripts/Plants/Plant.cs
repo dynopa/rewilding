@@ -53,7 +53,7 @@ public class Plant : MonoBehaviour
     void Update()
     {
         gradientSupport = CheckNeeds();
-        met = gradientSupport >= 0.1;
+        met = gradientSupport >= 0.5f;
         if (mr)
         {
             if(good == null)
@@ -82,6 +82,7 @@ public class Plant : MonoBehaviour
     }
     public void SetType(PlantType newType)
     {
+        gameObject.name = newType.ToString();
         type = newType;
         if (type != PlantType.None && !child)
         {
@@ -118,6 +119,7 @@ public class Plant : MonoBehaviour
             }
         }
         UpdateDependecies();
+        UpdateDependecies();
     }
     public void NewDay()
     {
@@ -131,12 +133,11 @@ public class Plant : MonoBehaviour
         {
             lines[i].SetPosition(1, neighbors[i].transform.position + Vector3.up * 0.25f);
         }
-        supportedBy.Clear();
-        dependents.Clear();
     }
     public void UpdateDependecies()
     {
         NewDay();
+        Debug.Log("FUCK");
         switch (type)
         {
             case PlantType.None:
@@ -167,6 +168,8 @@ public class Plant : MonoBehaviour
                         lines[i].startWidth = percent * 0.10f;
                         lines[i].endWidth = percent * 0.10f;
                         filled[i] = CheckNeedsByType((PlantType)i) >= 1.0f;
+                        neighbors[i].filled[(int)type] = CheckNeedsByType(type) >= 1.0f;
+                        //neighbors[i].filled[]
                     }
                     else
                     {
@@ -199,7 +202,7 @@ public class Plant : MonoBehaviour
                         float percent = neighbors[i].CheckNeedsByType(type);
                         lines[i].startWidth = percent * 0.10f;
                         lines[i].endWidth = percent * 0.10f;
-                        filled[i] = CheckNeedsByType((PlantType)i) >= 1.0f;
+                        neighbors[i].filled[(int)type] = CheckNeedsByType(type) >= 1.0f;
                     }
                     else
                     {
@@ -233,6 +236,7 @@ public class Plant : MonoBehaviour
                         lines[i].startWidth = percent * 0.10f;
                         lines[i].endWidth = percent * 0.10f;
                         filled[i] = CheckNeedsByType((PlantType)i) >= 1.0f;
+                        neighbors[i].filled[(int)type] = CheckNeedsByType(type) >= 1.0f;
                     }
                     else
                     {
