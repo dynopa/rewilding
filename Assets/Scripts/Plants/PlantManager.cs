@@ -11,17 +11,14 @@ public class PlantManager
             return plants.Count;
         }
     }
-
+    public void Initialize(){
+        plants = new List<Plant>();
+        Services.EventManager.Register<PlantDestroyed>(OnPlantDestroyed);
+    }
     public void CreateNewPlant(PlantType type, Vector3 pos){
         Plant plant = new Plant(type, pos);
         FindNeighbors(plant);
-
-    }
-    public void DestroyPlant(Plant plant){
-        //remove its connections to other plants
-        //when I have the EventManager working this will be grand
-        plants.Remove(plant);
-        plant.Destroy();
+        plants.Add(plant);
     }
     public void FindNeighbors(Plant p1){
         foreach(Plant p2 in plants){
@@ -50,9 +47,35 @@ public class PlantManager
             
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
+    void OnPlantDestroyed(AGPEvent e){
+        //var event = (PlantDestroyed) e;
+        var pd = (PlantDestroyed)e;
+        Plant plant = pd.plant;
+        //remove plants from other people's lists
+        foreach (Plant other in plants)
+        {
+            if(other.neighbors.Contains(plant)){
+                other.RemovePlantUpdate(plant);
+            }
+        }
+        plants.Remove(plant);
         
+    }
+    // Update is called once per frame
+    public void Update()
+    {
+        Debug.Log(plants.Count);
+        foreach(Plant plant in plants){
+            plant.Update();
+        }
+    }
+    public void DestroyPlantFromGameObject(GameObject g){
+        foreach (Plant plant in plants)
+        {
+            if(plant.gameObject == g){
+                plant.Destroy();
+                break;
+            }
+        }
     }
 }

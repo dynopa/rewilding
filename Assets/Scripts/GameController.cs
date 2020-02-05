@@ -7,17 +7,20 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        InitializeServices();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update(){
+        Services.PlantManager.Update();
     }
     void InitializeServices(){
         Services.GameController = this;
 
+
+        Services.EventManager = new EventManager();
+
         Services.PlantManager = new PlantManager();
+        Services.PlantManager.Initialize();
+
+        
     }
 }

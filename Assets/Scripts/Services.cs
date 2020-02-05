@@ -6,4 +6,5 @@ public static class Services
 {
     public static GameController GameController;
     public static PlantManager PlantManager;
+    public static EventManager EventManager;
 }
