@@ -238,6 +238,8 @@ public class PlayerController : MonoBehaviour
         //focus code begin
         if (Input.GetMouseButtonDown(0))
         {
+            mouseLook.enabled = true;
+            lookEnabled = true;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             //isFocusing = true;
@@ -332,13 +334,15 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.name == "Button")
             {
 
-                for (int i = 1; i < plantMaxCount.Count-1; i++)
+                /*for (int i = 1; i < plantMaxCount.Count-1; i++)
                 {
                     plantCount[i] = plantMaxCount[i];
                 }
                 
                 indicatorImage.fillAmount = 1;
-                UpdateCounts();
+                UpdateCounts();*/
+                Services.PlantManager.Update();
+                return hit.transform.gameObject;
             }
             if(create){
                 Services.PlantManager.CreateNewPlant(type,hit.point);

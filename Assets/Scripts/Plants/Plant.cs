@@ -7,6 +7,10 @@ public enum PlantType
 }
 public class Plant
 {
+    public const float needsThreshold = 0.25f;
+    public const int babyLimit = 2;
+    public bool grown;
+    public int numBabies;
     public Vector3 position;
     public PlantType type;
     public List<Plant> neighbors;//other plants THAT COULD support this plant near this plant
@@ -21,12 +25,13 @@ public class Plant
     public int energyGiven = 0;
     public bool CanGiveEnergy{
         get{
-            return energyGiven < energyTotal;
+            return energyGiven < energyTotal && needsMetPercent >= needsThreshold;
         }
     }
     public GameObject gameObject;
     Vector3 minSize = new Vector3(0.25f,0.25f,0.25f);
     Vector3 maxSize = Vector3.one;
+
 
     public Plant(PlantType type,Vector3 pos){
         this.type = type;
@@ -76,32 +81,90 @@ public class Plant
 
     public void Update()//called each night to grow the plant
     {
-        CheckNeeds();
-        if(needsMetPercent> 0.5f){
-            growthPercent+=0.1f;
+        if(grown && numBabies >= babyLimit){
+            return;
         }
-        gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent);
+        if(!grown){
+            CheckNeeds();
+            growthPercent+=0.05f*needsMetPercent;
+            if(growthPercent >= 1.0f){
+                growthPercent = 1.0f;
+                grown = true;
+            }
+            if(grown){
+                Services.EventManager.Fire(new PlantGrown());
+            }
+            gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent);
+            return;
+        }
+        /*if(needsMetPercent> needsThreshold){
+            growthPercent+=0.1f*needsMetPercent;
+        }*/
+        
+        if(grown){
+            //grow more plants!
+            if(HaveBaby()){
+                numBabies++;
+            }
+        }
     }
     public void Destroy(){
         //make a death event
         Services.EventManager.Fire(new PlantDestroyed(this));
         GameObject.Destroy(gameObject);
     }
+    public bool HaveBaby(){
+        Vector3 newPosition = position+Random.insideUnitSphere*Random.Range(2f,4f);
+        newPosition.y = position.y+5f;
+        RaycastHit hit;
+        Ray ray = new Ray(newPosition,Vector3.down);
+        if (Physics.Raycast(ray, out hit)){
+            if(hit.collider.CompareTag("Plant")){
+                return false;
+            }
+            newPosition.y = hit.point.y;
+        }else{
+            newPosition.y = position.y;
+        }
+        Services.PlantManager.CreateNewPlant(type,newPosition);
+        return true;
+    }
     //check how your needs are being met
     public void CheckNeeds(){
+        bool met = needsMetPercent>=needsThreshold;
         needsMetPercent = 0;
         if(type == PlantType.Spread){
             needsMetPercent = 1;
         }
         foreach(PlantType typePlant in needs.Keys){
             needsMet[typePlant] = needsActual[typePlant] >= needs[typePlant];
-            needsMetPercent = needsActual[typePlant]/needs[typePlant];
+            needsMetPercent = (float)needsActual[typePlant]/(float)needs[typePlant];
         }
+        if(met == false){
+            if(needsMetPercent >= needsThreshold){
+                Services.EventManager.Fire(new PlantJustFed(this));
+            }
+        }
+    }
+    public bool CheckNeedThisPlant(Plant plant){
+        if(!needsMet.ContainsKey(plant.type)){
+            return false;
+        }
+        return !needsMet[plant.type];
     }
 
     //this is called when a new plant is added to your neighbors
     public void NewPlantUpdate(Plant newPlant){
         //you need it!
+        if(needsMet[newPlant.type] != true){
+            if(newPlant.CanGiveEnergy){
+                CreateBond(newPlant);
+            }
+        }
+        CheckNeeds();
+    }
+    //when a plant you are neighbors with is updated to be able to need fulfilling
+    public void PlantFullUpdate(Plant newPlant){
         if(needsMet[newPlant.type] != true){
             if(newPlant.CanGiveEnergy){
                 CreateBond(newPlant);

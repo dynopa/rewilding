@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlantManager
 {
-    public const float maxNeighborDistance = 5f;
+    public const float maxNeighborDistance = 1.5f;
     public List<Plant> plants;
+    public List<Plant> newPlants;
     public int numPlants{
         get{
             return plants.Count;
@@ -13,12 +14,24 @@ public class PlantManager
     }
     public void Initialize(){
         plants = new List<Plant>();
+        newPlants = new List<Plant>();
         Services.EventManager.Register<PlantDestroyed>(OnPlantDestroyed);
+        Services.EventManager.Register<PlantJustFed>(OnPlantFed);
     }
     public void CreateNewPlant(PlantType type, Vector3 pos){
+        foreach(Plant p in plants){
+            if(p.type != type){
+                continue;
+            }
+            float distance = Vector3.Distance(pos,p.position);
+            if(distance < 0.8f){
+                return;
+            }
+        }
         Plant plant = new Plant(type, pos);
         FindNeighbors(plant);
-        plants.Add(plant);
+        newPlants.Add(plant);
+        Services.EventManager.Fire(new PlantCreated());
     }
     public void FindNeighbors(Plant p1){
         foreach(Plant p2 in plants){
@@ -61,6 +74,19 @@ public class PlantManager
         plants.Remove(plant);
         
     }
+    //this should only happen if a plant JUST reached a point where it can support others
+    void OnPlantFed(AGPEvent e){
+        var pjf = (PlantJustFed)e;
+        Plant plant = pjf.plant;
+        if(plant.CanGiveEnergy == false){
+            return;
+        }
+        foreach(Plant other in plants){
+            if(other.CheckNeedThisPlant(plant)){
+                other.PlantFullUpdate(plant);
+            }
+        }
+    }
     // Update is called once per frame
     public void Update()
     {
@@ -68,6 +94,10 @@ public class PlantManager
         foreach(Plant plant in plants){
             plant.Update();
         }
+        foreach(Plant plant in newPlants){
+            plants.Add(plant);
+        }
+        newPlants.Clear();
     }
     public void DestroyPlantFromGameObject(GameObject g){
         foreach (Plant plant in plants)
