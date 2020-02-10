@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         treeIdx = GameObject.Find("TreeIdx").GetComponent<Image>();
         deleteIdx = GameObject.Find("DeleteIdx").GetComponent<Image>();
         indicatorAmount = GameObject.Find("IndicatorAmount").GetComponent<Text>();
-        resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
+        //resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
         //inventory

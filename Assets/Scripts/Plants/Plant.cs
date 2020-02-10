@@ -75,6 +75,7 @@ public class Plant
         BoxCollider c = gameObject.AddComponent(typeof(BoxCollider)) as BoxCollider;
         c.size = new Vector3(0.5f,0.5f,0.5f);
         gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
+       
         GameObject.Instantiate(Resources.Load(type.ToString()),gameObject.transform);
         gameObject.transform.localScale = minSize;
     }

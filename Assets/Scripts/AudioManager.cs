@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour
         Services.EventManager.Register<PlantGrown>(OnPlantGrownUp);
     }
     void OnDestroy(){
-        Services.EventManager.Unregister<PlantGrown>(OnPlantGrownUp)
+        Services.EventManager.Unregister<PlantGrown>(OnPlantGrownUp);
     }
     void OnPlantGrownUp(AGPEvent e){
         
