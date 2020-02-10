@@ -9,6 +9,7 @@ TagManager:
   - Creature
   - Food
   - Hole
+  - Plant
   layers:
   - Default
   - TransparentFX
