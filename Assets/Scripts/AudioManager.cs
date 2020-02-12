@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
         Services.EventManager.Unregister<PlantGrown>(OnPlantGrownUp);
     }
     void OnPlantGrownUp(AGPEvent e){
-        
+     //Need To check if all FMOD get components work with decentralized eventsystem.
+     //GetComponent<FMODUnity.StudioEvent.Emitter>().Play();
     }
 }
