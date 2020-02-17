@@ -52,8 +52,8 @@ public class Plant
             case PlantType.Shrub:
                 /*needs.Add(PlantType.Spread,3);
                 needsActual.Add(PlantType.Spread,0);
-                needsMet.Add(PlantType.Spread,false);
-                needs.Add(PlantType.Grass,2);*/
+                needsMet.Add(PlantType.Spread,false);*/
+                needs.Add(PlantType.Grass,2);
                 needsActual.Add(PlantType.Grass,0);
                 needsMet.Add(PlantType.Grass,false);
                 break;
