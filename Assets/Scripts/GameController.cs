@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
 {
     public TextMeshProUGUI dayCounter;
     DateTime date;
+    int frame = 0;
+    string[] months = new string[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     // Start is called before the first frame update
     void Awake()
     {
@@ -15,9 +17,13 @@ public class GameController : MonoBehaviour
         InitializeServices();
     }
     void Update(){
-        Services.PlantManager.Update();
-        dayCounter.text = date.ToShortDateString();
-        date = date.AddDays(1.0f);
+        frame++;
+        if(frame%4==0){
+            Services.PlantManager.Update();
+            dayCounter.text = date.Year +" "+months[date.Month-1];
+            date = date.AddDays(7);
+        }
+        
     }
     void InitializeServices(){
         Services.GameController = this;
