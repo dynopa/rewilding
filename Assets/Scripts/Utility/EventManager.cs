@@ -82,5 +82,8 @@ public class PlantJustFed : AGPEvent
 		this.plant = plant;
 	}
 }
-public class PlantCreated : AGPEvent{}
+public class PlantCreated : AGPEvent
+{
+    
+}
 public class PlantGrown : AGPEvent{}
