@@ -50,21 +50,21 @@ public class Plant
                 needsMet.Add(PlantType.Spread,false);
                 break;
             case PlantType.Shrub:
-                needs.Add(PlantType.Spread,4);
+                /*needs.Add(PlantType.Spread,3);
                 needsActual.Add(PlantType.Spread,0);
-                needsMet.Add(PlantType.Spread,false);
+                needsMet.Add(PlantType.Spread,false);*/
                 needs.Add(PlantType.Grass,2);
                 needsActual.Add(PlantType.Grass,0);
                 needsMet.Add(PlantType.Grass,false);
                 break;
             case PlantType.Tree:
-                needs.Add(PlantType.Spread,8);
+                /*needs.Add(PlantType.Spread,4);
                 needsActual.Add(PlantType.Spread,0);
                 needsMet.Add(PlantType.Spread,false);
-                needs.Add(PlantType.Grass,4);
+                needs.Add(PlantType.Grass,3);
                 needsActual.Add(PlantType.Grass,0);
-                needsMet.Add(PlantType.Grass,false);
-                needs.Add(PlantType.Shrub,4);
+                needsMet.Add(PlantType.Grass,false);*/
+                needs.Add(PlantType.Shrub,2);
                 needsActual.Add(PlantType.Shrub,0);
                 needsMet.Add(PlantType.Shrub,false);
                 break;
@@ -74,7 +74,9 @@ public class Plant
         gameObject.tag = "Plant";
         BoxCollider c = gameObject.AddComponent(typeof(BoxCollider)) as BoxCollider;
         c.size = new Vector3(0.5f,0.5f,0.5f);
+        c.isTrigger =true;
         gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
+       
         GameObject.Instantiate(Resources.Load(type.ToString()),gameObject.transform);
         gameObject.transform.localScale = minSize;
     }
@@ -85,14 +87,18 @@ public class Plant
             return;
         }
         if(!grown){
+            float level = (int)type+1;
             CheckNeeds();
-            growthPercent+=0.05f*needsMetPercent;
+            growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
             if(growthPercent >= 1.0f){
                 growthPercent = 1.0f;
                 grown = true;
             }
             if(grown){
                 Services.EventManager.Fire(new PlantGrown());
+                if(type == PlantType.Tree){
+                    Services.PlantManager.pylonPositions.Add(position);
+                }
             }
             gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent);
             return;
@@ -103,9 +109,12 @@ public class Plant
         
         if(grown){
             //grow more plants!
-            if(HaveBaby()){
-                numBabies++;
+            if(Random.value < 0.5f){
+                if(HaveBaby()){
+                    numBabies++;
+                }
             }
+            
         }
     }
     public void Destroy(){
@@ -114,20 +123,20 @@ public class Plant
         GameObject.Destroy(gameObject);
     }
     public bool HaveBaby(){
-        Vector3 newPosition = position+Random.insideUnitSphere*Random.Range(2f,4f);
+        float level = (int)type+1;
+        Vector3 newPosition = position+Random.insideUnitSphere*Random.Range(2f,4f)*(level);
         newPosition.y = position.y+5f;
         RaycastHit hit;
         Ray ray = new Ray(newPosition,Vector3.down);
         if (Physics.Raycast(ray, out hit)){
-            if(hit.collider.CompareTag("Plant")){
+            if(hit.collider.CompareTag("Ground") == false){
                 return false;
             }
             newPosition.y = hit.point.y;
         }else{
             newPosition.y = position.y;
         }
-        Services.PlantManager.CreateNewPlant(type,newPosition);
-        return true;
+        return Services.PlantManager.CreateNewPlant(type,newPosition);
     }
     //check how your needs are being met
     public void CheckNeeds(){

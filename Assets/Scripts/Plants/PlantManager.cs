@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlantManager
 {
     public const float maxNeighborDistance = 1.5f;
+    public const float maxPylonDistance = 10f;
     public List<Plant> plants;
     public List<Plant> newPlants;
+    public List<Vector3> pylonPositions;
     public int numPlants{
         get{
             return plants.Count;
@@ -17,21 +19,44 @@ public class PlantManager
         newPlants = new List<Plant>();
         Services.EventManager.Register<PlantDestroyed>(OnPlantDestroyed);
         Services.EventManager.Register<PlantJustFed>(OnPlantFed);
+        pylonPositions = new List<Vector3>();
+        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Pylon")){
+            pylonPositions.Add(obj.transform.position);
+        }
+        Debug.Log(pylonPositions.Count);
     }
-    public void CreateNewPlant(PlantType type, Vector3 pos){
+    public bool CreateNewPlant(PlantType type, Vector3 pos){
+        bool isCloseEnough = false;
+        foreach(Vector3 v in pylonPositions){
+            if(Vector3.Distance(v,pos) < maxPylonDistance){
+                isCloseEnough = true;
+                break;
+            }
+        }
+        if(!isCloseEnough){
+            return false;
+        }
         foreach(Plant p in plants){
             if(p.type != type){
                 continue;
             }
             float distance = Vector3.Distance(pos,p.position);
-            if(distance < 0.8f){
-                return;
+            if(type == PlantType.Tree){
+                if(distance < 4f){
+                    return false;
+                }
+            }else{
+                if(distance < 0.8f+((int)type+1)*0.5f){
+                    return false;
+                }
             }
+            
         }
         Plant plant = new Plant(type, pos);
         FindNeighbors(plant);
         newPlants.Add(plant);
         Services.EventManager.Fire(new PlantCreated());
+        return true;
     }
     public void FindNeighbors(Plant p1){
         foreach(Plant p2 in plants){
