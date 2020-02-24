@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
     //public states
     public bool running;
-
+    public bool isWalking;
     //public data
     public float walkSpeed;
     public float runSpeed;
@@ -183,8 +183,33 @@ public class PlayerController : MonoBehaviour
         }
         moveDirection = (horizontal * transform.right + vertical * transform.forward).normalized;
         running = Input.GetKey(KeyCode.LeftShift);
+        //walkCheck For Sound
+        if(moveDirection.magnitude > .1f)
+        {
+            isWalking = true;
+        }
+        if(moveDirection.magnitude < .1f)
+        {
+            isWalking = false;
+        }
         //end movement
+        
+        //Walk Audio Trigger
+        if(isWalking == true)
+        {
+             if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
+             {
+                 GetComponent<FMODUnity.StudioEventEmitter>().Play();
+             }
+        }
+        if(isWalking == false)
+        {
+            GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+        }
+
+
         //items
+
 
         //disables mouselook when esc is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -363,6 +388,12 @@ public class PlayerController : MonoBehaviour
         Vector3 yVel = new Vector3(0, rb.velocity.y, 0);
         if (running)
         {
+           // if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
+            //{
+                //GetComponent<FMODUnity.StudioEventEmitter>().Play();
+            //}
+
+
             if (isSpeaking)
             {
                 rb.velocity = moveDirection * runSpeed * talkSpeed * Time.deltaTime;
@@ -374,6 +405,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+           // GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+
             if (isSpeaking)
             {
                 rb.velocity = moveDirection * walkSpeed * talkSpeed * Time.deltaTime;
