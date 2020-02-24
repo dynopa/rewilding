@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     }
     void Update(){
         frame++;
-        if(Input.GetMouseButtonDown(2)){
+        if(frame%3==0 || Input.GetMouseButtonDown(2)){
             Services.PlantManager.Update();
             dayCounter.text = date.Year +" "+months[date.Month-1];
             date = date.AddDays(7);
