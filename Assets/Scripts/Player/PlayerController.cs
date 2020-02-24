@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
@@ -123,7 +124,7 @@ public class PlayerController : MonoBehaviour
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
         //inventory
-        plantSprite.Add(mossIdx); 
+        plantSprite.Add(mossIdx);
         plantSprite.Add(grassIdx);
         plantSprite.Add(shrubIdx);
         plantSprite.Add(treeIdx);
@@ -320,22 +321,10 @@ public class PlayerController : MonoBehaviour
         //end items
 
         //time slow
-        if (isSpeaking)
-        {
-            Time.timeScale = slowSpeed;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
     }
     private void FixedUpdate()
     {
         Move();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Jump();
-        }
     }
     void CheckInteraction()
     {
@@ -388,33 +377,13 @@ public class PlayerController : MonoBehaviour
         Vector3 yVel = new Vector3(0, rb.velocity.y, 0);
         if (running)
         {
-           // if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
-            //{
-                //GetComponent<FMODUnity.StudioEventEmitter>().Play();
-            //}
-
-
-            if (isSpeaking)
-            {
-                rb.velocity = moveDirection * runSpeed * talkSpeed * Time.deltaTime;
-            }
-            else if (!isSpeaking)
-            {
-                rb.velocity = moveDirection * runSpeed * Time.deltaTime;
-            }
+           rb.velocity = moveDirection * runSpeed * Time.fixedDeltaTime;
         }
         else
         {
            // GetComponent<FMODUnity.StudioEventEmitter>().Stop();
 
-            if (isSpeaking)
-            {
-                rb.velocity = moveDirection * walkSpeed * talkSpeed * Time.deltaTime;
-            }
-            else
-            {
-                rb.velocity = moveDirection * walkSpeed * Time.deltaTime;
-            }
+            rb.velocity = moveDirection * walkSpeed * Time.fixedDeltaTime;
         }
         rb.velocity += yVel;
     }

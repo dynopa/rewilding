@@ -6,17 +6,19 @@ using FMOD;
 public class AudioManager : MonoBehaviour
 {
     [FMODUnity.EventRef]
-    public string oncreateEvent = " ";
+    public string oncreateEvent = "event:/Plant";
     public string ondestroyEvent = " ";
-
+    //FMOD.Studio.EventInstance creator;
 
     void Start()
     {
         Services.EventManager.Register<PlantGrown>(OnPlantGrownUp);
+        Services.EventManager.Register<PlantCreated>(OnPlantCreated);
     }
     void OnDestroy()
     {
         Services.EventManager.Unregister<PlantGrown>(OnPlantGrownUp);
+        Services.EventManager.Unregister<PlantCreated>(OnPlantCreated);
     }
     void OnPlantGrownUp(AGPEvent e)
     {
@@ -24,7 +26,7 @@ public class AudioManager : MonoBehaviour
         //GetComponent<FMODUnity.StudioEvent.Emitter>().Play();
         var plantEvent = (PlantGrown)e;
         Plant plant = plantEvent.plant;
-        //FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, plant.position);
+        FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, plant.position);
 
 
 
@@ -32,9 +34,9 @@ public class AudioManager : MonoBehaviour
 
     void OnPlantCreated(AGPEvent e)
     {
-        //var plantEvent = (PlantCreated)e;
-        ///Plant plant = plantEvent.plant;
-        //FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, plant.position);
+        var plantEvent = (PlantCreated)e;
+        Plant plant = plantEvent.plant;
+        FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, plant.position);
     }
 
     void onPlantDestroyed(AGPEvent e)

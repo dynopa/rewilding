@@ -95,7 +95,7 @@ public class Plant
                 grown = true;
             }
             if(grown){
-                Services.EventManager.Fire(new PlantGrown());
+                Services.EventManager.Fire(new PlantGrown(this));
                 if(type == PlantType.Tree){
                     Services.PlantManager.pylonPositions.Add(position);
                 }

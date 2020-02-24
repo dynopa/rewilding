@@ -18,10 +18,13 @@ public class GameController : MonoBehaviour
     }
     void Update(){
         frame++;
-        if(frame%4==0){
+        if(Input.GetMouseButtonDown(2)){
             Services.PlantManager.Update();
             dayCounter.text = date.Year +" "+months[date.Month-1];
             date = date.AddDays(7);
+        }
+        if(frame%4==0){
+            
         }
         
     }

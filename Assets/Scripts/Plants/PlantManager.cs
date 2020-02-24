@@ -55,7 +55,7 @@ public class PlantManager
         Plant plant = new Plant(type, pos);
         FindNeighbors(plant);
         newPlants.Add(plant);
-        Services.EventManager.Fire(new PlantCreated());
+        Services.EventManager.Fire(new PlantCreated(plant));
         return true;
     }
     public void FindNeighbors(Plant p1){
