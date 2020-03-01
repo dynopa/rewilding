@@ -95,3 +95,4 @@ public class PlantGrown : AGPEvent{
 		this.plant = plant;
 	}
 }
+public class FadeOutComplete : AGPEvent{}

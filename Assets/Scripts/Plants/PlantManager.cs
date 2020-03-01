@@ -27,7 +27,7 @@ public class PlantManager
         }
         Debug.Log(pylonPositions.Count);
     }
-    public bool CreateNewPlant(PlantType type, Vector3 pos){
+    public bool CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
         bool isCloseEnough = false;
         foreach(Vector3 v in pylonPositions){
             if(Vector3.Distance(v,pos) < maxPylonDistance){
@@ -38,25 +38,32 @@ public class PlantManager
         if(!isCloseEnough){
             return false;
         }
-        foreach(Plant p in plants){
-            if(p.type != type){
-                continue;
-            }
-            float distance = Vector3.Distance(pos,p.position);
-            if(type == PlantType.Tree){
-                if(distance < 4f){
-                    return false;
+        if(playerPlaced == false){
+            foreach(Plant p in plants){
+                if(p.type != type){
+                    continue;
                 }
-            }else{
-                if(distance < 0.8f+((int)type+1)*0.5f){
-                    return false;
+                float distance = Vector3.Distance(pos,p.position);
+                if(type == PlantType.Tree){
+                    if(distance < 4f){
+                        return false;
+                    }
+                }else{
+                    if(distance < 0.8f+((int)type+1)*0.5f){
+                        return false;
+                    }
                 }
-            }
             
+            }
         }
+        
         Plant plant = new Plant(type, pos);
         FindNeighbors(plant);
-        newPlants.Add(plant);
+        if(playerPlaced){
+            plants.Add(plant);
+        }else{
+            newPlants.Add(plant);
+        }
         Services.EventManager.Fire(new PlantCreated(plant));
         return true;
     }
@@ -115,10 +122,12 @@ public class PlantManager
     // Update is called once per frame
     public void Update()
     {
+        Services.GameController.date = Services.GameController.date.AddMonths(1);
         //Debug.Log(plants.Count);
         foreach(Plant plant in plants){
             plant.Update();
         }
+        //this deals with new plants grown from other plants
         foreach(Plant plant in newPlants){
             plants.Add(plant);
         }

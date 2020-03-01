@@ -88,7 +88,8 @@ public class Plant
                     Destroy();
                 }
             }
-            growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
+            //growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
+            growthPercent+=(1*needsMetPercent)*(1.0f/level);
             if(growthPercent >= 1.0f){
                 growthPercent = 1.0f;
                 grown = true;
@@ -186,4 +187,13 @@ public class Plant
         neighbors.Remove(newPlant);
         CheckNeeds();
     }
+}
+[System.Serializable]
+public class PlantData
+{
+    public Vector3 position;
+    public int plantType;
+    //int stage;
+    float growthPercent;
+    bool withering;
 }
