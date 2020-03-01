@@ -136,6 +136,7 @@ public class PlantManager
         }
         newPlants.Clear();
         deadPlants.Clear();
+        SaveLoad.Save();
     }
     public void DestroyPlantFromGameObject(GameObject g){
         foreach (Plant plant in plants)

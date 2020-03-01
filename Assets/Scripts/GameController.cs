@@ -19,6 +19,9 @@ public class GameController : MonoBehaviour
     void Update(){
 
         dayCounter.text = date.Year +" "+months[date.Month-1];
+        if(Input.GetKeyDown(KeyCode.F)){
+            SaveLoad.Load();
+        }
     }
     void InitializeServices(){
         Services.GameController = this;

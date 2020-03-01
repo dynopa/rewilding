@@ -187,6 +187,32 @@ public class Plant
         neighbors.Remove(newPlant);
         CheckNeeds();
     }
+    public PlantData Save(){
+        PlantData data = new PlantData();
+        data.position = position;
+        data.plantType = (int)type;
+        data.grown = grown;
+        data.growthPercent = growthPercent;
+        data.withering = withering;
+        return data;
+    }
+    public void LoadPlant(PlantData data){
+        position = data.position;
+        type = (PlantType)data.plantType;
+        grown = data.grown;
+        growthPercent = data.growthPercent;
+        withering = data.withering;
+        if(growthPercent >= 1.0f){
+            growthPercent = 1.0f;
+            grown = true;
+        }
+        if(grown){
+            if(type == PlantType.Tree){
+                Services.PlantManager.pylonPositions.Add(position);
+            }
+        }
+        gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent);
+    }
 }
 [System.Serializable]
 public class PlantData
@@ -194,6 +220,7 @@ public class PlantData
     public Vector3 position;
     public int plantType;
     //int stage;
-    float growthPercent;
-    bool withering;
+    public bool grown;
+    public float growthPercent;
+    public bool withering;
 }
