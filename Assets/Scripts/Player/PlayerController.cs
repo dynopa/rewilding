@@ -119,8 +119,12 @@ public class PlayerController : MonoBehaviour
         mouseLook = cam.gameObject.GetComponent<MouseLook>();
 
         //ui
+<<<<<<< HEAD
+       // UiIndicator = GameObject.Find("Indicator").GetComponent<RectTransform>();
+=======
         UiIndicator = GameObject.Find("Indicator").GetComponent<RectTransform>();
         indicatorImage = GameObject.Find("Indicator").GetComponent<Image>();
+>>>>>>> 5e384158f1c4abc0aa3c2adeacecc6c9e75d3850
         mossIdx = GameObject.Find("MossIdx").GetComponent<Image>();
         grassIdx = GameObject.Find("GrassIdx").GetComponent<Image>();
         shrubIdx = GameObject.Find("ShrubIdx").GetComponent<Image>();
