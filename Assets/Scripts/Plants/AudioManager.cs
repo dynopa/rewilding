@@ -6,8 +6,10 @@ using FMOD;
 public class AudioManager : MonoBehaviour
 {
     [FMODUnity.EventRef]
-    public string oncreateEvent = "event:/Plant";
+    public string oncreateEvent = "event:/Dirt";
     public string ondestroyEvent = " ";
+    public string onfedEvent = " ";
+    //public string onFedEvent = "event:"
     //FMOD.Studio.EventInstance creator;
 
     void Start()
@@ -47,6 +49,12 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    void onPlantFed(AGPEvent e)
+    {
+        var plantEvent = (PlantJustFed)e;
+        Plant plant = plantEvent.plant;
+        FMODUnity.RuntimeManager.PlayOneShot(ondestroyEvent, plant.position);
+    }
 
 
 }
