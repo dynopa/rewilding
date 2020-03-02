@@ -9,6 +9,9 @@ TagManager:
   - Creature
   - Food
   - Hole
+  - Plant
+  - Pylon
+  - Ground
   layers:
   - Default
   - TransparentFX

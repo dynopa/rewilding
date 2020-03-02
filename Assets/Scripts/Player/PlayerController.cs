@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
     //public states
     public bool running;
-
+    public bool isWalking;
     //public data
     public float walkSpeed;
     public float runSpeed;
     public float jumpSpeed;
     public float talkSpeed = 0.1f; //multiplies run/walk speed while talking
     public float slowSpeed = 0.5f; //multiplies time.timeScale
+    public FadeOut fadeOut;
     float fov_default = 47;
     float fov_comms = 57;
     float fov_focus = 42;
@@ -48,28 +50,64 @@ public class PlayerController : MonoBehaviour
     public PlantType type;
 
     //UI Data
+    public GameObject economyUI;
+    public GameObject hud;
+    public GameObject crosshair;
     RectTransform UiIndicator;
     Image mossIdx;
     Image grassIdx;
     Image shrubIdx;
     Image treeIdx;
     Image specialIdx;
+    Image deleteIdx;
+    Image indicatorImage;
+    Text indicatorAmount;
+    Text resourceText;
+    float newHoleRadius = 5f;
+    
+
+    bool showShop = false;
 
     //inventory data
-    float count_moss = 8f;
-    float count_moss_max = 8f;
-    float count_grass = 4f;
-    float count_grass_max = 4f;
-    float count_shrub = 2f;
-    float count_shrub_max = 2f;
-    float count_tree = 1f;
-    float count_tree_max = 1f;
-    float count_special = 2f;
-    float count_special_max = 2f;
+    //float count_moss = 8f;
+    //float count_moss_max = 8f;
+    //float count_grass = 4f;
+    //float count_grass_max = 4f;
+    //float count_shrub = 2f;
+    //float count_shrub_max = 2f;
+    //float count_tree = 1f;
+    //float count_tree_max = 1f;
+    //float count_special = 2f;
+    //float count_special_max = 1f;
+
+    //    None,Spread,Grass,Shrub,Tree,Special,Delete
+    List<float> plantCount = new List<float> {0,8,4,2,1};
+    List<float> plantMaxCount = new List<float> {0,8,4,2,1};
+    List<int> plantVal = new List<int> {0, 5, 7, 10, 25};
+    List<Image> plantSprite = new List<Image> {};
+
+
+    float resource = 0;
+    public PrinterScrollList playerInv;
+
+    //int mossVal = 5;
+    //int grassVal = 7;
+    //int shrubVal = 10;
+    //int treeVal = 25;
+    //int specialVal = 15;
+    Vector3 spawnPosition;
+    int[] uiPositions = new int[]{-63,-168,-273,-378};
+    bool holdingRightTrigger;
+    bool holdingLeftTrigger;
+    bool holdingA;
+    bool holdingB;
+
+
 
     // Start is called before the first frame update
     void Awake()
     {
+        spawnPosition = transform.position;
         type = PlantType.Spread;
         mousePos = Input.mousePosition;
         instance = this;
@@ -81,42 +119,96 @@ public class PlayerController : MonoBehaviour
         mouseLook = cam.gameObject.GetComponent<MouseLook>();
 
         //ui
+<<<<<<< HEAD
        // UiIndicator = GameObject.Find("Indicator").GetComponent<RectTransform>();
+=======
+        UiIndicator = GameObject.Find("Indicator").GetComponent<RectTransform>();
+        indicatorImage = GameObject.Find("Indicator").GetComponent<Image>();
+>>>>>>> 5e384158f1c4abc0aa3c2adeacecc6c9e75d3850
         mossIdx = GameObject.Find("MossIdx").GetComponent<Image>();
         grassIdx = GameObject.Find("GrassIdx").GetComponent<Image>();
         shrubIdx = GameObject.Find("ShrubIdx").GetComponent<Image>();
         treeIdx = GameObject.Find("TreeIdx").GetComponent<Image>();
-        specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
+        indicatorAmount = GameObject.Find("IndicatorAmount").GetComponent<Text>();
+        resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
+        //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
+
+        //inventory
+        plantSprite.Add(mossIdx);
+        plantSprite.Add(grassIdx);
+        plantSprite.Add(shrubIdx);
+        plantSprite.Add(treeIdx);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        int typeNum = (int)type;
+        
+        float rightTrigger = Input.GetAxis("RightTrigger");
+        if(rightTrigger == 1 || Input.GetKeyDown(KeyCode.Alpha2)){
+            if(!holdingRightTrigger){
+                typeNum++;
+                if(typeNum > 3){
+                    typeNum = 0;
+                }
+                type = (PlantType)typeNum;
+            }
+            holdingRightTrigger = true;
+            
+        }else{
+            holdingRightTrigger = false;
+        }
+        float leftTrigger = Input.GetAxis("LeftTrigger");
+        if(leftTrigger == 1 || Input.GetKeyDown(KeyCode.Alpha1)){
+            if(!holdingLeftTrigger){
+                typeNum--;
+                if(typeNum < 0){
+                    typeNum = 3;
+                }
+                type = (PlantType)typeNum;
+            }
+            holdingLeftTrigger = true;
+            
+        }else{
+            holdingLeftTrigger = false;
+        }
+
+
+
+        UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,uiPositions[typeNum]);
+        /*if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             type = PlantType.Spread;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,-50);
+            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,-63);
+            UpdateCounts();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             type = PlantType.Grass;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -150);
+            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -168);
+            UpdateCounts();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             type = PlantType.Shrub;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -250);
+            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -273);
+            UpdateCounts();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             type = PlantType.Tree;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -350);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -378);
+            UpdateCounts();
+        }*/
+
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            type = PlantType.Special;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -450);
+            showShop = !showShop;
+            ShowHideShop();
         }
+
         //movement
         float horizontal = 0;
         float vertical = 0;
@@ -130,8 +222,33 @@ public class PlayerController : MonoBehaviour
         }
         moveDirection = (horizontal * transform.right + vertical * transform.forward).normalized;
         running = Input.GetKey(KeyCode.LeftShift);
+        //walkCheck For Sound
+        if(moveDirection.magnitude > .1f)
+        {
+            isWalking = true;
+        }
+        if(moveDirection.magnitude < .1f)
+        {
+            isWalking = false;
+        }
         //end movement
+        
+        //Walk Audio Trigger
+        /*if(isWalking == true)
+        {
+             if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
+             {
+                 GetComponent<FMODUnity.StudioEventEmitter>().Play();
+             }
+        }
+        if(isWalking == false)
+        {
+            GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+        }*/
+
+
         //items
+
 
         //disables mouselook when esc is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -139,13 +256,14 @@ public class PlayerController : MonoBehaviour
             mouseLook.enabled = false;
             lookEnabled = false;
         }
-        if (lookEnabled == false && (Input.GetMouseButtonDown(1) || (!Input.GetMouseButton(1) && Input.GetMouseButtonDown(0))))
-        {
-            mousePos = Input.mousePosition;
-            Cursor.visible = false; //hides mouse cursor
-            Cursor.lockState = CursorLockMode.Locked; //locks mouse in center of screen
-        }
-        if (Input.GetMouseButtonDown(1))
+        //if (lookEnabled == false && (Input.GetMouseButtonDown(1) || (!Input.GetMouseButton(1) && Input.GetMouseButtonDown(0))))
+        //{
+        //    mousePos = Input.mousePosition;
+        //    Cursor.visible = false; //hides mouse cursor
+        //    Cursor.lockState = CursorLockMode.Locked; //locks mouse in center of screen
+        //}
+
+        /*if (Input.GetMouseButtonDown(1))
         {
             if (lookEnabled == false)
             {
@@ -180,12 +298,22 @@ public class PlayerController : MonoBehaviour
             }
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-        }
+        }*/
         //focus code begin
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetAxis("Fire1") == 1)
         {
-            isFocusing = true;
-            Cast();
+            if(!holdingA){
+                mouseLook.enabled = true;
+                lookEnabled = true;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                //isFocusing = true;
+                if (!showShop)
+                {
+                    Cast(true);
+                }
+            }
+            
             //if (!isSpeaking)
             //{
             //    StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
@@ -193,10 +321,22 @@ public class PlayerController : MonoBehaviour
             //        cam.fieldOfView = Mathf.Lerp(fov_default, fov_focus, t);
             //    }));
             //}
+            holdingA = true;
+        }else{
+            holdingA = false;
+        }
+        if(Input.GetAxis("Fire2") == 1){
+            if(!holdingB){
+                Cast(false);
+            }
+            holdingB = true;
+            
+        }else{
+            holdingB = false;
         }
         if (Input.GetMouseButtonUp(0))
         {
-            isFocusing = false;
+            //isFocusing = false;
             //if (!isSpeaking)
             //{
             //    StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
@@ -231,22 +371,10 @@ public class PlayerController : MonoBehaviour
         //end items
 
         //time slow
-        if (isSpeaking)
-        {
-            Time.timeScale = slowSpeed;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
     }
     private void FixedUpdate()
     {
         Move();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Jump();
-        }
     }
     void CheckInteraction()
     {
@@ -260,98 +388,49 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    GameObject Cast()
+    GameObject Cast(bool create)
     {
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            Debug.Log("Did Hit");
-            if (hit.transform.gameObject.layer == 8) //ground
-            {
-                GameObject newHole = Instantiate(holePrefab, hit.point, Quaternion.identity);
-                PlantNeighborManager.instance.plants.Add(newHole.transform.GetComponent<Plant>());
-                Debug.Log("Dug");
-                return newHole;
-            }
-            if (hit.transform.gameObject.tag == "Hole" && hit.transform.GetComponent<Plant>().type == PlantType.None)
-            {
-                //Debug.Log("its a hole");
-                hit.transform.GetComponent<MeshRenderer>().enabled = false;
-            
-                switch (type)
-                {
-                    case PlantType.Spread:
-                        if (count_moss > 0)
-                        {
-                            count_moss--;
-                            Debug.Log(count_moss + "" + count_moss_max + "" + count_moss / count_moss_max);
-                            mossIdx.fillAmount = count_moss / count_moss_max;
-                        }
-                        else
-                            return hit.transform.gameObject;
-                        break;
-                    case PlantType.Grass:
-                        if (count_grass > 0)
-                        {
-                            count_grass--;
-                            grassIdx.fillAmount = count_grass / count_grass_max;
-                        }
-                        else
-                            return hit.transform.gameObject;
-                        break;
-                    case PlantType.Shrub:
-                        if (count_shrub > 0)
-                        {
-                            count_shrub--;
-                            shrubIdx.fillAmount = count_shrub / count_shrub_max;
-                        }
-                        else
-                            return hit.transform.gameObject;
-                        break;
-                    case PlantType.Tree:
-                        if (count_tree > 0)
-                        {
-                            count_tree--;
-                            treeIdx.fillAmount = count_tree / count_tree_max;
-                        }
-                        else
-                            return hit.transform.gameObject;
-                        break;
-                    case PlantType.Special:
-                        if (count_special > 0)
-                        {
-                            count_special--;
-                            specialIdx.fillAmount = count_special / count_special_max;
-                        }
-                        else
-                            return hit.transform.gameObject;
-                        break;
-                    default:
-                        break;
-                }
-                Plant plant = hit.transform.GetComponent<Plant>();
-                plant.SetType(type);
-                return hit.transform.gameObject;
+            if(hit.distance > 5f){
+                return null;
             }
             if (hit.transform.name == "Button")
             {
-                count_moss = count_moss_max;
-                count_grass = count_grass_max;
-                count_shrub = count_shrub_max;
-                count_tree = count_tree_max;
-                count_special = count_special_max;
-
-                mossIdx.fillAmount = 1;
-                grassIdx.fillAmount =1;
-                shrubIdx.fillAmount =1;
-                treeIdx.fillAmount = 1;
-                specialIdx.fillAmount = 1;
-                Debug.Log("HIT BUTTON");
+                /*for (int i = 1; i < plantMaxCount.Count-1; i++)
+                {
+                    plantCount[i] = plantMaxCount[i];
+                }
+                
+                indicatorImage.fillAmount = 1;
+                UpdateCounts();*/
+                fadeOut.fadeOut = true;
+                Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
+                return hit.transform.gameObject;
             }
+            if(create){
+                if(hit.transform.CompareTag("Plant") == false){
+                    Services.PlantManager.CreateNewPlant(type,hit.point,true);
+                }
+                
+            }else{
+                if(hit.collider.CompareTag("Plant")){
+                    Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
+                }
+            }
+            
+            //UpdateCounts();
+            return hit.transform.gameObject;
         }
-        return hit.transform.gameObject;
+        return null;
+    }
+    void OnFadeOutComplete(AGPEvent e){
+        transform.position = spawnPosition;
+        transform.eulerAngles = new Vector3(0,180,0);
+        Services.PlantManager.Update();
+        Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
     }
     void Move()
     {
@@ -359,25 +438,13 @@ public class PlayerController : MonoBehaviour
         Vector3 yVel = new Vector3(0, rb.velocity.y, 0);
         if (running)
         {
-            if (isSpeaking)
-            {
-                rb.velocity = moveDirection * runSpeed * talkSpeed * Time.deltaTime;
-            }
-            else if (!isSpeaking)
-            {
-                rb.velocity = moveDirection * runSpeed * Time.deltaTime;
-            }
+           rb.velocity = moveDirection * runSpeed * Time.fixedDeltaTime;
         }
         else
         {
-            if (isSpeaking)
-            {
-                rb.velocity = moveDirection * walkSpeed * talkSpeed * Time.deltaTime;
-            }
-            else
-            {
-                rb.velocity = moveDirection * walkSpeed * Time.deltaTime;
-            }
+           // GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+
+            rb.velocity = moveDirection * walkSpeed * Time.fixedDeltaTime;
         }
         rb.velocity += yVel;
     }
@@ -385,11 +452,14 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded())
         {
-            rb.velocity += new Vector3(0, jumpSpeed * Time.deltaTime, 0);
+            //rb.velocity += new Vector3(0, jumpSpeed * Time.deltaTime, 0);
         }
     }
     bool CanMove(Vector3 direction)
     {
+        if(fadeOut.anyFade){
+            return false;
+        }
         float distanceToPoints = collider.height / 2 - collider.radius;
         Vector3 point1 = transform.position + collider.center + Vector3.up * distanceToPoints;
         Vector3 point2 = transform.position + collider.center - Vector3.up * distanceToPoints;
@@ -434,6 +504,46 @@ public class PlayerController : MonoBehaviour
         if (!Input.GetMouseButton(1))
         {
             cam.fieldOfView = fov_default;
+        }
+    }
+
+    void UpdateCounts()
+    {
+        resourceText.text = resource.ToString() + "r";
+        for (int i = 1; i < plantCount.Count; i++)
+        {
+            plantSprite[i-1].fillAmount = plantCount[i] / plantMaxCount[i];
+            //Debug.Log((PlantType)i);
+            //Debug.Log(plantCount[i] / plantMaxCount[i]);
+        }
+        indicatorImage.fillAmount = plantCount[(int)type] / plantMaxCount[(int)type];
+        indicatorAmount.text = plantCount[(int)type].ToString();
+
+
+    }
+
+    private void ShowHideShop()
+    {
+        if (showShop == false)
+        {
+            economyUI.SetActive(false);
+            hud.SetActive(true);
+            crosshair.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Time.timeScale = 1f;
+            mouseLook.enabled = true;
+            resource = playerInv.resource;
+        }
+        else if (showShop == true)
+        {
+            economyUI.SetActive(true);
+            hud.SetActive(false);
+            crosshair.SetActive(false);
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+            mouseLook.enabled = false;
+            Time.timeScale = slowSpeed;
         }
     }
 }
