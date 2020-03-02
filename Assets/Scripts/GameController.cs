@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI dayCounter;
     public TextureEditor texEdit;
 
-    DateTime date;
+    public DateTime date;
     int frame = 0;
     string[] months = new string[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     // Start is called before the first frame update
@@ -19,11 +19,9 @@ public class GameController : MonoBehaviour
         InitializeServices();
     }
     void Update(){
-        frame++;
-        if(frame%4==0){
-            Services.PlantManager.Update();
-            dayCounter.text = date.Year +" "+months[date.Month-1];
-            date = date.AddDays(7);
+        dayCounter.text = date.Year +" "+months[date.Month-1];
+        if(Input.GetKeyDown(KeyCode.F)){
+            SaveLoad.Load();
         }
         
     }

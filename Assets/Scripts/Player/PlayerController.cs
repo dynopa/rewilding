@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
         int typeNum = (int)type;
         
         float rightTrigger = Input.GetAxis("RightTrigger");
-        if(rightTrigger == 1){
+        if(rightTrigger == 1 || Input.GetKeyDown(KeyCode.Alpha2)){
             if(!holdingRightTrigger){
                 typeNum++;
                 if(typeNum > 3){
@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour
             holdingRightTrigger = false;
         }
         float leftTrigger = Input.GetAxis("LeftTrigger");
-        if(leftTrigger == 1){
+        if(leftTrigger == 1 || Input.GetKeyDown(KeyCode.Alpha1)){
             if(!holdingLeftTrigger){
                 typeNum--;
                 if(typeNum < 0){
@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
         //end movement
         
         //Walk Audio Trigger
-        if(isWalking == true)
+        /*if(isWalking == true)
         {
              if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
              {
@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
         if(isWalking == false)
         {
             GetComponent<FMODUnity.StudioEventEmitter>().Stop();
-        }
+        }*/
 
 
         //items
@@ -424,7 +424,7 @@ public class PlayerController : MonoBehaviour
     }
     void OnFadeOutComplete(AGPEvent e){
         transform.position = spawnPosition;
-        transform.eulerAngles = Vector3.zero;
+        transform.eulerAngles = new Vector3(0,180,0);
         Services.PlantManager.Update();
         Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
     }

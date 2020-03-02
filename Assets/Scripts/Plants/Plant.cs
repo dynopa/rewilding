@@ -208,7 +208,7 @@ public class Plant
         }
         if(grown){
             if(type == PlantType.Tree){
-                Services.PlantManager.pylonPositions.Add(position);
+                Services.PlantManager.CreateNewPylon(position);
             }
         }
         gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent);
