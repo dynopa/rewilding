@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 19529758}
   - component: {fileID: 19529757}
   - component: {fileID: 19529759}
+  - component: {fileID: 19529760}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -158,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dayCounter: {fileID: 1543463795}
+  texEdit: {fileID: 19529760}
 --- !u!4 &19529758
 Transform:
   m_ObjectHideFlags: 0
@@ -184,6 +186,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a730122125ebb74b84995d507e409cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &19529760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19529756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf9d84787e859349b374b23fc1b1e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseTex: {fileID: 2800000, guid: fda430fed5b5db2438fdcc8092d452da, type: 3}
+  newTex: {fileID: 0}
 --- !u!1 &36162738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,7 +1152,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 0}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1716,6 +1732,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DOME
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 7d8a04a1b9136aa42a021edb54cf483b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Pylon
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 7d8a04a1b9136aa42a021edb54cf483b,
         type: 3}

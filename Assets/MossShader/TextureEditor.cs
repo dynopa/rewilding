@@ -6,26 +6,32 @@ public class TextureEditor : MonoBehaviour
 {
     public Texture2D baseTex;
     public Texture2D newTex;
+    GameObject ground;
 
-    void Start()
+    void Awake()
     {
+        ground = GameObject.Find("Ground");
+        baseTex = (Texture2D) ground.GetComponent<Renderer>().material.GetTexture("_SplatTex");
+
         newTex = createNewText();
-        GetComponent<Renderer>().material.SetTexture("_SplatTex",newTex);
+        ground.GetComponent<Renderer>().material.SetTexture("_SplatTex",newTex);
     }
 
     //Paints Circle on Texture
     public void PaintCircle(Vector2 pos, float rad)
     {
+        rad *= 3.3f;
+        //IMPLEMENT THIS INTO EVERYTHING
+        pos *= baseTex.width;
         for (int y = 0; y < newTex.height; y++)
         {
             for (int x = 0; x < newTex.width; x++)
             {
-                if (Vector2.Distance(pos, new Vector2(x, y)) < 20)
+                if (Vector2.Distance(pos, new Vector2(x, y)) < rad)
                 {
                     Color color = Color.white;
                     newTex.SetPixel(x, y, color);
                 }
-
                 
             }
         }
@@ -68,5 +74,17 @@ public class TextureEditor : MonoBehaviour
         newTex.Apply();
 
         return newTex;
+    }
+
+    public bool IsGroundFertile(Vector2 pos)
+    {
+        if (newTex.GetPixel((int)pos.x, (int)pos.y).Equals(Color.white))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

@@ -9,6 +9,8 @@ public class PlantManager
     public List<Plant> plants;
     public List<Plant> newPlants;
     public List<Vector3> pylonPositions;
+    public TextureEditor texEdit;
+
     public int numPlants{
         get{
             return plants.Count;
@@ -21,10 +23,20 @@ public class PlantManager
         Services.EventManager.Register<PlantJustFed>(OnPlantFed);
         pylonPositions = new List<Vector3>();
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Pylon")){
-            pylonPositions.Add(obj.transform.position);
+            CreateNewPylon(obj.transform.position);
         }
         Debug.Log(pylonPositions.Count);
     }
+    public void CreateNewPylon(Vector3 pos)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(pos, -Vector3.up, out hit))
+        {
+            texEdit.PaintCircle(hit.textureCoord, maxPylonDistance);
+        }
+        pylonPositions.Add(pos);
+    }
+
     public bool CreateNewPlant(PlantType type, Vector3 pos){
         bool isCloseEnough = false;
         foreach(Vector3 v in pylonPositions){
