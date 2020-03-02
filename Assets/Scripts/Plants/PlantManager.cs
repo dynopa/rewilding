@@ -8,7 +8,10 @@ public class PlantManager
     public const float maxPylonDistance = 10f;
     public List<Plant> plants;
     public List<Plant> newPlants;
+    public List<Plant> deadPlants;
     public List<Vector3> pylonPositions;
+    public TextureEditor texEdit;
+
     public int numPlants{
         get{
             return plants.Count;
@@ -17,15 +20,26 @@ public class PlantManager
     public void Initialize(){
         plants = new List<Plant>();
         newPlants = new List<Plant>();
+        deadPlants = new List<Plant>();
         Services.EventManager.Register<PlantDestroyed>(OnPlantDestroyed);
         Services.EventManager.Register<PlantJustFed>(OnPlantFed);
         pylonPositions = new List<Vector3>();
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Pylon")){
-            pylonPositions.Add(obj.transform.position);
+            CreateNewPylon(obj.transform.position);
         }
         Debug.Log(pylonPositions.Count);
     }
-    public bool CreateNewPlant(PlantType type, Vector3 pos){
+    public void CreateNewPylon(Vector3 pos)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(pos, -Vector3.up, out hit))
+        {
+            texEdit.PaintCircle(hit.textureCoord, maxPylonDistance);
+        }
+        pylonPositions.Add(pos);
+    }
+
+    public bool CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
         bool isCloseEnough = false;
         foreach(Vector3 v in pylonPositions){
             if(Vector3.Distance(v,pos) < maxPylonDistance){
@@ -36,52 +50,56 @@ public class PlantManager
         if(!isCloseEnough){
             return false;
         }
-        foreach(Plant p in plants){
-            if(p.type != type){
-                continue;
-            }
-            float distance = Vector3.Distance(pos,p.position);
-            if(type == PlantType.Tree){
-                if(distance < 4f){
-                    return false;
+        if(!playerPlaced){
+            foreach(Plant p in plants){
+                if(p.type != type){
+                    continue;
                 }
-            }else{
-                if(distance < 0.8f+((int)type+1)*0.5f){
-                    return false;
+                float distance = Vector3.Distance(pos,p.position);
+                if(type == PlantType.Tree){
+                    if(distance < 4f){
+                        return false;
+                    }
+                }else{
+                    if(distance < 0.8f+((int)type+1)*0.5f){
+                        return false;
+                    }
                 }
+                
             }
-            
         }
+        
         Plant plant = new Plant(type, pos);
         FindNeighbors(plant);
-        newPlants.Add(plant);
-        Services.EventManager.Fire(new PlantCreated());
+        if(playerPlaced){
+            plants.Add(plant);
+        }else{
+            newPlants.Add(plant);
+        }
+        Services.EventManager.Fire(new PlantCreated(plant));
         return true;
     }
     public void FindNeighbors(Plant p1){
         foreach(Plant p2 in plants){
-            bool p1Needsp2 = p1.needs.ContainsKey(p2.type);
-            bool p2Needsp1 = p2.needs.ContainsKey(p1.type);
-            if(!p1Needsp2 && !p2Needsp1){
-                //i don't need you so why am i even looking?
+            byte p1Level = (byte)p1.type;
+            byte p2Level = (byte)p2.type;
+            if(p1Level == p2Level || Mathf.Abs(p1Level-p2Level) == 1){
+
+            }else{
                 continue;
             }
             float distance = Vector3.Distance(p1.position,p2.position);
             if(distance > maxNeighborDistance){
                 continue;
             }
-            if(p1Needsp2){
-                if(!p1.neighbors.Contains(p2)){//add this plant to its neighbor
+            if(!p1.neighbors.Contains(p2)){//add this plant to its neighbor
                     p1.neighbors.Add(p2);
                     p1.NewPlantUpdate(p2);
                 }
-            }
-            if(p2Needsp1){
-                if(!p2.neighbors.Contains(p1)){//add neighbor to this plant
+            if(!p2.neighbors.Contains(p1)){//add neighbor to this plant
                     p2.neighbors.Add(p1);
                     p2.NewPlantUpdate(p1);
                 }
-            }
             
         }
     }
@@ -96,7 +114,7 @@ public class PlantManager
                 other.RemovePlantUpdate(plant);
             }
         }
-        plants.Remove(plant);
+        deadPlants.Add(plant);
         
     }
     //this should only happen if a plant JUST reached a point where it can support others
@@ -115,14 +133,21 @@ public class PlantManager
     // Update is called once per frame
     public void Update()
     {
-        Debug.Log(plants.Count);
+        Services.GameController.date = Services.GameController.date.AddMonths(1);
+        //Debug.Log(plants.Count);
         foreach(Plant plant in plants){
             plant.Update();
         }
+        //this deals with new plants grown from other plants
         foreach(Plant plant in newPlants){
             plants.Add(plant);
         }
+        foreach(Plant plant in deadPlants){
+            plants.Remove(plant);
+        }
         newPlants.Clear();
+        deadPlants.Clear();
+        SaveLoad.Save();
     }
     public void DestroyPlantFromGameObject(GameObject g){
         foreach (Plant plant in plants)

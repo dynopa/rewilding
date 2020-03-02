@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
     //public states
     public bool running;
-
+    public bool isWalking;
     //public data
     public float walkSpeed;
     public float runSpeed;
     public float jumpSpeed;
     public float talkSpeed = 0.1f; //multiplies run/walk speed while talking
     public float slowSpeed = 0.5f; //multiplies time.timeScale
+    public FadeOut fadeOut;
     float fov_default = 47;
     float fov_comms = 57;
     float fov_focus = 42;
@@ -93,13 +95,19 @@ public class PlayerController : MonoBehaviour
     //int shrubVal = 10;
     //int treeVal = 25;
     //int specialVal = 15;
-
+    Vector3 spawnPosition;
+    int[] uiPositions = new int[]{-63,-168,-273,-378};
+    bool holdingRightTrigger;
+    bool holdingLeftTrigger;
+    bool holdingA;
+    bool holdingB;
 
 
 
     // Start is called before the first frame update
     void Awake()
     {
+        spawnPosition = transform.position;
         type = PlantType.Spread;
         mousePos = Input.mousePosition;
         instance = this;
@@ -117,13 +125,12 @@ public class PlayerController : MonoBehaviour
         grassIdx = GameObject.Find("GrassIdx").GetComponent<Image>();
         shrubIdx = GameObject.Find("ShrubIdx").GetComponent<Image>();
         treeIdx = GameObject.Find("TreeIdx").GetComponent<Image>();
-        deleteIdx = GameObject.Find("DeleteIdx").GetComponent<Image>();
         indicatorAmount = GameObject.Find("IndicatorAmount").GetComponent<Text>();
         resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
         //inventory
-        plantSprite.Add(mossIdx); 
+        plantSprite.Add(mossIdx);
         plantSprite.Add(grassIdx);
         plantSprite.Add(shrubIdx);
         plantSprite.Add(treeIdx);
@@ -133,7 +140,41 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        int typeNum = (int)type;
+        
+        float rightTrigger = Input.GetAxis("RightTrigger");
+        if(rightTrigger == 1 || Input.GetKeyDown(KeyCode.Alpha2)){
+            if(!holdingRightTrigger){
+                typeNum++;
+                if(typeNum > 3){
+                    typeNum = 0;
+                }
+                type = (PlantType)typeNum;
+            }
+            holdingRightTrigger = true;
+            
+        }else{
+            holdingRightTrigger = false;
+        }
+        float leftTrigger = Input.GetAxis("LeftTrigger");
+        if(leftTrigger == 1 || Input.GetKeyDown(KeyCode.Alpha1)){
+            if(!holdingLeftTrigger){
+                typeNum--;
+                if(typeNum < 0){
+                    typeNum = 3;
+                }
+                type = (PlantType)typeNum;
+            }
+            holdingLeftTrigger = true;
+            
+        }else{
+            holdingLeftTrigger = false;
+        }
+
+
+
+        UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,uiPositions[typeNum]);
+        /*if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             type = PlantType.Spread;
             UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,-63);
@@ -156,13 +197,7 @@ public class PlayerController : MonoBehaviour
             type = PlantType.Tree;
             UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -378);
             UpdateCounts();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -483);
-            UpdateCounts();
-
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -183,8 +218,33 @@ public class PlayerController : MonoBehaviour
         }
         moveDirection = (horizontal * transform.right + vertical * transform.forward).normalized;
         running = Input.GetKey(KeyCode.LeftShift);
+        //walkCheck For Sound
+        if(moveDirection.magnitude > .1f)
+        {
+            isWalking = true;
+        }
+        if(moveDirection.magnitude < .1f)
+        {
+            isWalking = false;
+        }
         //end movement
+        
+        //Walk Audio Trigger
+        /*if(isWalking == true)
+        {
+             if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
+             {
+                 GetComponent<FMODUnity.StudioEventEmitter>().Play();
+             }
+        }
+        if(isWalking == false)
+        {
+            GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+        }*/
+
+
         //items
+
 
         //disables mouselook when esc is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -236,17 +296,20 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }*/
         //focus code begin
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetAxis("Fire1") == 1)
         {
-            mouseLook.enabled = true;
-            lookEnabled = true;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            //isFocusing = true;
-            if (!showShop)
-            {
-                Cast(true);
+            if(!holdingA){
+                mouseLook.enabled = true;
+                lookEnabled = true;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                //isFocusing = true;
+                if (!showShop)
+                {
+                    Cast(true);
+                }
             }
+            
             //if (!isSpeaking)
             //{
             //    StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
@@ -254,9 +317,18 @@ public class PlayerController : MonoBehaviour
             //        cam.fieldOfView = Mathf.Lerp(fov_default, fov_focus, t);
             //    }));
             //}
+            holdingA = true;
+        }else{
+            holdingA = false;
         }
-        if(Input.GetMouseButtonDown(1)){
-            Cast(false);
+        if(Input.GetAxis("Fire2") == 1){
+            if(!holdingB){
+                Cast(false);
+            }
+            holdingB = true;
+            
+        }else{
+            holdingB = false;
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -295,22 +367,10 @@ public class PlayerController : MonoBehaviour
         //end items
 
         //time slow
-        if (isSpeaking)
-        {
-            Time.timeScale = slowSpeed;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
     }
     private void FixedUpdate()
     {
         Move();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Jump();
-        }
     }
     void CheckInteraction()
     {
@@ -330,10 +390,11 @@ public class PlayerController : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-
+            if(hit.distance > 5f){
+                return null;
+            }
             if (hit.transform.name == "Button")
             {
-
                 /*for (int i = 1; i < plantMaxCount.Count-1; i++)
                 {
                     plantCount[i] = plantMaxCount[i];
@@ -341,11 +402,15 @@ public class PlayerController : MonoBehaviour
                 
                 indicatorImage.fillAmount = 1;
                 UpdateCounts();*/
-                Services.PlantManager.Update();
+                fadeOut.fadeOut = true;
+                Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
                 return hit.transform.gameObject;
             }
             if(create){
-                Services.PlantManager.CreateNewPlant(type,hit.point);
+                if(hit.transform.CompareTag("Plant") == false){
+                    Services.PlantManager.CreateNewPlant(type,hit.point,true);
+                }
+                
             }else{
                 if(hit.collider.CompareTag("Plant")){
                     Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
@@ -355,7 +420,13 @@ public class PlayerController : MonoBehaviour
             //UpdateCounts();
             return hit.transform.gameObject;
         }
-        return hit.transform.gameObject;
+        return null;
+    }
+    void OnFadeOutComplete(AGPEvent e){
+        transform.position = spawnPosition;
+        transform.eulerAngles = new Vector3(0,180,0);
+        Services.PlantManager.Update();
+        Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
     }
     void Move()
     {
@@ -363,25 +434,13 @@ public class PlayerController : MonoBehaviour
         Vector3 yVel = new Vector3(0, rb.velocity.y, 0);
         if (running)
         {
-            if (isSpeaking)
-            {
-                rb.velocity = moveDirection * runSpeed * talkSpeed * Time.deltaTime;
-            }
-            else if (!isSpeaking)
-            {
-                rb.velocity = moveDirection * runSpeed * Time.deltaTime;
-            }
+           rb.velocity = moveDirection * runSpeed * Time.fixedDeltaTime;
         }
         else
         {
-            if (isSpeaking)
-            {
-                rb.velocity = moveDirection * walkSpeed * talkSpeed * Time.deltaTime;
-            }
-            else
-            {
-                rb.velocity = moveDirection * walkSpeed * Time.deltaTime;
-            }
+           // GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+
+            rb.velocity = moveDirection * walkSpeed * Time.fixedDeltaTime;
         }
         rb.velocity += yVel;
     }
@@ -394,6 +453,9 @@ public class PlayerController : MonoBehaviour
     }
     bool CanMove(Vector3 direction)
     {
+        if(fadeOut.anyFade){
+            return false;
+        }
         float distanceToPoints = collider.height / 2 - collider.radius;
         Vector3 point1 = transform.position + collider.center + Vector3.up * distanceToPoints;
         Vector3 point2 = transform.position + collider.center - Vector3.up * distanceToPoints;
