@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
+    
+    public bool oxygenOn;
     //public states
     public bool running;
     public bool isWalking;
@@ -29,6 +32,8 @@ public class PlayerController : MonoBehaviour
     private bool safeRelease; //true after comms exit lerping is complete
     private bool lookEnabled;
 
+    public int seedPerDay;
+    public int seedsLeft;
     //situation data
     [HideInInspector]
 
@@ -53,15 +58,8 @@ public class PlayerController : MonoBehaviour
     public GameObject economyUI;
     public GameObject hud;
     public GameObject crosshair;
-    RectTransform UiIndicator;
-    Image mossIdx;
-    Image grassIdx;
-    Image shrubIdx;
-    Image treeIdx;
-    Image specialIdx;
-    Image deleteIdx;
-    Image indicatorImage;
-    Text indicatorAmount;
+    public Image whichSeed;
+    public Sprite[] seedImages;
     Text resourceText;
     float newHoleRadius = 5f;
     
@@ -102,11 +100,20 @@ public class PlayerController : MonoBehaviour
     bool holdingA;
     bool holdingB;
 
+    public TextMeshProUGUI seedCounter;
+    public Image seedCounterImage;
+
+    public float maxOxygen;
+    public float oxygen;
+    public Image oxygenDisplay;
+
 
 
     // Start is called before the first frame update
     void Awake()
     {
+        seedsLeft = seedPerDay;
+        oxygen = maxOxygen;
         spawnPosition = transform.position;
         type = PlantType.Spread;
         mousePos = Input.mousePosition;
@@ -118,22 +125,11 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         mouseLook = cam.gameObject.GetComponent<MouseLook>();
 
-        //ui
-        UiIndicator = GameObject.Find("Indicator").GetComponent<RectTransform>();
-        indicatorImage = GameObject.Find("Indicator").GetComponent<Image>();
-        mossIdx = GameObject.Find("MossIdx").GetComponent<Image>();
-        grassIdx = GameObject.Find("GrassIdx").GetComponent<Image>();
-        shrubIdx = GameObject.Find("ShrubIdx").GetComponent<Image>();
-        treeIdx = GameObject.Find("TreeIdx").GetComponent<Image>();
-        indicatorAmount = GameObject.Find("IndicatorAmount").GetComponent<Text>();
+
         resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
         //inventory
-        plantSprite.Add(mossIdx);
-        plantSprite.Add(grassIdx);
-        plantSprite.Add(shrubIdx);
-        plantSprite.Add(treeIdx);
 
     }
 
@@ -143,7 +139,7 @@ public class PlayerController : MonoBehaviour
         int typeNum = (int)type;
         
         float rightTrigger = Input.GetAxis("RightTrigger");
-        if(rightTrigger == 1 || Input.GetKeyDown(KeyCode.Alpha2)){
+        if(rightTrigger == 1 || Input.GetKeyDown(KeyCode.E)){
             if(!holdingRightTrigger){
                 typeNum++;
                 if(typeNum > 3){
@@ -157,7 +153,7 @@ public class PlayerController : MonoBehaviour
             holdingRightTrigger = false;
         }
         float leftTrigger = Input.GetAxis("LeftTrigger");
-        if(leftTrigger == 1 || Input.GetKeyDown(KeyCode.Alpha1)){
+        if(leftTrigger == 1 || Input.GetKeyDown(KeyCode.Q)){
             if(!holdingLeftTrigger){
                 typeNum--;
                 if(typeNum < 0){
@@ -173,31 +169,19 @@ public class PlayerController : MonoBehaviour
 
 
 
-        UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,uiPositions[typeNum]);
-        /*if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            type = PlantType.Spread;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,-63);
-            UpdateCounts();
+        //UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,uiPositions[typeNum]);
+        whichSeed.sprite = seedImages[typeNum];
+        seedCounter.text = seedsLeft < 10 ? "0"+seedsLeft+"/"+seedPerDay : seedsLeft+"/"+seedPerDay;
+        float seedPercent = (float)seedsLeft/(float)seedPerDay;
+        seedCounterImage.fillAmount+= (seedPercent-seedCounterImage.fillAmount)*0.1f;
+
+        if(Services.PlantManager.CloseToPylon(transform.position)){
+            oxygen+=Time.deltaTime*10;
+        }else{
+            oxygen-=Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            type = PlantType.Grass;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -168);
-            UpdateCounts();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            type = PlantType.Shrub;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -273);
-            UpdateCounts();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            type = PlantType.Tree;
-            UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x, -378);
-            UpdateCounts();
-        }*/
+        oxygen = Mathf.Clamp(oxygen,0,maxOxygen);
+        oxygenDisplay.fillAmount += ((oxygen/maxOxygen)-oxygenDisplay.fillAmount)*0.1f;
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -249,8 +233,12 @@ public class PlayerController : MonoBehaviour
         //disables mouselook when esc is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            #if UNITY_EDITOR
             mouseLook.enabled = false;
             lookEnabled = false;
+            #else
+            Application.Quit();
+            #endif
         }
         //if (lookEnabled == false && (Input.GetMouseButtonDown(1) || (!Input.GetMouseButton(1) && Input.GetMouseButtonDown(0))))
         //{
@@ -406,9 +394,10 @@ public class PlayerController : MonoBehaviour
                 Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
                 return hit.transform.gameObject;
             }
-            if(create){
+            if(create && seedsLeft >= ((int)type)+1){
                 if(hit.transform.CompareTag("Plant") == false){
                     Services.PlantManager.CreateNewPlant(type,hit.point,true);
+                    seedsLeft-= ((int)type)+1;
                 }
                 
             }else{
@@ -425,6 +414,8 @@ public class PlayerController : MonoBehaviour
     void OnFadeOutComplete(AGPEvent e){
         transform.position = spawnPosition;
         transform.eulerAngles = new Vector3(0,180,0);
+        seedsLeft+=seedPerDay/2;
+        seedsLeft = Mathf.Clamp(seedsLeft,0,seedPerDay);
         Services.PlantManager.Update();
         Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
     }
@@ -512,8 +503,6 @@ public class PlayerController : MonoBehaviour
             //Debug.Log((PlantType)i);
             //Debug.Log(plantCount[i] / plantMaxCount[i]);
         }
-        indicatorImage.fillAmount = plantCount[(int)type] / plantMaxCount[(int)type];
-        indicatorAmount.text = plantCount[(int)type].ToString();
 
 
     }

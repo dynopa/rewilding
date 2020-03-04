@@ -55,6 +55,7 @@ public class Plant
                 needs.Add(PlantType.Grass,3);
                 needsActual.Add(PlantType.Grass,0);
                 needsMet.Add(PlantType.Grass,false);*/
+                needs.Add(PlantType.Shrub,2);
                 break;
         }
         gameObject = new GameObject(type.ToString());
@@ -62,7 +63,11 @@ public class Plant
         gameObject.tag = "Plant";
         BoxCollider c = gameObject.AddComponent(typeof(BoxCollider)) as BoxCollider;
         c.size = new Vector3(0.5f,0.5f,0.5f);
-        c.isTrigger =true;
+        c.isTrigger = true;
+        if(type == PlantType.Tree){
+            c.isTrigger = false;
+            c.size = new Vector3(c.size.x,c.size.y*10f,c.size.z);
+        }
         gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
        
         GameObject.Instantiate(Resources.Load(type.ToString()),gameObject.transform);
