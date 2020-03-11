@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
             fired = true;
             Services.EventManager.Fire(new GameStart());
         }
-        if(Time.time > 30 && freshStart == false){
+        if((Time.time > 30 || Services.PlantManager.plants.Count >= 10) && freshStart == false){
             Services.EventManager.Fire(new After30Seconds());
             freshStart = true;
         }

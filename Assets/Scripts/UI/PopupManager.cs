@@ -37,19 +37,23 @@ public class PopupManager : MonoBehaviour
         }
         else
         {
-            Tut1.SetActive(false);
+            TurnOff();
+
+        }
+    }
+    void TurnOff(){
+        Tut1.SetActive(false);
             Tut2.SetActive(false);
             Tut3.SetActive(false);
             Tut4.SetActive(false);
             Tut5.SetActive(false);
             Tut6.SetActive(false);
-
-        }
     }
 
     void OnGameStart(AGPEvent e)
     {
         Debug.Log("STARTED");
+        TurnOff();
         Tut1.SetActive(true);
         timer = 15;
         //StartCoroutine(Coroutines.DoOverTime(10f, t =>
@@ -61,7 +65,7 @@ public class PopupManager : MonoBehaviour
     void OnAfter30Seconds(AGPEvent e)
     {
         Debug.Log("30s");
-
+        TurnOff();
         Tut2.SetActive(true);
         timer = 7;
 
@@ -74,7 +78,7 @@ public class PopupManager : MonoBehaviour
     void OnDay2(AGPEvent e)
     {
         Debug.Log("day2");
-
+        TurnOff();
         Tut3.SetActive(true);
         timer = 15;
 
@@ -87,7 +91,7 @@ public class PopupManager : MonoBehaviour
     void OnFirstTreePlanted(AGPEvent e)
     {
         Debug.Log("firsttree");
-
+        TurnOff();
         Tut4.SetActive(true);
         timer = 15;
 
@@ -100,7 +104,7 @@ public class PopupManager : MonoBehaviour
     void OnFirstTreeGrown(AGPEvent e)
     {
         Debug.Log("grown");
-
+        TurnOff();
         Tut5.SetActive(true);
         timer = 15;
 
@@ -114,7 +118,7 @@ public class PopupManager : MonoBehaviour
     void OnTooManyPlants(AGPEvent e)
     {
         Debug.Log("toomany");
-
+        TurnOff();
         Tut6.SetActive(true);
         timer = 15;
 
