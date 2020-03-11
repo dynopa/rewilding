@@ -2,30 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
 //boxes appear and disappear
 //as many boxes as tutorials
 
 
 public class PopupManager : MonoBehaviour
 {
-    public GameObject Tut1;
-    public GameObject Tut2;
-    public GameObject Tut3;
-    public GameObject Tut4;
-    public GameObject Tut5;
-    public GameObject Tut6;
+    public TextMeshProUGUI TutText;
+
+    Tutorial[] tutorials = new Tutorial[6];
 
     float timer = 15;
+    Tutorial activeTutorial;
 
     // Start is called before the first frame update
     void Start()
     {
+        string path = "Assets/UI/Popup spreadsheets/Tutorials.tsv";
+        string sheet = System.IO.File.ReadAllText(path);
+        string[] lines = sheet.Split('\n');
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string[] columns = lines[i].Split('\t');
+            tutorials[i] = new Tutorial();
+            tutorials[i].num = i;
+            tutorials[i].tutID = columns[1];
+            tutorials[i].tutText = columns[2];
+
+        }
         Services.EventManager.Register<GameStart>(OnGameStart);
         Services.EventManager.Register<After30Seconds>(OnAfter30Seconds);
         Services.EventManager.Register<Day2>(OnDay2);
         Services.EventManager.Register<FirstTreePlanted>(OnFirstTreePlanted);
         Services.EventManager.Register<FirstTreeGrown>(OnFirstTreeGrown);
         Services.EventManager.Register<TooManyPlants>(OnTooManyPlants);
+        Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
+
     }
 
     // Update is called once per frame
@@ -37,91 +51,74 @@ public class PopupManager : MonoBehaviour
         }
         else
         {
-            Tut1.SetActive(false);
-            Tut2.SetActive(false);
-            Tut3.SetActive(false);
-            Tut4.SetActive(false);
-            Tut5.SetActive(false);
-            Tut6.SetActive(false);
-
+            DeactivateTutorial();
         }
     }
 
     void OnGameStart(AGPEvent e)
     {
         Debug.Log("STARTED");
-        Tut1.SetActive(true);
-        timer = 15;
-        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
-        //{
-        //    Tut1.SetActive(false);
-
-        //}));
+        ActivateTutorial(tutorials[0], 15);
     }
     void OnAfter30Seconds(AGPEvent e)
     {
         Debug.Log("30s");
 
-        Tut2.SetActive(true);
-        timer = 7;
-
-        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
-        //{
-        //    Tut2.SetActive(false);
-
-        //}));
+        ActivateTutorial(tutorials[1], 7);
+    }
+    void OnFadeOutComplete(AGPEvent e)
+    {
+        if (activeTutorial.num == 1) DeactivateTutorial();
     }
     void OnDay2(AGPEvent e)
     {
         Debug.Log("day2");
 
-        Tut3.SetActive(true);
-        timer = 15;
+        ActivateTutorial(tutorials[2], 15);
 
-        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
-        //{
-        //    Tut3.SetActive(false);
-
-        //}));
     }
     void OnFirstTreePlanted(AGPEvent e)
     {
         Debug.Log("firsttree");
 
-        Tut4.SetActive(true);
-        timer = 15;
+        ActivateTutorial(tutorials[3], 15);
 
-        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
-        //{
-        //    Tut4.SetActive(false);
-
-        //}));
     }
     void OnFirstTreeGrown(AGPEvent e)
     {
         Debug.Log("grown");
 
-        Tut5.SetActive(true);
-        timer = 15;
+        ActivateTutorial(tutorials[4], 15);
 
-        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
-        //{
-        //    yield return new WaitForSeconds(5);
-        //    Tut5.SetActive(false);
-
-        //}));
     }
     void OnTooManyPlants(AGPEvent e)
     {
         Debug.Log("toomany");
 
-        Tut6.SetActive(true);
-        timer = 15;
+        ActivateTutorial(tutorials[5], 15);
 
-        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
-        //{
-        //    Tut6.SetActive(false);
-
-        //}));
     }
+
+
+    void ActivateTutorial(Tutorial tut, float timeSet)
+    {
+        TutText.text = tut.tutText.Replace("$", "\n");
+        activeTutorial = tut;
+        TutText.gameObject.SetActive(true);
+        timer = timeSet;
+    }
+    void DeactivateTutorial()
+    {
+        TutText.text = null;
+
+        TutText.gameObject.SetActive(false);
+        timer = 0;
+    }
+}
+[System.Serializable]
+public class Tutorial
+{
+    public int num;
+    public string tutID;
+    public string tutText;
 }
