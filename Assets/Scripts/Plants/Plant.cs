@@ -10,6 +10,7 @@ public class Plant
     public const float needsThreshold = 0.25f;
     public const int babyLimit = 2;
     public bool grown;
+    public byte stage=1;
     public int numBabies;
     public Vector3 position;
     public PlantType type;
@@ -32,6 +33,7 @@ public class Plant
     public bool withering;
 
     public Plant(PlantType type,Vector3 pos){
+        stage = 1;
         this.type = type;
         position = pos;
         needsMetPercent = 0;
@@ -55,6 +57,7 @@ public class Plant
                 needs.Add(PlantType.Grass,3);
                 needsActual.Add(PlantType.Grass,0);
                 needsMet.Add(PlantType.Grass,false);*/
+                needs.Add(PlantType.Shrub,2);
                 break;
         }
         gameObject = new GameObject(type.ToString());
@@ -62,10 +65,14 @@ public class Plant
         gameObject.tag = "Plant";
         BoxCollider c = gameObject.AddComponent(typeof(BoxCollider)) as BoxCollider;
         c.size = new Vector3(0.5f,0.5f,0.5f);
-        c.isTrigger =true;
+        c.isTrigger = true;
+        if(type == PlantType.Tree){
+            c.isTrigger = false;
+            c.size = new Vector3(c.size.x,c.size.y*10f,c.size.z);
+        }
         gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
        
-        GameObject.Instantiate(Resources.Load(type.ToString()),gameObject.transform);
+        GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
         gameObject.transform.localScale = minSize;
     }
 
@@ -89,10 +96,20 @@ public class Plant
                 }
             }
             //growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
-            growthPercent+=(1*needsMetPercent)*(1.0f/level);
-            if(growthPercent >= 1.0f){
-                growthPercent = 1.0f;
-                grown = true;
+            growthPercent+=(1*needsMetPercent);
+            if(growthPercent >= stage*1.0f){
+                growthPercent = 0;
+                stage++;
+                if(stage > level){
+                    grown = true;
+                    growthPercent = 1.0f;
+                }
+                if(stage != 2){
+                    //switch out the model
+                    GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
+                    GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
+                }
+                
             }
             if(grown){
                 Services.EventManager.Fire(new PlantGrown(this));

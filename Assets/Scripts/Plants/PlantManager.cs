@@ -11,6 +11,9 @@ public class PlantManager
     public List<Plant> deadPlants;
     public List<Vector3> pylonPositions;
     public TextureEditor texEdit;
+    bool firstTreePlanted;
+    public bool firstTreeGrown;
+    bool tooManyPlants;
 
     public int numPlants{
         get{
@@ -31,6 +34,10 @@ public class PlantManager
     }
     public void CreateNewPylon(Vector3 pos)
     {
+        if(firstTreeGrown ==false){
+            firstTreeGrown = true;
+            Services.EventManager.Fire(new FirstTreeGrown());
+        }
         RaycastHit hit;
         if (Physics.Raycast(pos, -Vector3.up, out hit))
         {
@@ -38,7 +45,14 @@ public class PlantManager
         }
         pylonPositions.Add(pos);
     }
-
+    public bool CloseToPylon(Vector3 pos){
+        foreach(Vector3 v in pylonPositions){
+            if(Vector3.Distance(v,pos) < maxPylonDistance){
+                return true;
+            }
+        }
+        return false;
+    }
     public bool CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
         bool isCloseEnough = false;
         foreach(Vector3 v in pylonPositions){
@@ -70,6 +84,10 @@ public class PlantManager
         }
         
         Plant plant = new Plant(type, pos);
+        if(type == PlantType.Tree && firstTreePlanted == false){
+            firstTreePlanted = true;
+            Services.EventManager.Fire(new FirstTreePlanted());
+        }
         FindNeighbors(plant);
         if(playerPlaced){
             plants.Add(plant);
@@ -134,6 +152,9 @@ public class PlantManager
     public void Update()
     {
         Services.GameController.date = Services.GameController.date.AddMonths(1);
+        if(Services.GameController.date.Month == 4){
+            Services.EventManager.Fire(new Day2());
+        }
         //Debug.Log(plants.Count);
         foreach(Plant plant in plants){
             plant.Update();
@@ -144,6 +165,12 @@ public class PlantManager
         }
         foreach(Plant plant in deadPlants){
             plants.Remove(plant);
+        }
+        if(tooManyPlants == false){
+            if(plants.Count >= 40){
+                tooManyPlants = true;
+                Services.EventManager.Fire(new TooManyPlants());
+            }
         }
         newPlants.Clear();
         deadPlants.Clear();

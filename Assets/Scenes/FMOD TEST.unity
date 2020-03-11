@@ -184,6 +184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a730122125ebb74b84995d507e409cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oncreateEvent: event:/Dirt
+  ondestroyEvent: ' '
+  onfedEvent: ' '
 --- !u!1 &36162738
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +379,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4053080160682855936}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &496736214
+--- !u!114 &496736209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,6 +393,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Event: event:/Walk1
   PlayEvent: 0
+  StopEvent: 0
+  CollisionTag: 
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
+--- !u!114 &496736214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496736207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: event:/BGM2
+  PlayEvent: 1
   StopEvent: 0
   CollisionTag: 
   AllowFadeout: 1
