@@ -16,7 +16,7 @@ public class Plant
     public PlantType type;
     public List<Plant> neighbors;//other plants THAT COULD support this plant near this plant
     public Dictionary<PlantType,int> needs;//needs for the plant by type abstract
-    float needsMetPercent;//whether its needs are met or not
+    public float needsMetPercent;//whether its needs are met or not
     float growthPercent;//how far along this plant is to full-grown
 
     int energyTotal = 1;//how much enery can this plant give
@@ -72,7 +72,7 @@ public class Plant
         }
         gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
        
-        GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
+        GameObject.Instantiate(Resources.Load(type.ToString()),gameObject.transform);
         gameObject.transform.localScale = minSize;
     }
 

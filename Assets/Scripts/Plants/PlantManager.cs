@@ -148,6 +148,8 @@ public class PlantManager
             }
         }
     }
+  
+
     // Update is called once per frame
     public void Update()
     {
