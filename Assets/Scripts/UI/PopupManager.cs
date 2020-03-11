@@ -11,6 +11,7 @@ using System;
 public class PopupManager : MonoBehaviour
 {
     public TextMeshProUGUI TutText;
+    public Image tutorialBG;
 
     Tutorial[] tutorials = new Tutorial[6];
 
@@ -105,12 +106,15 @@ public class PopupManager : MonoBehaviour
         TutText.text = tut.tutText.Replace("$", "\n");
         activeTutorial = tut;
         TutText.gameObject.SetActive(true);
+
+        tutorialBG.gameObject.SetActive(true);
+
         timer = timeSet;
     }
     void DeactivateTutorial()
     {
         TutText.text = null;
-
+        tutorialBG.gameObject.SetActive(false);
         TutText.gameObject.SetActive(false);
         timer = 0;
     }

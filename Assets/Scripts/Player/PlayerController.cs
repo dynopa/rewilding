@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
     public GameObject crosshair;
     public Image whichSeed;
     public Sprite[] seedImages;
-    Text resourceText;
+    //Text resourceText;
     float newHoleRadius = 5f;
     
 
@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
         mouseLook = cam.gameObject.GetComponent<MouseLook>();
 
 
-        resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
+        //resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
         //inventory
@@ -496,7 +496,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateCounts()
     {
-        resourceText.text = resource.ToString() + "r";
+        //resourceText.text = resource.ToString() + "r";
         for (int i = 1; i < plantCount.Count; i++)
         {
             plantSprite[i-1].fillAmount = plantCount[i] / plantMaxCount[i];
