@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: Assets\Sounds\RewildFMOD\RewildFMOD.fspro
-  SourceProjectPathUnformatted: Assets\Sounds\RewildFMOD\RewildFMOD.fspro
-  SourceBankPathUnformatted: Assets\Sounds\RewildFMOD\Build
+  sourceProjectPath: Assets/Sounds/RewildFMOD/RewildFMOD.fspro
+  SourceProjectPathUnformatted: Assets/Sounds/RewildFMOD/RewildFMOD.fspro
+  SourceBankPathUnformatted: Assets/Sounds/RewildFMOD/Build
   AutomaticEventLoading: 1
   AutomaticSampleLoading: 0
   ImportType: 0
