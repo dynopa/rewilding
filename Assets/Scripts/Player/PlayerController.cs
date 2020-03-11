@@ -214,7 +214,7 @@ public class PlayerController : MonoBehaviour
         //end movement
         
         //Walk Audio Trigger
-        /*if(isWalking == true)
+        if(isWalking == true)
         {
              if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
              {
@@ -224,7 +224,7 @@ public class PlayerController : MonoBehaviour
         if(isWalking == false)
         {
             GetComponent<FMODUnity.StudioEventEmitter>().Stop();
-        }*/
+        }
 
 
         //items

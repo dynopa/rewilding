@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     public DateTime date;
     int frame = 0;
+    bool freshStart = false;
     string[] months = new string[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     // Start is called before the first frame update
     void Start()
@@ -19,8 +20,13 @@ public class GameController : MonoBehaviour
         saveId = 1;
         date = DateTime.Now;
         InitializeServices();
+        Services.EventManager.Fire(new GameStart());
     }
     void Update(){
+        if(Time.time > 30 && freshStart == false){
+            Services.EventManager.Fire(new After30Seconds());
+            freshStart = true;
+        }
         dayCounter.text = date.Year +" "+months[date.Month-1];
         if(Input.GetKeyDown(KeyCode.F)){
             SaveLoad.Load();

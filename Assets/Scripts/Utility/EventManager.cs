@@ -96,3 +96,9 @@ public class PlantGrown : AGPEvent{
 	}
 }
 public class FadeOutComplete : AGPEvent{}
+public class GameStart : AGPEvent{}
+public class After30Seconds : AGPEvent{}
+public class Day2 : AGPEvent{}
+public class FirstTreePlanted : AGPEvent{}
+public class FirstTreeGrown : AGPEvent{}
+public class TooManyPlants : AGPEvent{}
