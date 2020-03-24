@@ -26,6 +26,20 @@ public class Plant
             return true;//energyGiven < energyTotal && needsMetPercent >= needsThreshold;
         }
     }
+    public int GetState{
+        get{
+            if(withering){
+                return 3;
+            }
+            if(needsMetPercent < 0.5f){
+                return 2;
+            }
+            if(needsMetPercent > 0.5f){
+                return 0;
+            }
+            return 1;
+        }
+    }
     public GameObject gameObject;
     Vector3 minSize = new Vector3(0.25f,0.25f,0.25f);
     Vector3 maxSize = Vector3.one;
