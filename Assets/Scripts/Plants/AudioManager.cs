@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using FMOD;
+using Beat;
 
 public class AudioManager : MonoBehaviour
 {
@@ -9,8 +10,17 @@ public class AudioManager : MonoBehaviour
     public string oncreateEvent = "event:/Dirt";
     public string ondestroyEvent = " ";
     public string onfedEvent = " ";
+    public string grassS1Event = " ";
+    public string grassS2Event = " ";
+
+ 
+  
     //public string onFedEvent = "event:"
     //FMOD.Studio.EventInstance creator;
+
+
+
+
 
     void Start()
     {
@@ -38,6 +48,7 @@ public class AudioManager : MonoBehaviour
     {
         var plantEvent = (PlantCreated)e;
         Plant plant = plantEvent.plant;
+        //Play creation sound
         FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, plant.position);
     }
 
@@ -56,6 +67,35 @@ public class AudioManager : MonoBehaviour
         FMODUnity.RuntimeManager.PlayOneShot(ondestroyEvent, plant.position);
     }
 
+
+    void Update()
+    {
+        foreach (Plant p in Services.PlantManager.plants)
+        {
+            if (p.GetState == 0)
+            {
+                //FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, p.position);
+                //UnityEngine.Debug.Log("FINE");
+                //check the plant's type
+                // Play a sound based on state
+               
+                // Play a sound based on state
+                //FMODUnity.RuntimeManager.PlayOneShot()
+            }
+            else if (p.GetState == 1)
+            {
+                //UnityEngine.Debug.Log("Alright");
+            }
+            else if (p.GetState == 2)
+            {
+               // UnityEngine.Debug.Log("Fix it or i die kinda soon");
+            }
+            else if (p.GetState == 3)
+            {
+                //UnityEngine.Debug.Log("Dying soon");
+            }
+        }
+    }
 
 }
 

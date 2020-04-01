@@ -18,6 +18,7 @@ public class Plant
     public Dictionary<PlantType,int> needs;//needs for the plant by type abstract
     float needsMetPercent;//whether its needs are met or not
     float growthPercent;//how far along this plant is to full-grown
+    bool shouldPlay;
 
     int energyTotal = 1;//how much enery can this plant give
     public int energyGiven = 0;
