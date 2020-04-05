@@ -26,6 +26,20 @@ public class Plant
             return true;//energyGiven < energyTotal && needsMetPercent >= needsThreshold;
         }
     }
+    public int GetState{
+        get{
+            if(withering){
+                return 3;
+            }
+            if(needsMetPercent < 0.5f){
+                return 2;
+            }
+            if(needsMetPercent > 0.5f){
+                return 0;
+            }
+            return 1;
+        }
+    }
     public GameObject gameObject;
     Vector3 minSize = new Vector3(0.25f,0.25f,0.25f);
     Vector3 maxSize = Vector3.one;
@@ -96,8 +110,12 @@ public class Plant
                 }
             }
             //growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
+            if(level==3){
+                Debug.Log(needsMetPercent);
+                Debug.Log(growthPercent);
+            }
             growthPercent+=(1*needsMetPercent);
-            if(growthPercent >= stage*1.0f){
+            if(growthPercent >= stage){
                 growthPercent = 0;
                 stage++;
                 if(stage > level){
@@ -107,7 +125,10 @@ public class Plant
                 if(stage != 2){
                     //switch out the model
                     GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
-                    GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
+                    GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
+                }
+                if(level == 3){
+                    Debug.Log(stage+","+grown);
                 }
                 
             }
@@ -172,7 +193,7 @@ public class Plant
                 }
             }
             if(numLowerLevel >= numMyLevel*2){
-                needsMetPercent = (float)numMyLevel/(float)numLowerLevel;
+                needsMetPercent = 1.0f;
             }else if(numLowerLevel >= numMyLevel){
                 needsMetPercent = 0.5f;
             }else{

@@ -52,53 +52,122 @@ public class PopupManager : MonoBehaviour
         }
         else
         {
+<<<<<<< HEAD
             DeactivateTutorial();
         }
+=======
+            TurnOff();
+
+        }
+    }
+    void TurnOff(){
+        Tut1.SetActive(false);
+            Tut2.SetActive(false);
+            Tut3.SetActive(false);
+            Tut4.SetActive(false);
+            Tut5.SetActive(false);
+            Tut6.SetActive(false);
+>>>>>>> f7bb12c5eba07dfc873d7bbede8733f96f283ed2
     }
 
     void OnGameStart(AGPEvent e)
     {
         Debug.Log("STARTED");
+<<<<<<< HEAD
         ActivateTutorial(tutorials[0], 15);
+=======
+        TurnOff();
+        Tut1.SetActive(true);
+        timer = 15;
+        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
+        //{
+        //    Tut1.SetActive(false);
+
+        //}));
+>>>>>>> f7bb12c5eba07dfc873d7bbede8733f96f283ed2
     }
     void OnAfter30Seconds(AGPEvent e)
     {
         Debug.Log("30s");
+<<<<<<< HEAD
 
         ActivateTutorial(tutorials[1], 7);
     }
     void OnFadeOutComplete(AGPEvent e)
     {
         if (activeTutorial.num == 1) DeactivateTutorial();
+=======
+        TurnOff();
+        Tut2.SetActive(true);
+        timer = 7;
+
+        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
+        //{
+        //    Tut2.SetActive(false);
+
+        //}));
+>>>>>>> f7bb12c5eba07dfc873d7bbede8733f96f283ed2
     }
     void OnDay2(AGPEvent e)
     {
         Debug.Log("day2");
+<<<<<<< HEAD
 
         ActivateTutorial(tutorials[2], 15);
+=======
+        TurnOff();
+        Tut3.SetActive(true);
+        timer = 15;
+>>>>>>> f7bb12c5eba07dfc873d7bbede8733f96f283ed2
 
     }
     void OnFirstTreePlanted(AGPEvent e)
     {
         Debug.Log("firsttree");
+<<<<<<< HEAD
 
         ActivateTutorial(tutorials[3], 15);
+=======
+        TurnOff();
+        Tut4.SetActive(true);
+        timer = 15;
+
+        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
+        //{
+        //    Tut4.SetActive(false);
+>>>>>>> f7bb12c5eba07dfc873d7bbede8733f96f283ed2
 
     }
     void OnFirstTreeGrown(AGPEvent e)
     {
         Debug.Log("grown");
+<<<<<<< HEAD
 
         ActivateTutorial(tutorials[4], 15);
+=======
+        TurnOff();
+        Tut5.SetActive(true);
+        timer = 15;
+
+        //StartCoroutine(Coroutines.DoOverTime(10f, t =>
+        //{
+        //    yield return new WaitForSeconds(5);
+        //    Tut5.SetActive(false);
+>>>>>>> f7bb12c5eba07dfc873d7bbede8733f96f283ed2
 
     }
     void OnTooManyPlants(AGPEvent e)
     {
         Debug.Log("toomany");
+<<<<<<< HEAD
 
         ActivateTutorial(tutorials[5], 15);
 
     }
+=======
+        Tut6.SetActive(true);
+        timer = 15;
+>>>>>>> f7bb12c5eba07dfc873d7bbede8733f96f283ed2
 
 
     void ActivateTutorial(Tutorial tut, float timeSet)
