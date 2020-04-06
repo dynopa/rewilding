@@ -107,11 +107,14 @@ public class PlayerController : MonoBehaviour
     public float oxygen;
     public Image oxygenDisplay;
 
+    bool sentOutOfGoopMessage;
+    bool sleptFirstTime;
 
 
     // Start is called before the first frame update
     void Awake()
     {
+        sentOutOfGoopMessage = false;
         seedsLeft = seedPerDay;
         oxygen = maxOxygen;
         spawnPosition = transform.position;
@@ -136,6 +139,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!sentOutOfGoopMessage && seedsLeft <= 0){
+            sentOutOfGoopMessage = true;
+            Services.EventManager.Fire(new RunOutOfPlants());
+        }
         int typeNum = (int)type;
         
         float rightTrigger = Input.GetAxis("RightTrigger");
@@ -383,6 +390,10 @@ public class PlayerController : MonoBehaviour
             }
             if (hit.transform.name == "Button")
             {
+                if(!sleptFirstTime){
+                    sleptFirstTime = true;
+                    Services.EventManager.Fire(new FirstSleep());
+                }
                 /*for (int i = 1; i < plantMaxCount.Count-1; i++)
                 {
                     plantCount[i] = plantMaxCount[i];
