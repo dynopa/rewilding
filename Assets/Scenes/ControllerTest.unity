@@ -3915,10 +3915,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1338855027, guid: c3cfb223e3a714ac19b58d0cfd624d96, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 107.200195
+      objectReference: {fileID: 0}
     - target: {fileID: 645904350613896775, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1245871582570146507, guid: c3cfb223e3a714ac19b58d0cfd624d96,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2480915991784583465, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
@@ -3990,11 +3999,31 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6143163411536389561, guid: c3cfb223e3a714ac19b58d0cfd624d96,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549286160498895672, guid: c3cfb223e3a714ac19b58d0cfd624d96,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8098947170907065763, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: holePrefab
       value: 
       objectReference: {fileID: 966823298}
+    - target: {fileID: 8098947170907065763, guid: c3cfb223e3a714ac19b58d0cfd624d96,
+        type: 3}
+      propertyPath: squatLookSpd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8098947170907065763, guid: c3cfb223e3a714ac19b58d0cfd624d96,
+        type: 3}
+      propertyPath: dayText
+      value: 
+      objectReference: {fileID: 1543463795}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3cfb223e3a714ac19b58d0cfd624d96, type: 3}
 --- !u!4 &5010978548354371789
