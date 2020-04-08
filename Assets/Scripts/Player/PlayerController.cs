@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection;
     CapsuleCollider collider;
     Camera cam;
+    
     Vector3 itemHeldOffset;
     Vector3 groundContactNormal = Vector3.up;//the slope of whatever you're standing on
     LayerMask layerGround;
@@ -60,7 +61,7 @@ public class PlayerController : MonoBehaviour
     public GameObject crosshair;
     public Image whichSeed;
     public Sprite[] seedImages;
-    Text resourceText;
+    //Text resourceText;
     float newHoleRadius = 5f;
     
 
@@ -98,7 +99,21 @@ public class PlayerController : MonoBehaviour
     bool holdingRightTrigger;
     bool holdingLeftTrigger;
     bool holdingA;
+    bool releasedA;
     bool holdingB;
+
+    //squat variables
+    bool squatComplete = false;
+    Vector3 plantTargetPos;
+    Vector3 startCamPos = new Vector3(0f, 0.45f, 0f);
+    Vector3 endCamPos = new Vector3(0f, 0.1f, 0f);
+    Vector3 startCamRot;
+    Quaternion endCamRot;
+    float lerpStartTime;
+    float lerpLength;
+    float lerpTime;
+
+    public TextMeshProUGUI dayText;
 
     public TextMeshProUGUI seedCounter;
     public Image seedCounterImage;
@@ -127,9 +142,10 @@ public class PlayerController : MonoBehaviour
         layerGround = LayerMask.NameToLayer("Ground");
         Cursor.lockState = CursorLockMode.Locked;
         mouseLook = cam.gameObject.GetComponent<MouseLook>();
+        mouseLook.EnableLook();
+        lerpLength = Vector3.Distance(startCamPos, endCamPos);
 
-
-        resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
+        //resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
         //inventory
@@ -241,7 +257,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             #if UNITY_EDITOR
-            mouseLook.enabled = false;
+            mouseLook.DisableLook();
             lookEnabled = false;
             #else
             Application.Quit();
@@ -291,20 +307,47 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }*/
         //focus code begin
+
+
         if (Input.GetAxis("Fire1") == 1)
         {
-            if(!holdingA){
-                mouseLook.enabled = true;
+            if (!holdingA){ //on click
+                if (Cast(false).tag == "Ground") mouseLook.DisableLook();
                 lookEnabled = true;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
+                startCamRot = cam.transform.localEulerAngles;
+                lerpStartTime = Time.time;
+                plantTargetPos = Cast(false).transform.position;
                 //isFocusing = true;
-                if (!showShop)
+            }
+            else if (holdingA) //on hold
+            { 
+                if (Cast(false).tag == "Ground")
                 {
-                    Cast(true);
+                    // Distance moved equals elapsed time times speed..
+                    float distCovered = (Time.time - lerpStartTime) * 2f;
+                    float squatProg = distCovered / lerpLength;
+
+                    if (squatProg < 1f)
+                    {
+
+                        cam.transform.localPosition = Vector3.Lerp(startCamPos,endCamPos, squatProg);//-.33f
+
+                        //Vector3 newRot = new Vector3(startCamRot.x - 10, startCamRot.y, startCamRot.z);
+                        //cam.transform.localEulerAngles = Vector3.Lerp(startCamRot, newRot, squatProg);
+                       
+                    }
+                    else if (squatProg >= 1.2f && squatComplete == false)
+                    { 
+                        Cast(true);
+                        mouseLook.EnableLook();
+                        squatComplete = true;
+                    }
+                  
                 }
             }
-            
+            //seedCounter.text = cam.transform.localEulerAngles.x.ToString();
             //if (!isSpeaking)
             //{
             //    StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
@@ -313,10 +356,34 @@ public class PlayerController : MonoBehaviour
             //    }));
             //}
             holdingA = true;
-        }else{
-            holdingA = false;
+            //releasedA = false;
         }
-        if(Input.GetAxis("Fire2") == 1){
+        else //on release
+        {
+            if (holdingA)
+            {
+                lerpStartTime = Time.time;
+                mouseLook.EnableLook();
+            }
+            if (squatComplete == true)
+            {
+                float distCovered = (Time.time - lerpStartTime) * 3f;
+                float squatProg = distCovered / lerpLength;
+                cam.transform.localPosition = Vector3.Lerp(endCamPos, startCamPos, squatProg);
+
+                if (squatProg > 1)
+                {
+                    squatComplete = false;
+                }
+            }
+
+            
+            holdingA = false;
+
+        }
+
+
+        if (Input.GetAxis("Fire2") == 1){
             if(!holdingB){
                 Cast(false);
             }
@@ -350,7 +417,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
-                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov_default, t);
             }));
         }
 
@@ -385,7 +452,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.distance > 5f){
+            if(hit.distance > 2f){
                 return null;
             }
             if (hit.transform.name == "Button")
@@ -412,7 +479,7 @@ public class PlayerController : MonoBehaviour
                 }
                 
             }else{
-                if(hit.collider.CompareTag("Plant")){
+                if(!holdingA && !create && hit.collider.CompareTag("Plant")){
                     Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
                 }
             }
@@ -507,7 +574,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateCounts()
     {
-        resourceText.text = resource.ToString() + "r";
+        //resourceText.text = resource.ToString() + "r";
         for (int i = 1; i < plantCount.Count; i++)
         {
             plantSprite[i-1].fillAmount = plantCount[i] / plantMaxCount[i];
@@ -528,7 +595,7 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Time.timeScale = 1f;
-            mouseLook.enabled = true;
+            mouseLook.EnableLook();
             resource = playerInv.resource;
         }
         else if (showShop == true)
@@ -538,7 +605,7 @@ public class PlayerController : MonoBehaviour
             crosshair.SetActive(false);
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
-            mouseLook.enabled = false;
+            mouseLook.DisableLook();
             Time.timeScale = slowSpeed;
         }
     }
