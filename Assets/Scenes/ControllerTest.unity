@@ -1227,25 +1227,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5053925668127403250, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
---- !u!1 &1087311977 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5589681228076292616, guid: c3cfb223e3a714ac19b58d0cfd624d96,
-    type: 3}
-  m_PrefabInstance: {fileID: 4053080160682855936}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1087311982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1087311977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ListenerNumber: 0
 --- !u!1 &1108166251
 GameObject:
   m_ObjectHideFlags: 0
@@ -3915,19 +3896,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1338855027, guid: c3cfb223e3a714ac19b58d0cfd624d96, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 107.200195
-      objectReference: {fileID: 0}
     - target: {fileID: 645904350613896775, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1245871582570146507, guid: c3cfb223e3a714ac19b58d0cfd624d96,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2480915991784583465, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
@@ -3984,11 +3956,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4053080160858641149, guid: c3cfb223e3a714ac19b58d0cfd624d96,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5922325193161833801, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: m_Material
@@ -3999,26 +3966,11 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6143163411536389561, guid: c3cfb223e3a714ac19b58d0cfd624d96,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6549286160498895672, guid: c3cfb223e3a714ac19b58d0cfd624d96,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8098947170907065763, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: holePrefab
       value: 
       objectReference: {fileID: 966823298}
-    - target: {fileID: 8098947170907065763, guid: c3cfb223e3a714ac19b58d0cfd624d96,
-        type: 3}
-      propertyPath: squatLookSpd
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8098947170907065763, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: dayText

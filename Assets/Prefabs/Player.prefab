@@ -1241,7 +1241,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 640, y: 360}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &8137781708303088452
@@ -1361,6 +1361,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 133983342ce24435b9eb455899e97c35, type: 3}
   - {fileID: 21300000, guid: 56bb0819ee1fd4da295f1a9b3c270ce1, type: 3}
   playerInv: {fileID: 5901537972149115314}
+  dayText: {fileID: 0}
   seedCounter: {fileID: 2122612737}
   seedCounterImage: {fileID: 1218812627}
   maxOxygen: 30
@@ -3781,7 +3782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 640, y: 360}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &2471259218246872220

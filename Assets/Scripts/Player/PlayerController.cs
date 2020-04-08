@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     bool squatComplete = false;
     Vector3 plantTargetPos;
     Vector3 startCamPos = new Vector3(0f, 0.45f, 0f);
-    Vector3 endCamPos = new Vector3(0f, 0f, 0f);
+    Vector3 endCamPos = new Vector3(0f, 0.1f, 0f);
     Vector3 startCamRot;
     Quaternion endCamRot;
     float lerpStartTime;
@@ -334,18 +334,9 @@ public class PlayerController : MonoBehaviour
 
                         cam.transform.localPosition = Vector3.Lerp(startCamPos,endCamPos, squatProg);//-.33f
 
-                        // the second argument, upwards, defaults to Vector3.up
-
-                        //Vector3 vDirection = plantTargetPos - cam.transform.position;
-
-                        //Quaternion lookRotation = Quaternion.LookRotation(vDirection);
-
-                        //cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, lookRotation, squatLookSpd * squatProg);
-                        Vector3 newRot = new Vector3(startCamRot.x - 10, startCamRot.y, startCamRot.z);
-                        cam.transform.localEulerAngles = Vector3.Lerp(startCamRot, newRot, squatProg);
-                        //new Vector3(Mathf.Lerp(startCamRot,startCamRot+10,squatProg), cam.transform.localEulerAngles.y, cam.transform.localEulerAngles.z);
+                        //Vector3 newRot = new Vector3(startCamRot.x - 10, startCamRot.y, startCamRot.z);
+                        //cam.transform.localEulerAngles = Vector3.Lerp(startCamRot, newRot, squatProg);
                        
-                        //transform.LookAt(plantTargetPos);
                     }
                     else if (squatProg >= 1.2f && squatComplete == false)
                     { 
@@ -426,7 +417,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
-                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov_default, t);
             }));
         }
 
@@ -461,7 +452,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.distance > 5f){
+            if(hit.distance > 2f){
                 return null;
             }
             if (hit.transform.name == "Button")
