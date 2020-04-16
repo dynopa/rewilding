@@ -312,7 +312,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxis("Fire1") == 1)
         {
             if (!holdingA){ //on click
-                if (Cast(false).tag == "Ground") mouseLook.DisableLook();
+                if (Cast(false).tag == "Ground")
+                {
+                    mouseLook.DisableLook();
+                }
                 lookEnabled = true;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
