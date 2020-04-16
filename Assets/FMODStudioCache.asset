@@ -36,11 +36,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\Sounds\RewildFMOD\Build\Desktop\Master Bank.strings.bank
-  lastModified: 637211054550977264
+  lastModified: 637218899984798746
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 920
+    Value: 924
   Exists: 1
 --- !u!114 &-6649764842603097035
 MonoBehaviour:
@@ -82,6 +82,75 @@ MonoBehaviour:
   - Name: Desktop
     Value: 784000
   Exists: 0
+--- !u!114 &-5198806322437412524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/plink
+  guid: 391c7ae06638724d93f8dffea0c554d0
+  Banks:
+  - {fileID: -2676551603717000074}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
+--- !u!114 &-4858683551878724026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/plant
+  guid: b9ec364f0e0925479a3af954d7dd0eee
+  Banks:
+  - {fileID: -2676551603717000074}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 480
+--- !u!114 &-4500971524351124658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/plantRev
+  guid: 5fbb87f09cc3ae41aaa2719ee0631119
+  Banks:
+  - {fileID: -2676551603717000074}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 61866
 --- !u!114 &-4286898449290162861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,11 +211,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: C:\Users\cbw30\Documents\Unity Projects\Capstone\rewilding\Assets\Sounds\RewildFMOD\Build\Desktop\Master
     Bank.bank
-  lastModified: 637211054551047081
+  lastModified: 637218899984748916
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 784800
+    Value: 858592
   Exists: 1
 --- !u!114 &-2547294784521434764
 MonoBehaviour:
@@ -269,15 +338,15 @@ MonoBehaviour:
   - {fileID: -8584275497583252544}
   - {fileID: -2676551603717000074}
   EditorEvents:
-  - {fileID: 4314598479661735207}
-  - {fileID: -4286898449290162861}
   - {fileID: 3155475484077602558}
   - {fileID: 8598907730604697405}
   - {fileID: 3362957787963827791}
-  - {fileID: 1751981325229805327}
+  - {fileID: -5198806322437412524}
+  - {fileID: -4500971524351124658}
+  - {fileID: -4858683551878724026}
   MasterBankRef: {fileID: -2676551603717000074}
   StringsBankRef: {fileID: -8584275497583252544}
-  stringsBankWriteTime: 637211054550977264
+  stringsBankWriteTime: 637218899984798746
   cacheVersion: 2
 --- !u!114 &1074198746754475551
 MonoBehaviour:

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using FMOD;
-using Beat;
+//using Beat;
 
 public class AudioManager : MonoBehaviour
 {
@@ -13,13 +13,24 @@ public class AudioManager : MonoBehaviour
     public string grassS1Event = " ";
     public string grassS2Event = " ";
 
- 
-  
+    //make an array of all event instances 
+    //set it length to the length of all plants
+
+
+    [FMODUnity.EventRef]
+    public string onfeedEvent = "event:/Dirt";
+    //FMOD.Studio.EventInstance plantFood;
+
+
+
     //public string onFedEvent = "event:"
     //FMOD.Studio.EventInstance creator;
 
 
+    void SetEventInstance(string name)
+    {
 
+    }
 
 
     void Start()
@@ -65,24 +76,84 @@ public class AudioManager : MonoBehaviour
         var plantEvent = (PlantJustFed)e;
         Plant plant = plantEvent.plant;
         FMODUnity.RuntimeManager.PlayOneShot(ondestroyEvent, plant.position);
+        UnityEngine.Debug.Log("REEEEEE");
+        UnityEngine.Debug.Log("REEEEEE");
+
     }
+    bool IsPlaying(FMOD.Studio.EventInstance instance)
+    {
+        FMOD.Studio.PLAYBACK_STATE state;
+        instance.getPlaybackState(out state);
+        return state != FMOD.Studio.PLAYBACK_STATE.STOPPED;
+    }
+
+
+   
 
 
     void Update()
     {
         foreach (Plant p in Services.PlantManager.plants)
-        {
-            if (p.GetState == 0)
+        {   
+
+            
+             if(p.GetState == 0)
             {
+                // UnityEngine.Debug.Log(plantFood.isValid());
                 //FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, p.position);
-                //UnityEngine.Debug.Log("FINE");
+                // UnityEngine.Debug.Log("FINE");
                 //check the plant's type
                 // Play a sound based on state
-               
+                //FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, p.position);
+                //GetComponent<FMODUnity.StudioEventEmitter>().Play(oncreateEvent);
                 // Play a sound based on state
                 //FMODUnity.RuntimeManager.PlayOneShot()
+                //plantFood.release();
+                //plantFood.clearHandle();
+                if (!p.plantFood.isValid())
+                {
+                    //UnityEngine.Debug.Log("FINE");
+                    p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/plink");
+                    p.plantFood.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(p.gameObject));
+                    UnityEngine.Debug.Log(IsPlaying(p.plantFood));
+                    p.plantFood.start();
+                    UnityEngine.Debug.Log(IsPlaying(p.plantFood));
+
+                   
+
+                }
+                else
+                {
+                  // UnityEngine.Debug.Log("FINE");
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    p.plantFood.getPlaybackState(out playbackState);
+                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                    {
+
+                        //plantFood.stop();
+                         p.plantFood.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                       // UnityEngine.Debug.Log("Made it to stop");
+                    }
+                }
+
+                
+                //plantFood.start();
+               
+               /* if(plantFood.isValid())
+                {
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    plantFood.getPlaybackState(out playbackState);
+                    if(playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                    {
+                        plantFood.release();
+                        plantFood.clearHandle();
+                        //UnityEngine.Debug.Log("YO");
+                    }
+               }*/ 
+                
+
             }
-            else if (p.GetState == 1)
+            if (p.GetState == 1)
             {
                 //UnityEngine.Debug.Log("Alright");
             }
@@ -94,10 +165,15 @@ public class AudioManager : MonoBehaviour
             {
                 //UnityEngine.Debug.Log("Dying soon");
             }
+            else
+            {
+
+               // p.plantFood.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            }
         }
     }
 
 }
 
 
-
+                                                               

@@ -92,6 +92,9 @@
         <property name="length">
             <value>0.48077097505668936</value>
         </property>
+        <property name="playCount">
+            <value>3</value>
+        </property>
         <relationship name="audioFile">
             <destination>{f73e126c-bb53-4dab-a865-0d6e7c3778d4}</destination>
         </relationship>
