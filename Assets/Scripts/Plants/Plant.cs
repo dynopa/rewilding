@@ -18,9 +18,20 @@ public class Plant
     public Dictionary<PlantType,int> needs;//needs for the plant by type abstract
     float needsMetPercent;//whether its needs are met or not
     float growthPercent;//how far along this plant is to full-grown
+    bool shouldPlay;
 
     int energyTotal = 1;//how much enery can this plant give
     public int energyGiven = 0;
+
+    //FMOD EVENT ASSIGNMENT
+    public FMOD.Studio.EventInstance plantFood;
+
+
+
+
+
+
+
     public bool CanGiveEnergy{
         get{
             return true;//energyGiven < energyTotal && needsMetPercent >= needsThreshold;
@@ -101,11 +112,16 @@ public class Plant
             if(!withering){
                 if(needsMetPercent < 0.5f){
                     withering = true;
+                   
                 }
             }else{
                 if(needsMetPercent > 0f){
                     withering = false;
-                }else{
+                    Services.EventManager.Fire(new PlantJustFed(this));
+                   // Debug.Log("Hello");
+                    //Services.EventManager.Fire
+                }
+                else{
                     Destroy();
                 }
             }
@@ -193,6 +209,7 @@ public class Plant
                 }
             }
             if(numLowerLevel >= numMyLevel*2){
+                Debug.Log("Hello");
                 needsMetPercent = 1.0f;
             }else if(numLowerLevel >= numMyLevel){
                 needsMetPercent = 0.5f;
@@ -204,6 +221,7 @@ public class Plant
         if(met == false){
             if(needsMetPercent >= needsThreshold){
                 Services.EventManager.Fire(new PlantJustFed(this));
+                //Debug.Log("H");
             }
         }
     }
