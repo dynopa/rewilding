@@ -1,5 +1,5 @@
 0	LookMovePlant	Use ‘LS’ and ‘RS’ to move and look.$Click ‘A’ to plant in fertile soil.
-1	FirstSleep	Go to the door and press ‘A’ to sleep.
+1	FirstSleep	Go to the door and hold ‘A’ to sleep.
 2	SwitchSeeds	Press LB/RB to switch seeds.$Plants need to be close to eachother, or they will wither and die.
 3	FirstTree	Trees require many plants to be supported.$Otherwise they will wither and die.
 4	FirstTreeGrown	Each tree greatly enriches the soil around it, giving you more space to grow.
