@@ -312,7 +312,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxis("Fire1") == 1)
         {
             if (!holdingA){ //on click
-                if (Cast(false).tag == "Ground") mouseLook.DisableLook();
+                if (Cast(false)?.tag == "Ground") mouseLook.DisableLook();
                 lookEnabled = true;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -323,7 +323,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (holdingA) //on hold
             { 
-                if (Cast(false).tag == "Ground")
+                if (Cast(false)?.tag == "Ground")
                 {
                     // Distance moved equals elapsed time times speed..
                     float distCovered = (Time.time - lerpStartTime) * 2f;

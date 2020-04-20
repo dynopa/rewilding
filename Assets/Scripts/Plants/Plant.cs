@@ -41,6 +41,7 @@ public class Plant
         }
     }
     public GameObject gameObject;
+    MeshRenderer plantDisplay;
     Vector3 minSize = new Vector3(0.25f,0.25f,0.25f);
     Vector3 maxSize = Vector3.one;
 
@@ -88,6 +89,7 @@ public class Plant
        
         GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
         gameObject.transform.localScale = minSize;
+        plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
     }
 
     public void Update()//called each night to grow the plant
@@ -98,6 +100,7 @@ public class Plant
         if(!grown){
             float level = (int)type+1;
             CheckNeeds();
+            
             if(!withering){
                 if(needsMetPercent < 0.5f){
                     withering = true;
@@ -110,6 +113,20 @@ public class Plant
                 }
             }
             //growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
+            if(withering){
+                plantDisplay.material.color = Color.black;
+            }else{
+                if(needsMetPercent < 0.5f){
+                    //about to wither
+                    plantDisplay.material.color = Color.white;
+                }else if(needsMetPercent < 1.0f){
+                    //half!
+                    plantDisplay.material.color = Color.gray;
+                }else{
+                    //good
+                    plantDisplay.material.color = Color.white;
+                }
+            }
             if(level==3){
                 Debug.Log(needsMetPercent);
                 Debug.Log(growthPercent);
@@ -126,6 +143,7 @@ public class Plant
                     //switch out the model
                     GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
                     GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
+                    plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
                 }
                 if(level == 3){
                     Debug.Log(stage+","+grown);
