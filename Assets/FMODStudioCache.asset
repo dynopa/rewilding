@@ -36,7 +36,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\Sounds\RewildFMOD\Build\Desktop\Master Bank.strings.bank
-  lastModified: 637218899984798746
+  lastModified: 637229749478405938
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -97,7 +97,7 @@ MonoBehaviour:
   Path: event:/plink
   guid: 391c7ae06638724d93f8dffea0c554d0
   Banks:
-  - {fileID: -2676551603717000074}
+  - {fileID: 3511535291951670583}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
@@ -120,10 +120,10 @@ MonoBehaviour:
   Path: event:/plant
   guid: b9ec364f0e0925479a3af954d7dd0eee
   Banks:
-  - {fileID: -2676551603717000074}
+  - {fileID: 3511535291951670583}
   IsStream: 0
   Is3D: 1
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -143,7 +143,7 @@ MonoBehaviour:
   Path: event:/plantRev
   guid: 5fbb87f09cc3ae41aaa2719ee0631119
   Banks:
-  - {fileID: -2676551603717000074}
+  - {fileID: 3511535291951670583}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: -8584275497583252544}
-  - {fileID: -2676551603717000074}
+  - {fileID: 3511535291951670583}
   EditorEvents:
   - {fileID: 3155475484077602558}
   - {fileID: 8598907730604697405}
@@ -344,9 +344,9 @@ MonoBehaviour:
   - {fileID: -5198806322437412524}
   - {fileID: -4500971524351124658}
   - {fileID: -4858683551878724026}
-  MasterBankRef: {fileID: -2676551603717000074}
+  MasterBankRef: {fileID: 3511535291951670583}
   StringsBankRef: {fileID: -8584275497583252544}
-  stringsBankWriteTime: 637218899984798746
+  stringsBankWriteTime: 637229749478405938
   cacheVersion: 2
 --- !u!114 &1074198746754475551
 MonoBehaviour:
@@ -425,7 +425,7 @@ MonoBehaviour:
   Path: event:/Dirt
   guid: 6af08d307acf474fa721df12dd79dae9
   Banks:
-  - {fileID: -2676551603717000074}
+  - {fileID: 3511535291951670583}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -468,7 +468,7 @@ MonoBehaviour:
   Path: event:/BGM
   guid: a9de939fac74164097f9ae524ca315ff
   Banks:
-  - {fileID: -2676551603717000074}
+  - {fileID: 3511535291951670583}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
@@ -476,6 +476,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 55000
+--- !u!114 &3511535291951670583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: C:\Users\johnn\Documents\UnityGames\scramp\rewilding\Assets\Sounds\RewildFMOD\Build\Desktop\Master
+    Bank.bank
+  lastModified: 637229749478326573
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 858464
+  Exists: 1
 --- !u!114 &4314598479661735207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,7 +576,7 @@ MonoBehaviour:
   Path: event:/Walk1
   guid: a9c0a1b523f1c943b1761d9e151b59fc
   Banks:
-  - {fileID: -2676551603717000074}
+  - {fileID: 3511535291951670583}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1

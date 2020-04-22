@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -162,6 +162,20 @@ MonoBehaviour:
   saveId: 0
   dayCounter: {fileID: 1543463795}
   texEdit: {fileID: 19529760}
+  growthRate: 1
+  chanceOfBaby: 1
+  needsMetToHaveBaby: 0
+  distanceForOthers:
+  - 0
+  - 0
+  - 0
+  - 0
+  distanceForSame:
+  - 0
+  - 0
+  - 0
+  - 0
+  pylonRadius: 0
 --- !u!4 &19529758
 Transform:
   m_ObjectHideFlags: 0
@@ -220,12 +234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c7f4e3600ae419eb234939949a5d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tut1: {fileID: 1338855026}
-  Tut2: {fileID: 1466579531}
-  Tut3: {fileID: 1829104879}
-  Tut4: {fileID: 1462676366}
-  Tut5: {fileID: 1290053227}
-  Tut6: {fileID: 695157781}
+  TutText: {fileID: 0}
+  tutorialBG: {fileID: 0}
 --- !u!224 &21189964 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4053080161964222309, guid: c3cfb223e3a714ac19b58d0cfd624d96,
@@ -750,7 +760,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5505793021125054809, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -1629,7 +1639,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7920230944298235636, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -1649,7 +1659,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2228417370725966487, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -1675,7 +1685,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5053925668127403250, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -2476,7 +2486,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 0}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2590,7 +2600,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8655656785453774880, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -2610,7 +2620,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7154034962920478979, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -2788,7 +2798,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1550514412580984892, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -3531,7 +3541,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1591558277408316027, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -3627,7 +3637,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2212009239438826721, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -3666,7 +3676,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8678823145569952518, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -3902,7 +3912,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8385836491182413749, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -5088,7 +5098,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1453043773871479701, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -5108,7 +5118,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3329902420748629119, guid: 548411bc4e6becd4f97f29f88e5c10c7, type: 3}
@@ -5738,6 +5748,16 @@ PrefabInstance:
         type: 3}
       propertyPath: shopItemList.Array.data[5].price
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5922325193161833801, guid: c3cfb223e3a714ac19b58d0cfd624d96,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5922325193161833801, guid: c3cfb223e3a714ac19b58d0cfd624d96,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6418641655366589651, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}

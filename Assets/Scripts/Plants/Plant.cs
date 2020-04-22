@@ -25,8 +25,7 @@ public class Plant
 
     //FMOD EVENT ASSIGNMENT
     public FMOD.Studio.EventInstance plantFood;
-
-
+    public float sizeRandom;
 
 
 
@@ -99,7 +98,8 @@ public class Plant
         gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
        
         GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
-        gameObject.transform.localScale = minSize;
+        sizeRandom = Random.Range(0.8f,1.2f);
+        gameObject.transform.localScale = minSize*sizeRandom;
         plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
     }
 
@@ -147,7 +147,7 @@ public class Plant
                 Debug.Log(needsMetPercent);
                 Debug.Log(growthPercent);
             }
-            growthPercent+=(1*needsMetPercent);
+            growthPercent+=(Services.GameController.growthRate*needsMetPercent);
             if(growthPercent >= stage){
                 growthPercent = 0;
                 stage++;
@@ -172,7 +172,7 @@ public class Plant
                     Services.PlantManager.CreateNewPylon(position);
                 }
             }
-            gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent);
+            gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent)*sizeRandom;
             return;
         }
         /*if(needsMetPercent> needsThreshold){
@@ -180,8 +180,9 @@ public class Plant
         }*/
         
         if(grown){
+            CheckNeeds();
             //grow more plants!
-            if(Random.value < 0.5f){
+            if(Random.value < Services.GameController.chanceOfBaby && needsMetPercent > Services.GameController.needsMetToHaveBaby){
                 if(HaveBaby()){
                     numBabies++;
                 }
