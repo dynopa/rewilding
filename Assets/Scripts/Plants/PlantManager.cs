@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlantManager
 {
     public const float maxNeighborDistance = 1.5f;
-    public const float maxPylonDistance = 10f;
     public List<Plant> plants;
     public List<Plant> newPlants;
     public List<Plant> deadPlants;
@@ -41,13 +40,13 @@ public class PlantManager
         RaycastHit hit;
         if (Physics.Raycast(pos, -Vector3.up, out hit))
         {
-            texEdit.PaintCircle(hit.textureCoord, maxPylonDistance);
+            texEdit.PaintCircle(hit.textureCoord, Services.GameController.pylonRadius);
         }
         pylonPositions.Add(pos);
     }
     public bool CloseToPylon(Vector3 pos){
         foreach(Vector3 v in pylonPositions){
-            if(Vector3.Distance(v,pos) < maxPylonDistance){
+            if(Vector3.Distance(v,pos) < Services.GameController.pylonRadius){
                 return true;
             }
         }
@@ -56,7 +55,7 @@ public class PlantManager
     public bool CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
         bool isCloseEnough = false;
         foreach(Vector3 v in pylonPositions){
-            if(Vector3.Distance(v,pos) < maxPylonDistance){
+            if(Vector3.Distance(v,pos) < Services.GameController.pylonRadius){
                 isCloseEnough = true;
                 break;
             }
@@ -66,11 +65,19 @@ public class PlantManager
         }
         if(!playerPlaced){
             foreach(Plant p in plants){
-                if(p.type != type){
-                    continue;
-                }
                 float distance = Vector3.Distance(pos,p.position);
-                if(type == PlantType.Tree){
+                float maxAllowedDistance = 0f;
+                if(p.type != type){
+                    //they're different
+                    maxAllowedDistance = Services.GameController.distanceForSame[(int)type];
+                }else{
+                    maxAllowedDistance = Services.GameController.distanceForOthers[(int)type];
+                }
+                //this is for all the same
+                if(distance < maxAllowedDistance){
+                    return false;
+                }
+                /*if(type == PlantType.Tree){
                     if(distance < 4f){
                         return false;
                     }
@@ -78,7 +85,7 @@ public class PlantManager
                     if(distance < 0.8f+((int)type+1)*0.5f){
                         return false;
                     }
-                }
+                }*/
                 
             }
         }
