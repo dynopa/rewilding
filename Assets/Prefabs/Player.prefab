@@ -593,7 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2002353, g: 0.36373603, b: 0.87058824, a: 1}
+  m_Color: {r: 0.2002353, g: 0.36373603, b: 0.87058824, a: 0.7294118}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4263,12 +4263,12 @@ MonoBehaviour:
     textComponent: {fileID: 4912741958893338367}
     characterCount: 70
     spriteCount: 0
-    spaceCount: 14
+    spaceCount: 20
     wordCount: 15
     linkCount: 0
     lineCount: 4
     pageCount: 1
-    materialCount: 2
+    materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}

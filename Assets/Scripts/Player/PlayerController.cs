@@ -312,18 +312,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxis("Fire1") == 1)
         {
             if (!holdingA){ //on click
-                if (Cast(false)?.tag == "Ground") mouseLook.DisableLook();
+                if (Cast(false, false) != null && Cast(false, false)?.tag == "Ground") mouseLook.DisableLook();
                 lookEnabled = true;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 startCamRot = cam.transform.localEulerAngles;
                 lerpStartTime = Time.time;
-                plantTargetPos = Cast(false).transform.position;
+                plantTargetPos = Cast(false, false).transform.position;
                 //isFocusing = true;
             }
             else if (holdingA) //on hold
             { 
-                if (Cast(false)?.tag == "Ground")
+                if (Cast(false, false) != null && Cast(false, false)?.tag == "Ground")
                 {
                     // Distance moved equals elapsed time times speed..
                     float distCovered = (Time.time - lerpStartTime) * 2f;
@@ -340,7 +340,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else if (squatProg >= 1.2f && squatComplete == false)
                     { 
-                        Cast(true);
+                        Cast(true, false);
                         mouseLook.EnableLook();
                         squatComplete = true;
                     }
@@ -385,7 +385,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetAxis("Fire2") == 1){
             if(!holdingB){
-                Cast(false);
+                Cast(false, true);
             }
             holdingB = true;
             
@@ -410,14 +410,14 @@ public class PlayerController : MonoBehaviour
             safeRelease = false;
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
-                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
+                //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
             }));
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) && !isSpeaking)
         {
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
-                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov_default, t);
+                //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov_default, t);
             }));
         }
 
@@ -446,13 +446,13 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    GameObject Cast(bool create)
+    GameObject Cast(bool create, bool destroy)
     {
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.distance > 2f){
+            if(hit.distance > 3f){
                 return null;
             }
             if (hit.transform.name == "Button")
@@ -479,7 +479,7 @@ public class PlayerController : MonoBehaviour
                 }
                 
             }else{
-                if(!holdingA && !create && hit.collider.CompareTag("Plant")){
+                if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
                     Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
                 }
             }
@@ -568,7 +568,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(.2f);
         if (!Input.GetMouseButton(1))
         {
-            cam.fieldOfView = fov_default;
+            //cam.fieldOfView = fov_default;
         }
     }
 

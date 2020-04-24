@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 7d8a04a1b9136aa42a021edb54cf483b
 ModelImporter:
-  serializedVersion: 28
+  serializedVersion: 19300
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -44,7 +44,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -55,8 +55,8 @@ ModelImporter:
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
-    secondaryUVAreaDistortion: 15.000001
-    secondaryUVHardAngle: 88
+    secondaryUVAreaDistortion: 15
+    secondaryUVHardAngle: 60
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
