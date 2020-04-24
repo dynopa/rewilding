@@ -44,6 +44,9 @@ public class GameController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.F)){
             SaveLoad.Load();
         }
+        if(Input.GetKeyDown(KeyCode.G)){
+            SaveLoad.Save();
+        }
         if(Input.GetKeyDown(KeyCode.Alpha1)){
             saveId = 1;
         }
