@@ -18,7 +18,7 @@ public class Plant
     public Dictionary<PlantType,int> needs;//needs for the plant by type abstract
     float needsMetPercent;//whether its needs are met or not
     float growthPercent;//how far along this plant is to full-grown
-    bool shouldPlay;
+    public bool shouldPlay = true;
 
     int energyTotal = 1;//how much enery can this plant give
     public int energyGiven = 0;
@@ -114,6 +114,8 @@ public class Plant
             
             if(!withering){
                 if(needsMetPercent < 0.5f){
+                    //make sure it will play bum note
+                    shouldPlay = true;
                     withering = true;
                    
                 }

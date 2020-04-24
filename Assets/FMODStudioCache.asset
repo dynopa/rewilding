@@ -23,6 +23,51 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 3017
+--- !u!114 &-8674120169672354816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/tr2_plink
+  guid: f02c43812e09d64986f38b102463f975
+  Banks: []
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10081
+--- !u!114 &-8602769464129911562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/walk1
+  guid: a9c0a1b523f1c943b1761d9e151b59fc
+  Banks:
+  - {fileID: -6776769969561358607}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 7.6
+  Length: 3017
 --- !u!114 &-8584275497583252544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,12 +80,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Path: Assets\Sounds\RewildFMOD\Build\Desktop\Master Bank.strings.bank
-  lastModified: 637229749478405938
+  Path: Assets/Sounds/RewildFMOD/Build/Desktop/Master Bank.strings.bank
+  lastModified: 637229315120000000
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 924
+    Value: 1180
+  Exists: 1
+--- !u!114 &-6776769969561358607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: /Users/SpencerBernstein/rewilding/Assets/Sounds/RewildFMOD/Build/Desktop/Master
+    Bank.bank
+  lastModified: 637229315120000000
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 8866240
   Exists: 1
 --- !u!114 &-6649764842603097035
 MonoBehaviour:
@@ -82,6 +147,52 @@ MonoBehaviour:
   - Name: Desktop
     Value: 784000
   Exists: 0
+--- !u!114 &-6210741002677769411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/all_plink
+  guid: e7e0a63bad1b004e96573fda0d3c135e
+  Banks:
+  - {fileID: -6776769969561358607}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 6.0499997
+  MaxDistance: 25
+  Length: 10081
+--- !u!114 &-5961980867993581289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/t1_plink
+  guid: f02c43812e09d64986f38b102463f975
+  Banks:
+  - {fileID: -6776769969561358607}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 7.8
+  Length: 10081
 --- !u!114 &-5198806322437412524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,14 +208,37 @@ MonoBehaviour:
   Path: event:/plink
   guid: 391c7ae06638724d93f8dffea0c554d0
   Banks:
-  - {fileID: 3511535291951670583}
+  - {fileID: -6776769969561358607}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10081
+--- !u!114 &-5082741635818178150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/t4_plink
+  guid: c8a554bf8f29104fb5390a07f6bf444a
+  Banks:
+  - {fileID: -6776769969561358607}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 4000
+  Length: 10081
 --- !u!114 &-4858683551878724026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,14 +254,14 @@ MonoBehaviour:
   Path: event:/plant
   guid: b9ec364f0e0925479a3af954d7dd0eee
   Banks:
-  - {fileID: 3511535291951670583}
+  - {fileID: -6776769969561358607}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 480
+  Length: 420
 --- !u!114 &-4500971524351124658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +277,7 @@ MonoBehaviour:
   Path: event:/plantRev
   guid: 5fbb87f09cc3ae41aaa2719ee0631119
   Banks:
-  - {fileID: 3511535291951670583}
+  - {fileID: -6776769969561358607}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
@@ -151,6 +285,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 61866
+--- !u!114 &-4434106457568613061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/t2_plink
+  guid: d11d1a93e22c7149b18aad32d53d721f
+  Banks:
+  - {fileID: -6776769969561358607}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 7.8
+  Length: 10081
 --- !u!114 &-4286898449290162861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +331,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 61866
+--- !u!114 &-3574329280539014305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/tr3_plink
+  guid: d11d1a93e22c7149b18aad32d53d721f
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10081
 --- !u!114 &-2955892530216719115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,18 +515,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: -8584275497583252544}
-  - {fileID: 3511535291951670583}
+  - {fileID: -6776769969561358607}
   EditorEvents:
   - {fileID: 3155475484077602558}
-  - {fileID: 8598907730604697405}
   - {fileID: 3362957787963827791}
   - {fileID: -5198806322437412524}
   - {fileID: -4500971524351124658}
   - {fileID: -4858683551878724026}
-  MasterBankRef: {fileID: 3511535291951670583}
+  - {fileID: -5961980867993581289}
+  - {fileID: 707577326465850061}
+  - {fileID: -4434106457568613061}
+  - {fileID: 1731921698457871750}
+  - {fileID: 2520941572917614533}
+  - {fileID: -8602769464129911562}
+  - {fileID: -6210741002677769411}
+  MasterBankRef: {fileID: -6776769969561358607}
   StringsBankRef: {fileID: -8584275497583252544}
-  stringsBankWriteTime: 637229749478405938
+  stringsBankWriteTime: 637229315120000000
   cacheVersion: 2
+--- !u!114 &707577326465850061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/t3_plink
+  guid: c8a554bf8f29104fb5390a07f6bf444a
+  Banks:
+  - {fileID: -6776769969561358607}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 7.8
+  Length: 10081
 --- !u!114 &1074198746754475551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +575,29 @@ MonoBehaviour:
   - Name: Desktop
     Value: 920
   Exists: 1
+--- !u!114 &1731921698457871750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/t0_plink
+  guid: 59991f29b961174d8951f172e80f350b
+  Banks:
+  - {fileID: -6776769969561358607}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1.6
+  MaxDistance: 20
+  Length: 10081
 --- !u!114 &1751981325229805327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +621,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 480
+--- !u!114 &2520941572917614533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/withering
+  guid: a45351758f4f77408c0ae0de8c56c79f
+  Banks:
+  - {fileID: -6776769969561358607}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 466
 --- !u!114 &2661092861127449264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +679,7 @@ MonoBehaviour:
   Path: event:/Dirt
   guid: 6af08d307acf474fa721df12dd79dae9
   Banks:
-  - {fileID: 3511535291951670583}
+  - {fileID: -6776769969561358607}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -468,34 +722,14 @@ MonoBehaviour:
   Path: event:/BGM
   guid: a9de939fac74164097f9ae524ca315ff
   Banks:
-  - {fileID: 3511535291951670583}
+  - {fileID: -6776769969561358607}
   IsStream: 1
-  Is3D: 1
-  IsOneShot: 1
+  Is3D: 0
+  IsOneShot: 0
   Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 55000
---- !u!114 &3511535291951670583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Path: C:\Users\johnn\Documents\UnityGames\scramp\rewilding\Assets\Sounds\RewildFMOD\Build\Desktop\Master
-    Bank.bank
-  lastModified: 637229749478326573
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 858464
-  Exists: 1
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 300895
 --- !u!114 &4314598479661735207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +795,50 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 480
+--- !u!114 &7159702591782972078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/tr1_plink
+  guid: 59991f29b961174d8951f172e80f350b
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10081
+--- !u!114 &7535359185864666430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/tr4_plink
+  guid: c8a554bf8f29104fb5390a07f6bf444a
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10081
 --- !u!114 &8598907730604697405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,13 +854,13 @@ MonoBehaviour:
   Path: event:/Walk1
   guid: a9c0a1b523f1c943b1761d9e151b59fc
   Banks:
-  - {fileID: 3511535291951670583}
+  - {fileID: -6776769969561358607}
   IsStream: 0
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
+  MinDistance: 1
+  MaxDistance: 20
   Length: 3017
 --- !u!114 &8642361201955630703
 MonoBehaviour:

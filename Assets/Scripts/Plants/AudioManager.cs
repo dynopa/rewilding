@@ -37,11 +37,15 @@ public class AudioManager : MonoBehaviour
     {
         Services.EventManager.Register<PlantGrown>(OnPlantGrownUp);
         Services.EventManager.Register<PlantCreated>(OnPlantCreated);
+        Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
+
     }
     void OnDestroy()
     {
         Services.EventManager.Unregister<PlantGrown>(OnPlantGrownUp);
         Services.EventManager.Unregister<PlantCreated>(OnPlantCreated);
+        Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
+
     }
     void OnPlantGrownUp(AGPEvent e)
     {
@@ -50,8 +54,6 @@ public class AudioManager : MonoBehaviour
         var plantEvent = (PlantGrown)e;
         Plant plant = plantEvent.plant;
         FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, plant.position);
-
-
 
     }
 
@@ -71,7 +73,7 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    void onPlantFed(AGPEvent e)
+    void OnPlantFed(AGPEvent e)
     {
         var plantEvent = (PlantJustFed)e;
         Plant plant = plantEvent.plant;
@@ -79,6 +81,19 @@ public class AudioManager : MonoBehaviour
         UnityEngine.Debug.Log("REEEEEE");
         UnityEngine.Debug.Log("REEEEEE");
 
+    }
+    void OnFadeOutComplete(AGPEvent e)
+    {
+        foreach (Plant p in Services.PlantManager.plants)
+        {
+            if (p.plantFood.isValid())
+            {
+                p.shouldPlay = false;
+                UnityEngine.Debug.Log(p.shouldPlay);
+                p.plantFood.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                p.plantFood.release();
+            }
+        }
     }
     bool IsPlaying(FMOD.Studio.EventInstance instance)
     {
@@ -94,10 +109,10 @@ public class AudioManager : MonoBehaviour
     void Update()
     {
         foreach (Plant p in Services.PlantManager.plants)
-        {   
-
+        {
+            if (p.shouldPlay == false) continue;
             
-             if(p.GetState == 0)
+            if(p.GetState == 0)
             {
                 // UnityEngine.Debug.Log(plantFood.isValid());
                 //FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, p.position);
@@ -113,14 +128,28 @@ public class AudioManager : MonoBehaviour
                 if (!p.plantFood.isValid())
                 {
                     //UnityEngine.Debug.Log("FINE");
-                    p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/plink");
+                    /*switch (p.type)
+                    {
+                        case (PlantType)0:
+                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/t1_plink");
+                            break;
+                        case (PlantType)1:
+                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/t2_plink");
+                            break;
+                        case (PlantType)2:
+                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/t3_plink");
+                            break;
+                        case (PlantType)3:
+                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/t4_plink");
+                            break;
+                        default:
+                            break;
+                    }*/
+                    p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/all_plink");
                     p.plantFood.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(p.gameObject));
                     UnityEngine.Debug.Log(IsPlaying(p.plantFood));
                     p.plantFood.start();
                     UnityEngine.Debug.Log(IsPlaying(p.plantFood));
-
-                   
-
                 }
                 else
                 {
@@ -164,6 +193,48 @@ public class AudioManager : MonoBehaviour
             else if (p.GetState == 3)
             {
                 //UnityEngine.Debug.Log("Dying soon");
+                if (!p.plantFood.isValid())
+                {
+                    //UnityEngine.Debug.Log("FINE");
+                    /*switch (p.type)
+                    {
+                        case (PlantType)0:
+                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/withering");
+                            break;
+                        case (PlantType)1:
+                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/withering");
+                            break;
+                        case (PlantType)2:
+                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/withering");
+                            break;
+                        case (PlantType)3:
+                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/withering");
+                            break;
+                        default:
+                            break;
+                    }*/
+                    p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/withering");
+                    p.plantFood.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(p.gameObject));
+                    UnityEngine.Debug.Log(IsPlaying(p.plantFood));
+                    p.plantFood.start();
+                    UnityEngine.Debug.Log(IsPlaying(p.plantFood));
+
+
+
+                }
+                else
+                {
+                    // UnityEngine.Debug.Log("FINE");
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    p.plantFood.getPlaybackState(out playbackState);
+                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                    {
+
+                        //plantFood.stop();
+                        p.plantFood.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                        // UnityEngine.Debug.Log("Made it to stop");
+                    }
+                }
             }
             else
             {

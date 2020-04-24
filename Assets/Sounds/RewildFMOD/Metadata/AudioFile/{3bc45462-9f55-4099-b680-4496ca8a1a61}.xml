@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{3bc45462-9f55-4099-b680-4496ca8a1a61}">
+        <property name="assetPath">
+            <value>c2 mid [2020-04-19 171440].aif</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>3.4701814058956915</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{e9512943-836e-44ce-a9a2-ddacf5ca13e3}</destination>
+        </relationship>
+    </object>
+</objects>

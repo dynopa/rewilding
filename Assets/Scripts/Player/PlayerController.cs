@@ -50,6 +50,10 @@ public class PlayerController : MonoBehaviour
     MouseLook mouseLook;
     Vector2 mousePos;
 
+    //sound data
+    FMODUnity.StudioEventEmitter bgm;
+    FMODUnity.StudioEventEmitter walkCycle;
+
     //raycast data
     public GameObject holePrefab;
 
@@ -144,6 +148,9 @@ public class PlayerController : MonoBehaviour
         mouseLook = cam.gameObject.GetComponent<MouseLook>();
         mouseLook.EnableLook();
         lerpLength = Vector3.Distance(startCamPos, endCamPos);
+        walkCycle = GetComponents<FMODUnity.StudioEventEmitter>()[0];
+        bgm = GetComponents<FMODUnity.StudioEventEmitter>()[1];
+
 
         //resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
@@ -239,14 +246,14 @@ public class PlayerController : MonoBehaviour
         //Walk Audio Trigger
         if(isWalking == true)
         {
-             if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
+             if(!walkCycle.IsPlaying())
              {
-                 GetComponent<FMODUnity.StudioEventEmitter>().Play();
+                 walkCycle.Play();
              }
         }
         if(isWalking == false)
         {
-            GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+           walkCycle.Stop();
         }
 
 
@@ -312,18 +319,27 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxis("Fire1") == 1)
         {
             if (!holdingA){ //on click
-                if (Cast(false)?.tag == "Ground") mouseLook.DisableLook();
+                if (Cast(false) != null && Cast(false).CompareTag("Ground"))
+                {
+                    mouseLook.DisableLook();
+                    plantTargetPos = Cast(false).transform.position;
+                    startCamRot = cam.transform.localEulerAngles;
+                    lerpStartTime = Time.time;
+                }
+                else
+                {
+
+                }
                 lookEnabled = true;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
-                startCamRot = cam.transform.localEulerAngles;
-                lerpStartTime = Time.time;
-                plantTargetPos = Cast(false).transform.position;
+                
+               
                 //isFocusing = true;
             }
             else if (holdingA) //on hold
             { 
-                if (Cast(false)?.tag == "Ground")
+                if (Cast(false) != null && Cast(false).CompareTag("Ground"))
                 {
                     // Distance moved equals elapsed time times speed..
                     float distCovered = (Time.time - lerpStartTime) * 2f;

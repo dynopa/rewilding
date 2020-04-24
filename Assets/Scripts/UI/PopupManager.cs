@@ -40,6 +40,9 @@ public class PopupManager : MonoBehaviour
         Services.EventManager.Register<FirstTreeGrown>(OnFirstTreeGrown);
         Services.EventManager.Register<TooManyPlants>(OnTooManyPlants);
         Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
+        Services.EventManager.Register<RunOutOfPlants>(OnRunOut);
+        Services.EventManager.Register<FirstSleep>(OnFirstSleep);
+
 
     }
 
@@ -67,6 +70,20 @@ public class PopupManager : MonoBehaviour
 
         ActivateTutorial(tutorials[1], 7);
     }
+    void OnRunOut(AGPEvent e)
+    {
+        Debug.Log("RunOut");
+
+        ActivateTutorial(tutorials[1], 15);
+
+    }
+    void OnFirstSleep(AGPEvent e)
+    {
+        Debug.Log("firstsleep");
+        DeactivateTutorial();
+        ActivateTutorial(tutorials[2], 15);
+
+    }
     void OnFadeOutComplete(AGPEvent e)
     {
         if (activeTutorial.num == 1) DeactivateTutorial();
@@ -74,6 +91,7 @@ public class PopupManager : MonoBehaviour
     void OnDay2(AGPEvent e)
     {
         Debug.Log("day2");
+        DeactivateTutorial();
 
         ActivateTutorial(tutorials[2], 15);
 
@@ -99,7 +117,7 @@ public class PopupManager : MonoBehaviour
         ActivateTutorial(tutorials[5], 15);
 
     }
-
+    
 
     void ActivateTutorial(Tutorial tut, float timeSet)
     {
@@ -119,6 +137,7 @@ public class PopupManager : MonoBehaviour
         timer = 0;
     }
 }
+
 [System.Serializable]
 public class Tutorial
 {
