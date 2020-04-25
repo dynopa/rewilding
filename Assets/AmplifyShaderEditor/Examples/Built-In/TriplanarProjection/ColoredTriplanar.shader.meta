@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 53a6c500b0842a346962b87d611f8b63
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _TopAlbedo1: {fileID: 2800000, guid: ee2523340e7944c4297a80937a51484c, type: 3}
+  - _TriplanarAlbedo1: {fileID: 2800000, guid: ee2523340e7944c4297a80937a51484c, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
