@@ -230,7 +230,7 @@ public class Plant
                 }
             }
             if(numLowerLevel >= numMyLevel*2){
-                Debug.Log("Hello");
+                //Debug.Log("Hello");
                 needsMetPercent = 1.0f;
             }else if(numLowerLevel >= numMyLevel){
                 needsMetPercent = 0.5f;

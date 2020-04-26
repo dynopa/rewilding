@@ -312,13 +312,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxis("Fire1") == 1)
         {
             if (!holdingA){ //on click
-                if (Cast(false, false) != null && Cast(false, false)?.tag == "Ground") mouseLook.DisableLook();
+                if (Cast(false, false) != null && Cast(false, false)?.tag == "Ground")
+                {
+                    mouseLook.DisableLook();
+                    plantTargetPos = Cast(false, false).transform.position;
+                }
                 lookEnabled = true;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 startCamRot = cam.transform.localEulerAngles;
                 lerpStartTime = Time.time;
-                plantTargetPos = Cast(false, false).transform.position;
                 //isFocusing = true;
             }
             else if (holdingA) //on hold
