@@ -25,8 +25,7 @@ public class Plant
 
     //FMOD EVENT ASSIGNMENT
     public FMOD.Studio.EventInstance plantFood;
-
-
+    public float sizeRandom;
 
 
 
@@ -52,6 +51,7 @@ public class Plant
         }
     }
     public GameObject gameObject;
+    MeshRenderer plantDisplay;
     Vector3 minSize = new Vector3(0.25f,0.25f,0.25f);
     Vector3 maxSize = Vector3.one;
 
@@ -98,7 +98,9 @@ public class Plant
         gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
        
         GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
-        gameObject.transform.localScale = minSize;
+        sizeRandom = Random.Range(0.8f,1.2f);
+        gameObject.transform.localScale = minSize*sizeRandom;
+        plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
     }
 
     public void Update()//called each night to grow the plant
@@ -109,6 +111,7 @@ public class Plant
         if(!grown){
             float level = (int)type+1;
             CheckNeeds();
+            
             if(!withering){
                 if(needsMetPercent < 0.5f){
                     //make sure it will play bum note
@@ -128,11 +131,25 @@ public class Plant
                 }
             }
             //growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
+            if(withering){
+                plantDisplay.material.color = Color.black;
+            }else{
+                if(needsMetPercent < 0.5f){
+                    //about to wither
+                    plantDisplay.material.color = Color.white;
+                }else if(needsMetPercent < 1.0f){
+                    //half!
+                    plantDisplay.material.color = Color.gray;
+                }else{
+                    //good
+                    plantDisplay.material.color = Color.white;
+                }
+            }
             if(level==3){
                 Debug.Log(needsMetPercent);
                 Debug.Log(growthPercent);
             }
-            growthPercent+=(1*needsMetPercent);
+            growthPercent+=(Services.GameController.growthRate*needsMetPercent);
             if(growthPercent >= stage){
                 growthPercent = 0;
                 stage++;
@@ -144,6 +161,7 @@ public class Plant
                     //switch out the model
                     GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
                     GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
+                    plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
                 }
                 if(level == 3){
                     Debug.Log(stage+","+grown);
@@ -156,7 +174,7 @@ public class Plant
                     Services.PlantManager.CreateNewPylon(position);
                 }
             }
-            gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent);
+            gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent)*sizeRandom;
             return;
         }
         /*if(needsMetPercent> needsThreshold){
@@ -164,8 +182,9 @@ public class Plant
         }*/
         
         if(grown){
+            CheckNeeds();
             //grow more plants!
-            if(Random.value < 0.5f){
+            if(Random.value < Services.GameController.chanceOfBaby && needsMetPercent > Services.GameController.needsMetToHaveBaby){
                 if(HaveBaby()){
                     numBabies++;
                 }
@@ -211,7 +230,7 @@ public class Plant
                 }
             }
             if(numLowerLevel >= numMyLevel*2){
-                Debug.Log("Hello");
+                //Debug.Log("Hello");
                 needsMetPercent = 1.0f;
             }else if(numLowerLevel >= numMyLevel){
                 needsMetPercent = 0.5f;

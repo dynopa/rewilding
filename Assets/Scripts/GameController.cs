@@ -9,7 +9,15 @@ public class GameController : MonoBehaviour
     public byte saveId;
     public TextMeshProUGUI dayCounter;
     public TextureEditor texEdit;
-
+    [Range(0.5f,2f)]
+    public float growthRate;
+    [Range(0f,1f)]
+    public float chanceOfBaby;
+    [Range(0f,2f)]
+    public float needsMetToHaveBaby;
+    public float[] distanceForOthers;
+    public float[] distanceForSame;
+    public float pylonRadius;
     public DateTime date;
     int frame = 0;
     bool freshStart = false;
@@ -35,6 +43,9 @@ public class GameController : MonoBehaviour
         dayCounter.text = date.Year +" "+months[date.Month-1];
         if(Input.GetKeyDown(KeyCode.F)){
             SaveLoad.Load();
+        }
+        if(Input.GetKeyDown(KeyCode.G)){
+            SaveLoad.Save();
         }
         if(Input.GetKeyDown(KeyCode.Alpha1)){
             saveId = 1;

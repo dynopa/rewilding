@@ -50,10 +50,6 @@ public class PlayerController : MonoBehaviour
     MouseLook mouseLook;
     Vector2 mousePos;
 
-    //sound data
-    FMODUnity.StudioEventEmitter bgm;
-    FMODUnity.StudioEventEmitter walkCycle;
-
     //raycast data
     public GameObject holePrefab;
 
@@ -148,10 +144,8 @@ public class PlayerController : MonoBehaviour
         mouseLook = cam.gameObject.GetComponent<MouseLook>();
         mouseLook.EnableLook();
         lerpLength = Vector3.Distance(startCamPos, endCamPos);
-        walkCycle = GetComponents<FMODUnity.StudioEventEmitter>()[0];
-        bgm = GetComponents<FMODUnity.StudioEventEmitter>()[1];
 
-
+        fadeOut.gameObject.SetActive(true);
         //resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
@@ -213,11 +207,11 @@ public class PlayerController : MonoBehaviour
         oxygen = Mathf.Clamp(oxygen,0,maxOxygen);
         oxygenDisplay.fillAmount += ((oxygen/maxOxygen)-oxygenDisplay.fillAmount)*0.1f;
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        /*if (Input.GetKeyDown(KeyCode.Tab))
         {
             showShop = !showShop;
             ShowHideShop();
-        }
+        }*/
 
         //movement
         float horizontal = 0;
@@ -231,7 +225,7 @@ public class PlayerController : MonoBehaviour
             vertical = Input.GetAxisRaw("Vertical");
         }
         moveDirection = (horizontal * transform.right + vertical * transform.forward).normalized;
-        running = Input.GetKey(KeyCode.LeftShift);
+        running = Input.GetKey(KeyCode.LeftShift); // ROWAN: Add || case for controller button
         //walkCheck For Sound
         if(moveDirection.magnitude > .1f)
         {
@@ -246,14 +240,14 @@ public class PlayerController : MonoBehaviour
         //Walk Audio Trigger
         if(isWalking == true)
         {
-             if(!walkCycle.IsPlaying())
+             if(!GetComponent<FMODUnity.StudioEventEmitter>().IsPlaying())
              {
-                 walkCycle.Play();
+                 GetComponent<FMODUnity.StudioEventEmitter>().Play();
              }
         }
         if(isWalking == false)
         {
-           walkCycle.Stop();
+            GetComponent<FMODUnity.StudioEventEmitter>().Stop();
         }
 
 
@@ -319,27 +313,21 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxis("Fire1") == 1)
         {
             if (!holdingA){ //on click
-                if (Cast(false) != null && Cast(false).CompareTag("Ground"))
+                if (Cast(false, false) != null && Cast(false, false)?.tag == "Ground")
                 {
                     mouseLook.DisableLook();
-                    plantTargetPos = Cast(false).transform.position;
-                    startCamRot = cam.transform.localEulerAngles;
-                    lerpStartTime = Time.time;
-                }
-                else
-                {
-
+                    plantTargetPos = Cast(false, false).transform.position;
                 }
                 lookEnabled = true;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
-                
-               
+                startCamRot = cam.transform.localEulerAngles;
+                lerpStartTime = Time.time;
                 //isFocusing = true;
             }
             else if (holdingA) //on hold
             { 
-                if (Cast(false) != null && Cast(false).CompareTag("Ground"))
+                if (Cast(false, false) != null && Cast(false, false)?.tag == "Ground")
                 {
                     // Distance moved equals elapsed time times speed..
                     float distCovered = (Time.time - lerpStartTime) * 2f;
@@ -356,7 +344,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else if (squatProg >= 1.2f && squatComplete == false)
                     { 
-                        Cast(true);
+                        Cast(true, false);
                         mouseLook.EnableLook();
                         squatComplete = true;
                     }
@@ -401,7 +389,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetAxis("Fire2") == 1){
             if(!holdingB){
-                Cast(false);
+                Cast(false, true);
             }
             holdingB = true;
             
@@ -426,14 +414,14 @@ public class PlayerController : MonoBehaviour
             safeRelease = false;
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
-                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
+                //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
             }));
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) && !isSpeaking)
         {
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
-                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov_default, t);
+                //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov_default, t);
             }));
         }
 
@@ -462,13 +450,13 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    GameObject Cast(bool create)
+    GameObject Cast(bool create, bool destroy)
     {
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.distance > 2f){
+            if(hit.distance > 3f){
                 return null;
             }
             if (hit.transform.name == "Button")
@@ -495,7 +483,7 @@ public class PlayerController : MonoBehaviour
                 }
                 
             }else{
-                if(!holdingA && !create && hit.collider.CompareTag("Plant")){
+                if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
                     Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
                 }
             }
@@ -584,7 +572,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(.2f);
         if (!Input.GetMouseButton(1))
         {
-            cam.fieldOfView = fov_default;
+            //cam.fieldOfView = fov_default;
         }
     }
 
