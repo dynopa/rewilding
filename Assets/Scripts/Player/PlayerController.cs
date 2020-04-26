@@ -145,6 +145,7 @@ public class PlayerController : MonoBehaviour
         mouseLook.EnableLook();
         lerpLength = Vector3.Distance(startCamPos, endCamPos);
 
+        fadeOut.gameObject.SetActive(true);
         //resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
