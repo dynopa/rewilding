@@ -206,11 +206,11 @@ public class PlayerController : MonoBehaviour
         oxygen = Mathf.Clamp(oxygen,0,maxOxygen);
         oxygenDisplay.fillAmount += ((oxygen/maxOxygen)-oxygenDisplay.fillAmount)*0.1f;
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        /*if (Input.GetKeyDown(KeyCode.Tab))
         {
             showShop = !showShop;
             ShowHideShop();
-        }
+        }*/
 
         //movement
         float horizontal = 0;
@@ -224,7 +224,7 @@ public class PlayerController : MonoBehaviour
             vertical = Input.GetAxisRaw("Vertical");
         }
         moveDirection = (horizontal * transform.right + vertical * transform.forward).normalized;
-        running = Input.GetKey(KeyCode.LeftShift);
+        running = Input.GetKey(KeyCode.LeftShift); // ROWAN: Add || case for controller button
         //walkCheck For Sound
         if(moveDirection.magnitude > .1f)
         {

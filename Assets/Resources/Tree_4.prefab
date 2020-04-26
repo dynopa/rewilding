@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2334839726496702967}
   m_Layer: 0
-  m_Name: Tree
+  m_Name: Tree_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2334839726496702967
 Transform:
@@ -38,11 +38,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2334839726496702967}
     m_Modifications:
-    - target: {fileID: 4609545037771900386, guid: 4cf86017e34a50e49ae9c5f1eb9109e4,
-        type: 3}
-      propertyPath: m_Name
-      value: Tree_2
-      objectReference: {fileID: 0}
     - target: {fileID: 694465919209568241, guid: 4cf86017e34a50e49ae9c5f1eb9109e4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -112,6 +107,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609545037771900386, guid: 4cf86017e34a50e49ae9c5f1eb9109e4,
+        type: 3}
+      propertyPath: m_Name
+      value: Tree_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609545037771900386, guid: 4cf86017e34a50e49ae9c5f1eb9109e4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf86017e34a50e49ae9c5f1eb9109e4, type: 3}
