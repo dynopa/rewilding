@@ -262,7 +262,7 @@ PrefabInstance:
     - target: {fileID: 4926206875951712747, guid: 2a9c472fef1059446ba031df291a3e15,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4926206875951712747, guid: 2a9c472fef1059446ba031df291a3e15,
         type: 3}
@@ -1040,7 +1040,7 @@ PrefabInstance:
     - target: {fileID: 2334839726496702967, guid: 76df98d795832904caa1938737328e9b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2334839726496702967, guid: 76df98d795832904caa1938737328e9b,
         type: 3}
@@ -2072,7 +2072,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50.000004, y: 146.41301, z: 0}
 --- !u!114 &1693996358
 MonoBehaviour:
@@ -3821,6 +3821,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onfeedEvent
       value: event:/all_plink
+      objectReference: {fileID: 0}
+    - target: {fileID: 4146481527077476383, guid: fc17fe94f13bb40a7be446704ec298a9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4146481527077476385, guid: fc17fe94f13bb40a7be446704ec298a9,
         type: 3}

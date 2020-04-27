@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlantManager
 {
-    public const float maxNeighborDistance = 1.5f;
     public List<Plant> plants;
     public List<Plant> newPlants;
     public List<Plant> deadPlants;
@@ -114,7 +113,7 @@ public class PlantManager
                 continue;
             }
             float distance = Vector3.Distance(p1.position,p2.position);
-            if(distance > maxNeighborDistance){
+            if(distance > Services.GameController.maxNeighborDistance){
                 continue;
             }
             if(!p1.neighbors.Contains(p2)){//add this plant to its neighbor
