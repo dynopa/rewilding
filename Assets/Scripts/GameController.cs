@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public float[] distanceForOthers;
     public float[] distanceForSame;
     public float pylonRadius;
+    public float maxNeighborDistance = 1.5f;
     public DateTime date;
     int frame = 0;
     bool freshStart = false;
