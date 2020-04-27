@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     bool fired = false;
     string[] months = new string[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         saveId = 1;
         date = DateTime.Now;
