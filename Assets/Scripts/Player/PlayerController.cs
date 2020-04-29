@@ -8,6 +8,7 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
+    public bool[] canAccessPlant = new bool[]{true,true,false,false};
     
     public bool oxygenOn;
     //public states
@@ -169,6 +170,9 @@ public class PlayerController : MonoBehaviour
                 if(typeNum > 3){
                     typeNum = 0;
                 }
+                if(canAccessPlant[typeNum] == false){
+                    typeNum = 0;
+                }
                 type = (PlantType)typeNum;
             }
             holdingRightTrigger = true;
@@ -182,6 +186,9 @@ public class PlayerController : MonoBehaviour
                 typeNum--;
                 if(typeNum < 0){
                     typeNum = 3;
+                    while(canAccessPlant[typeNum] == false){
+                        typeNum--;
+                    }
                 }
                 type = (PlantType)typeNum;
             }
