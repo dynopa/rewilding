@@ -1,34 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7299947990739441510
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
-  m_Name: DepthOfField
-  m_EditorClassIdentifier: 
-  active: 0
-  enabled:
-    overrideState: 1
-    value: 1
-  focusDistance:
-    overrideState: 1
-    value: 1
-  aperture:
-    overrideState: 1
-    value: 4.4
-  focalLength:
-    overrideState: 1
-    value: 25
-  kernelSize:
-    overrideState: 1
-    value: 0
---- !u!114 &-3413716238764804191
+--- !u!114 &-6773435142167008465
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,15 +17,15 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 1
+    overrideState: 0
     value: 1
   externalLut:
     overrideState: 0
     value: {fileID: 0}
     defaultState: 1
   tonemapper:
-    overrideState: 1
-    value: 2
+    overrideState: 0
+    value: 0
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -81,28 +53,28 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 0
-    value: 6
+    value: 0
   tint:
     overrideState: 0
     value: 0
   colorFilter:
     overrideState: 0
-    value: {r: 0, g: 1, b: 0.8734231, a: 1}
+    value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     overrideState: 0
     value: 0
   saturation:
-    overrideState: 1
-    value: -0
+    overrideState: 0
+    value: 0
   brightness:
     overrideState: 0
     value: 0
   postExposure:
     overrideState: 0
-    value: -0.55
+    value: 0
   contrast:
-    overrideState: 1
-    value: -1
+    overrideState: 0
+    value: 0
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -132,13 +104,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 0
-    value: {x: 1, y: 0.97504956, z: 0.99959946, w: 0.39721945}
+    value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
     overrideState: 0
-    value: {x: 0.94414294, y: 0.88011193, z: 1, w: 0}
+    value: {x: 1, y: 1, z: 1, w: 0}
   gain:
-    overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0.31777552}
+    overrideState: 0
+    value: {x: 1, y: 1, z: 1, w: 0}
   masterCurve:
     overrideState: 0
     value:
@@ -1339,34 +1311,6 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
---- !u!114 &-3409343410684592712
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d65e486e4de6e5448a8fbb43dc8756a0, type: 3}
-  m_Name: Grain
-  m_EditorClassIdentifier: 
-  active: 0
-  enabled:
-    overrideState: 1
-    value: 1
-  colored:
-    overrideState: 1
-    value: 0
-  intensity:
-    overrideState: 1
-    value: 0.281
-  size:
-    overrideState: 1
-    value: 0.71
-  lumContrib:
-    overrideState: 1
-    value: 0.8
 --- !u!114 &-200688834210654402
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1417,11 +1361,9 @@ MonoBehaviour:
   m_Name: PlayerCamera Profile
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: -3413716238764804191}
+  - {fileID: -6773435142167008465}
   - {fileID: -200688834210654402}
   - {fileID: 4543081216937148268}
-  - {fileID: -3409343410684592712}
-  - {fileID: -7299947990739441510}
   - {fileID: 1395797980516548312}
 --- !u!114 &1395797980516548312
 MonoBehaviour:
@@ -1435,7 +1377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
   m_Name: AmbientOcclusion
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -1471,7 +1413,7 @@ MonoBehaviour:
     value: 0.16
   quality:
     overrideState: 1
-    value: 1
+    value: 0
 --- !u!114 &4543081216937148268
 MonoBehaviour:
   m_ObjectHideFlags: 3
