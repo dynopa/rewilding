@@ -113,7 +113,7 @@ public class PlantManager
                 continue;
             }
             float distance = Vector3.Distance(p1.position,p2.position);
-            if(distance > Services.GameController.maxNeighborDistance){
+            if(distance > Services.GameController.maxNeighborDistance[p1Level]){
                 continue;
             }
             if(!p1.neighbors.Contains(p2)){//add this plant to its neighbor

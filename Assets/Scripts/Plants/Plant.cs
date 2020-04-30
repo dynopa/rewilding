@@ -150,7 +150,7 @@ public class Plant
                 Debug.Log(needsMetPercent);
                 Debug.Log(growthPercent);
             }
-            growthPercent+=(Services.GameController.growthRate*needsMetPercent);
+            growthPercent+=(Services.GameController.growthRate[(int)type]*needsMetPercent);
             if(growthPercent >= stage){
                 growthPercent = 0;
                 stage++;
@@ -185,7 +185,7 @@ public class Plant
         if(grown){
             CheckNeeds();
             //grow more plants!
-            if(Random.value < Services.GameController.chanceOfBaby && needsMetPercent > Services.GameController.needsMetToHaveBaby){
+            if(Random.value < Services.GameController.chanceOfBaby[(int)type] && needsMetPercent > Services.GameController.needsMetToHaveBaby[(int)type]){
                 if(HaveBaby()){
                     numBabies++;
                 }
