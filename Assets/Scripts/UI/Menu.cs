@@ -21,6 +21,6 @@ public class Menu : MonoBehaviour
     }
     public void LoadGame()
     {
-    	SceneManager.LoadScene("ControllerTest", LoadSceneMode.Single);
+    	SceneManager.LoadScene("BetaLevel", LoadSceneMode.Single);
     }
 }

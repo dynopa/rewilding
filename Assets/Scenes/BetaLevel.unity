@@ -16,11 +16,11 @@ RenderSettings:
   serializedVersion: 9
   m_Fog: 1
   m_FogColor: {r: 0.90588236, g: 0.9843137, b: 0.94509804, a: 1}
-  m_FogMode: 1
-  m_FogDensity: 0.01
+  m_FogMode: 2
+  m_FogDensity: 0.0125
   m_LinearFogStart: 0
-  m_LinearFogEnd: 200
-  m_AmbientSkyColor: {r: 0.19800758, g: 0.2150772, b: 0.20824936, a: 1}
+  m_LinearFogEnd: 199.61
+  m_AmbientSkyColor: {r: 0.21015166, g: 0.23116681, b: 0.22276075, a: 1}
   m_AmbientEquatorColor: {r: 0.726949, g: 0.766, b: 0.7569882, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 512
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0.176
+  m_ReflectionIntensity: 0.065
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1693996356}
-  m_IndirectSpecularColor: {r: 0.98244095, g: 1.1859426, b: 1.0814369, a: 0.176}
+  m_IndirectSpecularColor: {r: 0.3628333, g: 0.43799016, b: 0.3993943, a: 0.065}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -393,6 +393,16 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7788175388325225807, guid: 27680a680db584d799f20b11724fcbe9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7788175388425947803, guid: 27680a680db584d799f20b11724fcbe9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 7788175388538403471, guid: 27680a680db584d799f20b11724fcbe9,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -404,6 +414,11 @@ PrefabInstance:
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 7788175388834621275, guid: 27680a680db584d799f20b11724fcbe9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7788175389140846945, guid: 27680a680db584d799f20b11724fcbe9,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
@@ -424,6 +439,11 @@ PrefabInstance:
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 7788175389877650690, guid: 27680a680db584d799f20b11724fcbe9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7788175390075341785, guid: 27680a680db584d799f20b11724fcbe9,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
@@ -465,13 +485,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 185914185}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sharedProfile: {fileID: 11400000, guid: 69c7216318597427888f4cbaaa7389a2, type: 2}
-  isGlobal: 0
+  isGlobal: 1
   blendDistance: 1.05
   weight: 1
   priority: 0
@@ -1728,7 +1748,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.79432935, g: 0.83699995, b: 0.8271529, a: 1}
-  m_Intensity: 1.21
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1737,7 +1757,7 @@ Light:
     m_Type: 2
     m_Resolution: 1
     m_CustomResolution: -1
-    m_Strength: 0.338
+    m_Strength: 0.191
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.1
@@ -1773,10 +1793,10 @@ Light:
   m_BounceIntensity: 3
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1e-45, y: 1.2289032e-14, z: 1e-45, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
-  m_ShadowAngle: 32.6
+  m_ShadowAngle: 66.9
 --- !u!4 &1693996357
 Transform:
   m_ObjectHideFlags: 0
@@ -1784,13 +1804,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693996355}
-  m_LocalRotation: {x: -0.0761978, y: 0.81754386, z: -0.40206546, w: -0.40516564}
+  m_LocalRotation: {x: 0.3324878, y: -0.6463975, z: 0.5769318, w: 0.3725211}
   m_LocalPosition: {x: 542.7, y: 57.61, z: 371.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 45.985, y: -120.09, z: -343.167}
+  m_LocalEulerAnglesHint: {x: 83.5, y: -120.09, z: 0}
 --- !u!114 &1693996358
 MonoBehaviour:
   m_ObjectHideFlags: 0
