@@ -113,4 +113,4 @@ public class FirstTreePlanted : AGPEvent{}
 public class FirstTreeGrown : AGPEvent{}
 public class TooManyPlants : AGPEvent{}
 public class RunOutOfPlants : AGPEvent{}
-public class FirstSleep : AGPEvent{}
+public class FirstSleep : AGPEvent { }
