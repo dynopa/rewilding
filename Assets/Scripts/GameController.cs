@@ -3,22 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
-
+public enum PlantInfo{
+    growthRate,
+    babyChance,
+    needsMetToHaveBaby,
+    maxNeighborDistance,
+    collideDistanceForOthers,
+    collideDistanceForSame
+}
 public class GameController : MonoBehaviour
 {
     public byte saveId;
     public TextMeshProUGUI dayCounter;
     public TextureEditor texEdit;
-    [Range(0.5f,2f)]
-    public float growthRate;
-    [Range(0f,1f)]
-    public float chanceOfBaby;
-    [Range(0f,2f)]
-    public float needsMetToHaveBaby;
+    [NamedArray(typeof(PlantInfo))] public float[] grassData;
+    [NamedArray(typeof(PlantInfo))] public float[] bushData;
+    [NamedArray(typeof(PlantInfo))] public float[] flowerData;
+    [NamedArray(typeof(PlantInfo))] public float[] treeData;
+    [HideInInspector]
+    public float[] growthRate;
+    [HideInInspector]
+    public float[] chanceOfBaby;
+    [HideInInspector]
+    public float[] needsMetToHaveBaby;
+    [HideInInspector]
     public float[] distanceForOthers;
+    [HideInInspector]
     public float[] distanceForSame;
     public float pylonRadius;
-    public float maxNeighborDistance = 1.5f;
+    [HideInInspector]
+    public float[] maxNeighborDistance;
     public DateTime date;
     int frame = 0;
     bool freshStart = false;
@@ -27,6 +41,12 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        growthRate = new float[]{grassData[0],bushData[0],flowerData[0],treeData[0]};
+        chanceOfBaby = new float[]{grassData[1],bushData[1],flowerData[1],treeData[1]};
+        needsMetToHaveBaby = new float[]{grassData[2],bushData[2],flowerData[2],treeData[2]};
+        distanceForOthers = new float[]{grassData[3],bushData[3],flowerData[3],treeData[3]};
+        distanceForSame = new float[]{grassData[4],bushData[4],flowerData[4],treeData[4]};
+        maxNeighborDistance = new float[]{grassData[5],bushData[5],flowerData[5],treeData[5]};
         saveId = 1;
         date = DateTime.Now;
         InitializeServices();
