@@ -8,7 +8,13 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
-    
+    public bool[] canAccessPlant = new bool[] { true, true, false, false };
+
+    enum oxygenState
+    {
+        full, draining, low, none
+    }
+    oxygenState oState;
     public bool oxygenOn;
     //public states
     public bool running;
@@ -43,7 +49,7 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection;
     CapsuleCollider collider;
     Camera cam;
-    
+
     Vector3 itemHeldOffset;
     Vector3 groundContactNormal = Vector3.up;//the slope of whatever you're standing on
     LayerMask layerGround;
@@ -63,7 +69,7 @@ public class PlayerController : MonoBehaviour
     public Sprite[] seedImages;
     //Text resourceText;
     float newHoleRadius = 5f;
-    
+
 
     bool showShop = false;
 
@@ -80,10 +86,10 @@ public class PlayerController : MonoBehaviour
     //float count_special_max = 1f;
 
     //    None,Spread,Grass,Shrub,Tree,Special,Delete
-    List<float> plantCount = new List<float> {0,8,4,2,1};
-    List<float> plantMaxCount = new List<float> {0,8,4,2,1};
-    List<int> plantVal = new List<int> {0, 5, 7, 10, 25};
-    List<Image> plantSprite = new List<Image> {};
+    List<float> plantCount = new List<float> { 0, 8, 4, 2, 1 };
+    List<float> plantMaxCount = new List<float> { 0, 8, 4, 2, 1 };
+    List<int> plantVal = new List<int> { 0, 5, 7, 10, 25 };
+    List<Image> plantSprite = new List<Image> { };
 
 
     float resource = 0;
@@ -95,12 +101,13 @@ public class PlayerController : MonoBehaviour
     //int treeVal = 25;
     //int specialVal = 15;
     Vector3 spawnPosition;
-    int[] uiPositions = new int[]{-63,-168,-273,-378};
+    int[] uiPositions = new int[] { -63, -168, -273, -378 };
     bool holdingRightTrigger;
     bool holdingLeftTrigger;
     bool holdingA;
     bool releasedA;
     bool holdingB;
+    
 
     //squat variables
     bool squatComplete = false;
@@ -169,7 +176,11 @@ public class PlayerController : MonoBehaviour
                 if(typeNum > 3){
                     typeNum = 0;
                 }
+                if(canAccessPlant[typeNum] == false){
+                    typeNum = 0;
+                }
                 type = (PlantType)typeNum;
+                //CHRISTIAN: UI switch plant
             }
             holdingRightTrigger = true;
             
@@ -182,8 +193,12 @@ public class PlayerController : MonoBehaviour
                 typeNum--;
                 if(typeNum < 0){
                     typeNum = 3;
+                    while(canAccessPlant[typeNum] == false){
+                        typeNum--;
+                    }
                 }
                 type = (PlantType)typeNum;
+                //CHRISTIAN: UI switch plant
             }
             holdingLeftTrigger = true;
             
@@ -201,8 +216,42 @@ public class PlayerController : MonoBehaviour
 
         if(Services.PlantManager.CloseToPylon(transform.position)){
             oxygen+=Time.deltaTime*10;
-        }else{
+            if (oState == oxygenState.draining || oState == oxygenState.low)
+            {
+                //CHRISTIAN: Stop oxygen drain noise and play valve seal
+                oState = oxygenState.full;
+            }
+            else if (oState == oxygenState.none)
+            {
+                //play valve seal
+                oState = oxygenState.full;
+            }
+        }
+        else
+        {
             oxygen-=Time.deltaTime;
+            if (oState != oxygenState.draining)
+            {
+                //CHRISTIAN: Oxygen drain start
+                oState = oxygenState.draining;
+            }
+        }
+        if (oxygen > 0 && oxygen < 0.2)
+        {
+            if (oState == oxygenState.draining)
+            {
+                //CHRISTIAN: LOW OXYGEN
+                oState = oxygenState.low;
+            }
+        }
+        else if (oxygen <= 0)
+        {
+            if (oState == oxygenState.low)
+            {
+                //CHRISTIAN: Power down noise
+                //stop drain sound
+                oState = oxygenState.none;
+            }
         }
         oxygen = Mathf.Clamp(oxygen,0,maxOxygen);
         oxygenDisplay.fillAmount += ((oxygen/maxOxygen)-oxygenDisplay.fillAmount)*0.1f;
@@ -409,19 +458,19 @@ public class PlayerController : MonoBehaviour
         }
         //focus code end
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isSpeaking)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isSpeaking) //SPRINTING/RUNNING
         {
             safeRelease = false;
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
-                //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
             }));
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) && !isSpeaking)
         {
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
-                //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov_default, t);
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov_default, t);
             }));
         }
 
@@ -474,6 +523,7 @@ public class PlayerController : MonoBehaviour
                 UpdateCounts();*/
                 fadeOut.fadeOut = true;
                 Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
+                //CHRISTIAN: Door open
                 return hit.transform.gameObject;
             }
             if(create && seedsLeft >= ((int)type)+1){
@@ -482,9 +532,14 @@ public class PlayerController : MonoBehaviour
                     seedsLeft-= ((int)type)+1;
                 }
                 
-            }else{
+            }
+            else if (create && seedsLeft <= ((int)type) + 1){
+                //CHRISTIAN: Not enough goo
+            }
+            else{
                 if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
                     Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
+                    //CHRISTIAN: Remove plant
                 }
             }
             

@@ -98,6 +98,7 @@ public class Plant
         gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
        
         GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
+        gameObject.transform.GetChild(0).gameObject.AddComponent(typeof(ComeUpper));
         sizeRandom = Random.Range(0.8f,1.2f);
         gameObject.transform.localScale = minSize*sizeRandom;
         plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();

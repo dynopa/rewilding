@@ -18,13 +18,14 @@ public class GameController : MonoBehaviour
     public float[] distanceForOthers;
     public float[] distanceForSame;
     public float pylonRadius;
+    public float maxNeighborDistance = 1.5f;
     public DateTime date;
     int frame = 0;
     bool freshStart = false;
     bool fired = false;
     string[] months = new string[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         saveId = 1;
         date = DateTime.Now;
