@@ -132,20 +132,23 @@ public class Plant
                 }
             }
             //growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
-            if(withering){
-                plantDisplay.material.color = Color.black;
-            }else{
-                if(needsMetPercent < 0.5f){
-                    //about to wither
-                    plantDisplay.material.color = Color.white;
-                }else if(needsMetPercent < 1.0f){
-                    //half!
-                    plantDisplay.material.color = Color.gray;
+            if(ReferenceEquals(plantDisplay,null)){
+                if(withering){
+                    plantDisplay.material.color = Color.black;
                 }else{
-                    //good
-                    plantDisplay.material.color = Color.white;
+                    if(needsMetPercent < 0.5f){
+                        //about to wither
+                        plantDisplay.material.color = Color.white;
+                    }else if(needsMetPercent < 1.0f){
+                        //half!
+                        plantDisplay.material.color = Color.gray;
+                    }else{
+                        //good
+                        plantDisplay.material.color = Color.white;
+                    }
                 }
             }
+            
             if(level==3){
                 Debug.Log(needsMetPercent);
                 Debug.Log(growthPercent);
