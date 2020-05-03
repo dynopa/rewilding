@@ -52,6 +52,7 @@ public class PlantManager
         return false;
     }
     public bool CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
+        Debug.Log("A");
         bool isCloseEnough = false;
         foreach(Vector3 v in pylonPositions){
             if(Vector3.Distance(v,pos) < Services.GameController.pylonRadius){
