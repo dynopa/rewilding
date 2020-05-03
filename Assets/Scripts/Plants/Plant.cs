@@ -189,6 +189,7 @@ public class Plant
             CheckNeeds();
             //grow more plants!  && needsMetPercent >= Services.GameController.needsMetToHaveBaby[(int)type])
             if(Random.value <= Services.GameController.chanceOfBaby[(int)type]){
+
                 if(HaveBaby()){
                     Debug.Log("A");
                     numBabies++;

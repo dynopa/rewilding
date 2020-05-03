@@ -44,9 +44,9 @@ public class GameController : MonoBehaviour
         growthRate = new float[]{grassData[0],bushData[0],flowerData[0],treeData[0]};
         chanceOfBaby = new float[]{grassData[1],bushData[1],flowerData[1],treeData[1]};
         needsMetToHaveBaby = new float[]{grassData[2],bushData[2],flowerData[2],treeData[2]};
-        maxNeighborDistance = new float[]{grassData[3],bushData[3],flowerData[3],treeData[3]};
-        distanceForOthers = new float[]{grassData[4],bushData[4],flowerData[4],treeData[4]};
-        distanceForSame = new float[]{grassData[5],bushData[5],flowerData[5],treeData[5]};
+        distanceForOthers = new float[]{grassData[3],bushData[3],flowerData[3],treeData[3]};
+        distanceForSame = new float[]{grassData[4],bushData[4],flowerData[4],treeData[4]};
+        maxNeighborDistance = new float[]{grassData[5],bushData[5],flowerData[5],treeData[5]};
         saveId = 1;
         date = DateTime.Now;
         InitializeServices();
