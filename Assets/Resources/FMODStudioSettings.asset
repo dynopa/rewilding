@@ -25,6 +25,8 @@ MonoBehaviour:
   SpeakerModeSettings:
   - Platform: 2
     Value: 3
+  - Platform: 1
+    Value: 3
   SampleRateSettings:
   - Platform: 1
     Value: 44100
