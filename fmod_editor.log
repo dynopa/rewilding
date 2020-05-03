@@ -1,18 +1,21 @@
 [LOG] System::create                           : Header version = 1.10.09. Current version = 1.10.09.
-[LOG] Manager::init                            : maxchannels = 256 studioflags = 00000006 flags 00000000 extradriverdata 0000000000000000.
+[LOG] Manager::init                            : maxchannels = 256 studioflags = 00000006 flags 00000000 extradriverdata 0x0.
 [LOG] SystemI::init                            : Initialize version=11009 (97915), maxchannels=256, flags=0x00020000
-[LOG] SystemI::setOutputInternal               : Setting output to 'FMOD WASAPI Output'
-[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEX): wFormatTag=0xFFFE, nChannels=2, nSamplesPerSec=48000, nAvgBytesPerSec=384000, nBlockAlign=8, wBitsPerSample=32, cbSize=22.
-[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEXTENSIBLE): wValidBitsPerSample=32, dwChannelMask=0x00000003, SubFormat=00000003-0000-0010-8000-00AA00389B71.
-[LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
+[LOG] SystemI::setOutputInternal               : Setting output to 'FMOD Core Audio Output'
+[LOG] OutputCoreAudio::enumerate               : Enumerating...
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "Built-in Output".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "iShowU Audio Capture".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "ZoomAudioDevice".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "Bluetooth and aux".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "Record/Stream".
+[LOG] OutputCoreAudio::enumerate               : Found output driver: "DJ Output".
+[LOG] OutputCoreAudio::enumerate               : Done.
+[LOG] OutputCoreAudio::init                    : Output running 2 channels at 44100Hz sample rate.
+[LOG] OutputCoreAudio::init                    : Maximum hardware read size: 1024 samples, Software buffer size: 512 samples, Number of software buffers: 4.
+[WRN] SystemI::init                            : Output requires a sample rate of 44100Hz, resampling will occur.
 [LOG] Thread::initThread                       : Init FMOD stream thread. Priority: 2, Stack Size: 65536, Semaphore: No, Sleep Time: 10, Looping: Yes.
-<<<<<<< HEAD
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Priority: 3, Stack Size: 49152, Semaphore: Yes, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0x7f9a4a538208 isAsync 0 updatePeriod 0.02
-=======
-[LOG] Thread::initThread                       : Init FMOD mixer thread. Priority: 3, Stack Size: 49152, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 00000231280570D8 isAsync 0 updatePeriod 0.02
->>>>>>> ba952ab4b4f674a956986fb6a5bece60cc2347e5
+[LOG] AsyncManager::init                       : manager 0x7fb9df6ab008 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -20,71 +23,31 @@
 [LOG] Thread::initThread                       : Init FMOD Studio bank load thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] Manager::init                            : done.
 [LOG] Manager::readBank                        : fileversion = 101, compatVersion = 99 (oldest = 44, newest = 101)
-<<<<<<< HEAD
-[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] SystemI::createSound                     : filename = /Users/SpencerBernstein/rewilding/Assets/Sounds/RewildFMOD/Build/Desktop/Master Bank.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] Thread::initThread                       : Init FMOD nonblocking thread (0). Priority: 1, Stack Size: 81920, Semaphore: Yes, Sleep Time: 0, Looping: Yes.
-[LOG] SystemI::createSound                     : setdata soundi = 0x7f9a4b67c4a8 : node = 0x7f9a4b641240
-[LOG] SystemI::createSound                     : add node to async list : head = 0x7f9a4b67a618.  list count = 0
-[LOG] SystemI::createSound                     : filename = /Users/SpencerBernstein/rewilding/Assets/Sounds/RewildFMOD/Build/Desktop/Master Bank.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7f9a4b67c4a8
-[LOG] SystemI::createSound                     : setdata soundi = 0x7f9a4b67a668 : node = 0x7f9a4b63da00
-[LOG] SystemI::createSoundInternal             :     Create name='/Users/SpencerBernstein/rewilding/Assets/Sounds/RewildFMOD/Build/Desktop/Master Bank.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 8820352
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 45696
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7f9a4b641358
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSound                     :     add node to async list : head = 0x7f9a4b67a618.  list count = 0
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Freeze 2-Silver Keys [2020-04-19 140623]', format=2, channels=2, frequency=48000, lengthbytes=3395616, lengthpcm=14442986, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.169745.
-[LOG] Thread::initThread                       :     Init FMOD file thread. Priority: 1, Stack Size: 16384, Semaphore: No, Sleep Time: 10, Looping: Yes.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7f9a4b67c4a8
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7f9a4b67a668
-[LOG] SystemI::createSoundInternal             :     Create name='/Users/SpencerBernstein/rewilding/Assets/Sounds/RewildFMOD/Build/Desktop/Master Bank.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 8820352
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 45696
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7f9a4b63db18
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Freeze 4-Granulator II [2020-04-19 212451]', format=2, channels=2, frequency=48000, lengthbytes=3779936, lengthpcm=14442985, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=1.000000.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7f9a4b67a668
-[LOG] SoundI::getSubSound                      : sound 0x7f9a4b67c4a8.  Subsound index 0 / 1
-[LOG] SoundI::getSubSound                      : sound 0x7f9a4b67a668.  Subsound index 0 / 1
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7f9a497803e8
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7f9a497803e8
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7f9a4b2f08b8
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7f9a4b2f08b8
-[LOG] SoundI::release                          : Freeze 4-Granulator II [2020-04-19 212451] (0x7f9a4b67a668)
-[LOG] SoundI::release                          :     Freeze 4-Granulator II [2020-04-19 212451] (0x7f9a4b67be68)
-[LOG] SoundI::release                          :     Freeze 4-Granulator II [2020-04-19 212451] (0x7f9a4b2f08b8)
-[LOG] SoundI::release                          : Freeze 2-Silver Keys [2020-04-19 140623] (0x7f9a4b67c4a8)
-[LOG] SoundI::release                          :     Freeze 2-Silver Keys [2020-04-19 140623] (0x7f9a49784488)
-[LOG] SoundI::release                          :     Freeze 2-Silver Keys [2020-04-19 140623] (0x7f9a497803e8)
-=======
+[LOG] SoundI::release                          : bgm (0x7fb9e0435928)
+[LOG] SoundI::release                          :     bgm (0x7fb9e217fbb8)
+[LOG] SoundI::release                          :     bgm (0x7fb9e217fd48)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::close                           : Closed.
 [LOG] Manager::readBank                        : fileversion = 101, compatVersion = 99 (oldest = 44, newest = 101)
 [LOG] Manager::readBank                        : fileversion = 101, compatVersion = 99 (oldest = 44, newest = 101)
 [LOG] Manager::readBank                        : fileversion = 101, compatVersion = 99 (oldest = 44, newest = 101)
 [LOG] Manager::readBank                        : fileversion = 101, compatVersion = 99 (oldest = 44, newest = 101)
 [LOG] Manager::readBank                        : fileversion = 101, compatVersion = 99 (oldest = 44, newest = 101)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
->>>>>>> ba952ab4b4f674a956986fb6a5bece60cc2347e5
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Thread::callback                         : FMOD Studio sample load thread finished.
 [LOG] LiveUpdate::release                      : 
 [LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
 [LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
-<<<<<<< HEAD
 [LOG] Thread::callback                         : FMOD nonblocking thread (0) finished.
 [LOG] Thread::callback                         : FMOD file thread finished.
-=======
->>>>>>> ba952ab4b4f674a956986fb6a5bece60cc2347e5
 [LOG] SystemI::close                           : Closed.

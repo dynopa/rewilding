@@ -132,20 +132,23 @@ public class Plant
                 }
             }
             //growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
-            if(withering){
-                plantDisplay.material.color = Color.black;
-            }else{
-                if(needsMetPercent < 0.5f){
-                    //about to wither
-                    plantDisplay.material.color = Color.white;
-                }else if(needsMetPercent < 1.0f){
-                    //half!
-                    plantDisplay.material.color = Color.gray;
+            if(ReferenceEquals(plantDisplay,null)){
+                if(withering){
+                    plantDisplay.material.color = Color.black;
                 }else{
-                    //good
-                    plantDisplay.material.color = Color.white;
+                    if(needsMetPercent < 0.5f){
+                        //about to wither
+                        plantDisplay.material.color = Color.white;
+                    }else if(needsMetPercent < 1.0f){
+                        //half!
+                        plantDisplay.material.color = Color.gray;
+                    }else{
+                        //good
+                        plantDisplay.material.color = Color.white;
+                    }
                 }
             }
+            
             if(level==3){
                 Debug.Log(needsMetPercent);
                 Debug.Log(growthPercent);
@@ -184,9 +187,11 @@ public class Plant
         
         if(grown){
             CheckNeeds();
-            //grow more plants!
-            if(Random.value < Services.GameController.chanceOfBaby[(int)type] && needsMetPercent > Services.GameController.needsMetToHaveBaby[(int)type]){
+            //grow more plants!  && needsMetPercent >= Services.GameController.needsMetToHaveBaby[(int)type])
+            if(Random.value <= Services.GameController.chanceOfBaby[(int)type]){
+
                 if(HaveBaby()){
+                    Debug.Log("A");
                     numBabies++;
                 }
             }
@@ -269,6 +274,7 @@ public class Plant
         PlantData data = new PlantData();
         data.position = position;
         data.plantType = (int)type;
+        data.stage = stage;
         data.grown = grown;
         data.growthPercent = growthPercent;
         data.withering = withering;
@@ -277,6 +283,12 @@ public class Plant
     public void LoadPlant(PlantData data){
         position = data.position;
         type = (PlantType)data.plantType;
+        stage = data.stage;
+        if(stage != 1){
+            GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
+            GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
+            plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
+        }
         grown = data.grown;
         growthPercent = data.growthPercent;
         withering = data.withering;
@@ -297,7 +309,7 @@ public class PlantData
 {
     public Vector3 position;
     public int plantType;
-    //int stage;
+    public byte stage;
     public bool grown;
     public float growthPercent;
     public bool withering;
