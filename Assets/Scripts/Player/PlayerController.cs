@@ -538,7 +538,7 @@ public class PlayerController : MonoBehaviour
             }
             else{
                 if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
-                    Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
+                    //Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
                     //CHRISTIAN: Remove plant
                 }
             }
