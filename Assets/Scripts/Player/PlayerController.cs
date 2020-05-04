@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
     public bool[] canAccessPlant = new bool[] { true, true, false, false };
-
+    public int dayNum;
     enum oxygenState
     {
         full, draining, low, none
@@ -523,6 +523,7 @@ public class PlayerController : MonoBehaviour
                 UpdateCounts();*/
                 fadeOut.fadeOut = true;
                 Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
+
                 //CHRISTIAN: Door open
                 return hit.transform.gameObject;
             }
@@ -555,6 +556,10 @@ public class PlayerController : MonoBehaviour
         seedsLeft = Mathf.Clamp(seedsLeft,0,seedPerDay);
         Services.PlantManager.Update();
         Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
+        dayNum++;
+        if(dayNum > 2){
+            Services.PlantManager.CreateNarrativeMoment();
+        }
     }
     void Move()
     {

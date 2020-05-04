@@ -159,6 +159,7 @@ public class PlantManager
     public void Update()
     {
         Services.GameController.date = Services.GameController.date.AddMonths(1);
+
         if(Services.GameController.date.Month == 4){
             Services.EventManager.Fire(new Day2());
         }
@@ -191,5 +192,11 @@ public class PlantManager
                 break;
             }
         }
+    }
+    public void CreateNarrativeMoment(){
+        GameObject narrObj = GameObject.Instantiate(Resources.Load("NarrativeMoment")) as GameObject;
+        //random plant
+        int plantNum = Random.Range(0,plants.Count);
+        narrObj.transform.position = new Vector3(plants[plantNum].position.x, 0f, plants[plantNum].position.z);
     }
 }
