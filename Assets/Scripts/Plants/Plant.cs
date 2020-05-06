@@ -8,7 +8,7 @@ public enum PlantType
 public class Plant
 {
     public const float needsThreshold = 0.25f;
-    public const int babyLimit = 2;
+    public int babyLimit = 2;
     public bool grown;
     public byte stage=1;
     public int numBabies;
@@ -56,10 +56,15 @@ public class Plant
     Vector3 maxSize = Vector3.one;
 
     public bool withering;
+    public int babiesPerDay;
+    public float ratioNeeded;
 
     public Plant(PlantType type,Vector3 pos){
         stage = 1;
         this.type = type;
+        ratioNeeded = Services.GameController.ratioNeeds[(int)type];
+        babiesPerDay = (int)Services.GameController.babiesPerDayNum[(int)type];
+        babyLimit = (int)Services.GameController.babyLimits[(int)type];
         position = pos;
         needsMetPercent = 0;
         growthPercent = 0;
@@ -189,11 +194,13 @@ public class Plant
             CheckNeeds();
             //grow more plants!  && needsMetPercent >= Services.GameController.needsMetToHaveBaby[(int)type])
             if(Random.value <= Services.GameController.chanceOfBaby[(int)type]){
-
-                if(HaveBaby()){
-                    Debug.Log("A");
-                    numBabies++;
+                for(int i = 0; i < babiesPerDay; i++){
+                    if(HaveBaby()){
+                        Debug.Log("A");
+                        numBabies++;
+                    }
                 }
+                
             }
             
         }
@@ -235,10 +242,10 @@ public class Plant
                     numLowerLevel++;
                 }
             }
-            if(numLowerLevel >= numMyLevel*2){
+            if(numLowerLevel >= numMyLevel*ratioNeeded){
                 //Debug.Log("Hello");
                 needsMetPercent = 1.0f;
-            }else if(numLowerLevel >= numMyLevel){
+            }else if(numLowerLevel >= numMyLevel*ratioNeeded/2f){
                 needsMetPercent = 0.5f;
             }else{
                 needsMetPercent = 0;

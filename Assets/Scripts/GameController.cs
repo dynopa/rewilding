@@ -9,7 +9,11 @@ public enum PlantInfo{
     needsMetToHaveBaby,
     maxNeighborDistance,
     collideDistanceForOthers,
-    collideDistanceForSame
+    collideDistanceForSame,
+    dependentRatio,
+    babiesAllowed,
+    babiesPerDay,
+    plantCost
 }
 public class GameController : MonoBehaviour
 {
@@ -33,6 +37,14 @@ public class GameController : MonoBehaviour
     public float pylonRadius;
     [HideInInspector]
     public float[] maxNeighborDistance;
+    [HideInInspector]
+    public float[] ratioNeeds;
+    [HideInInspector]
+    public float[] babyLimits;
+    [HideInInspector]
+    public float[] babiesPerDayNum;
+    [HideInInspector]
+    public int[] plantCost;
     public DateTime date;
     int frame = 0;
     bool freshStart = false;
@@ -44,9 +56,13 @@ public class GameController : MonoBehaviour
         growthRate = new float[]{grassData[0],bushData[0],flowerData[0],treeData[0]};
         chanceOfBaby = new float[]{grassData[1],bushData[1],flowerData[1],treeData[1]};
         needsMetToHaveBaby = new float[]{grassData[2],bushData[2],flowerData[2],treeData[2]};
-        distanceForOthers = new float[]{grassData[3],bushData[3],flowerData[3],treeData[3]};
-        distanceForSame = new float[]{grassData[4],bushData[4],flowerData[4],treeData[4]};
-        maxNeighborDistance = new float[]{grassData[5],bushData[5],flowerData[5],treeData[5]};
+        maxNeighborDistance = new float[]{grassData[3],bushData[3],flowerData[3],treeData[3]};
+        distanceForOthers = new float[]{grassData[4],bushData[4],flowerData[4],treeData[4]};
+        distanceForSame = new float[]{grassData[5],bushData[5],flowerData[5],treeData[5]};
+        ratioNeeds = new float[]{grassData[6],bushData[6],flowerData[6],treeData[6]};
+        babyLimits = new float[]{grassData[7],bushData[7],flowerData[7],treeData[7]};
+        babiesPerDayNum = new float[]{grassData[8],bushData[8],flowerData[8],treeData[8]};
+        plantCost =  new int[]{(int)grassData[9],(int)bushData[9],(int)flowerData[9],(int)treeData[9]};
         saveId = 1;
         date = DateTime.Now;
         InitializeServices();
