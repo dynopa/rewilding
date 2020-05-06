@@ -133,6 +133,15 @@ public class PlayerController : MonoBehaviour
     bool sentOutOfGoopMessage;
     bool sleptFirstTime;
 
+    //soundStuff
+    [FMODUnity.EventRef]
+    public FMOD.Studio.EventInstance doorOpenS;
+    public FMOD.Studio.EventInstance powerDownS;
+    public FMOD.Studio.EventInstance oDrainS;
+    public FMOD.Studio.EventInstance uiSwitchS;
+    public FMOD.Studio.EventInstance lowOS;
+  
+
 
     // Start is called before the first frame update
     void Awake()
@@ -181,6 +190,8 @@ public class PlayerController : MonoBehaviour
                     typeNum = 0;
                 }
                 type = (PlantType)typeNum;
+                //uiSwitchS = FMODUnity.RuntimeManager.CreateInstance("event:/UI_Change");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/UI Change");
                 //CHRISTIAN: UI switch plant
             }
             holdingRightTrigger = true;
@@ -200,6 +211,7 @@ public class PlayerController : MonoBehaviour
                 }
                 type = (PlantType)typeNum;
                 //CHRISTIAN: UI switch plant
+                FMODUnity.RuntimeManager.PlayOneShot("event:/UI Change");
             }
             holdingLeftTrigger = true;
             
@@ -220,6 +232,9 @@ public class PlayerController : MonoBehaviour
             if (oState == oxygenState.draining || oState == oxygenState.low)
             {
                 //CHRISTIAN: Stop oxygen drain noise and play valve seal
+               // FMOD.Studio.PLAYBACK_STATE oPState;
+                //oDrainS.getPlaybackState(out oPState);
+                oDrainS.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 oState = oxygenState.full;
             }
             else if (oState == oxygenState.none)
@@ -234,6 +249,10 @@ public class PlayerController : MonoBehaviour
             if (oState != oxygenState.draining)
             {
                 //CHRISTIAN: Oxygen drain start
+                oDrainS = FMODUnity.RuntimeManager.CreateInstance("event:/lost oxygen");
+                
+                    oDrainS.start(); 
+                
                 oState = oxygenState.draining;
             }
         }
@@ -242,6 +261,8 @@ public class PlayerController : MonoBehaviour
             if (oState == oxygenState.draining)
             {
                 //CHRISTIAN: LOW OXYGEN
+                lowOS = FMODUnity.RuntimeManager.CreateInstance("event:/LowOxy2");
+                lowOS.start();
                 oState = oxygenState.low;
             }
         }
@@ -250,6 +271,10 @@ public class PlayerController : MonoBehaviour
             if (oState == oxygenState.low)
             {
                 //CHRISTIAN: Power down noise
+                powerDownS = FMODUnity.RuntimeManager.CreateInstance("event:/Door3");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/PowerDown 2");
+                oDrainS.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                lowOS.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 //stop drain sound
                 oState = oxygenState.none;
             }
@@ -526,6 +551,11 @@ public class PlayerController : MonoBehaviour
                 Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
 
                 //CHRISTIAN: Door open
+                //is there anyway to check if the raycast is going off multipel times?
+                doorOpenS = FMODUnity.RuntimeManager.CreateInstance("event:/Door3");
+                Debug.Log("reee");
+                doorOpenS.start();
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/Door3");
                 return hit.transform.gameObject;
             }
             if(create && seedsLeft >= Services.GameController.plantCost[(int)type]){
@@ -537,11 +567,14 @@ public class PlayerController : MonoBehaviour
             }
             else if (create && seedsLeft <= Services.GameController.plantCost[(int)type]){
                 //CHRISTIAN: Not enough goo
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
             }
             else{
                 if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
                     //Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
+                    FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
                     //CHRISTIAN: Remove plant
+
                 }
             }
             
