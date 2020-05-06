@@ -7,6 +7,8 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    public int seedPerDay;
+    public int seedGainPerDay;
     public static PlayerController instance;
     public bool[] canAccessPlant = new bool[] { true, true, false, false };
     public int dayNum;
@@ -38,7 +40,6 @@ public class PlayerController : MonoBehaviour
     private bool safeRelease; //true after comms exit lerping is complete
     private bool lookEnabled;
 
-    public int seedPerDay;
     public int seedsLeft;
     //situation data
     [HideInInspector]
@@ -527,14 +528,14 @@ public class PlayerController : MonoBehaviour
                 //CHRISTIAN: Door open
                 return hit.transform.gameObject;
             }
-            if(create && seedsLeft >= ((int)type)+1){
+            if(create && seedsLeft >= Services.GameController.plantCost[(int)type]){
                 if(hit.transform.CompareTag("Plant") == false){
                     Services.PlantManager.CreateNewPlant(type,hit.point,true);
-                    seedsLeft-= ((int)type)+1;
+                    seedsLeft-= Services.GameController.plantCost[(int)type];
                 }
                 
             }
-            else if (create && seedsLeft <= ((int)type) + 1){
+            else if (create && seedsLeft <= Services.GameController.plantCost[(int)type]){
                 //CHRISTIAN: Not enough goo
             }
             else{
@@ -552,7 +553,7 @@ public class PlayerController : MonoBehaviour
     void OnFadeOutComplete(AGPEvent e){
         transform.position = spawnPosition;
         transform.eulerAngles = new Vector3(0,180,0);
-        seedsLeft+=seedPerDay/2;
+        seedsLeft+=seedGainPerDay;
         seedsLeft = Mathf.Clamp(seedsLeft,0,seedPerDay);
         Services.PlantManager.Update();
         Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
