@@ -12,6 +12,7 @@ TagManager:
   - Plant
   - Pylon
   - Ground
+  - RecCam
   layers:
   - Default
   - TransparentFX
