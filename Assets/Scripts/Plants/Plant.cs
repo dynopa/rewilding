@@ -217,10 +217,14 @@ public class Plant
         RaycastHit hit;
         Ray ray = new Ray(newPosition,Vector3.down);
         if (Physics.Raycast(ray, out hit)){
-            if(hit.collider.CompareTag("Ground") == false){
+            if(hit.collider.CompareTag("Ground")){
+                newPosition.y = hit.point.y;
+            }else if(hit.collider.CompareTag("Plant")){
+
+            }else{
                 return false;
             }
-            newPosition.y = hit.point.y;
+            
         }else{
             newPosition.y = position.y;
         }
