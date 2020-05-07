@@ -72,7 +72,6 @@ public class PlayerController : MonoBehaviour
     float newHoleRadius = 5f;
 
 
-    bool showShop = false;
 
     //inventory data
     //float count_moss = 8f;
@@ -109,6 +108,7 @@ public class PlayerController : MonoBehaviour
     bool holdingB;
     bool clickedOnce;
     ParticleSystem ps;
+    public GameObject digFX;
 
     //squat variables
     bool squatComplete = false;
@@ -580,6 +580,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Plant") == false)
                 {
+                    Instantiate(digFX, hit.point, Quaternion.identity);
                     Services.PlantManager.CreateNewPlant(type, hit.point, true);
                     seedsLeft -= Services.GameController.plantCost[(int)type];
                 }

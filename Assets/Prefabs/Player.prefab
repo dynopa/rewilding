@@ -1075,7 +1075,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9657688623373461aa373919af9f3d97, type: 3}
   - {fileID: 21300000, guid: 14e4726edd78a418dab35efe1d4288ff, type: 3}
   - {fileID: 21300000, guid: 560260915dcb54adaa2d8bf0e61f2fd5, type: 3}
-  playerInv: {fileID: 0}
+  holdingA: 0
+  digFX: {fileID: 7582271973259980377, guid: 6e7e108d86a504bbe81ace890213ee11, type: 3}
   dayText: {fileID: 1543463795}
   seedCounter: {fileID: 2122612737}
   seedCounterImage: {fileID: 1218812627}
@@ -2483,8 +2484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91600644b3c6c4ca28b0223d2b20f436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingBobbingSpeed: 14
-  bobbingAmount: 0.05
+  walkingBobbingSpeed: 11
+  bobbingAmount: 0.035
   controller: {fileID: 8098947170907065763}
 --- !u!1 &6193596616430205043
 GameObject:
