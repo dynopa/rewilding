@@ -13,6 +13,7 @@ TagManager:
   - Pylon
   - Ground
   - RecCam
+  - NarrObj
   layers:
   - Default
   - TransparentFX

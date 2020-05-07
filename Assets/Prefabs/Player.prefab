@@ -602,10 +602,10 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 0
-  m_FillOrigin: 2
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1543463794
@@ -1046,6 +1046,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f384465c1ea14b15935c535da509514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seedPerDay: 20
+  seedGainPerDay: 10
   canAccessPlant: 01010101
   dayNum: 0
   oxygenOn: 0
@@ -1060,8 +1062,8 @@ MonoBehaviour:
   verticalPos: 0
   horizontalPos: 0
   isSpeaking: 0
-  seedPerDay: 20
   seedsLeft: 0
+  rb: {fileID: 0}
   holePrefab: {fileID: 0}
   type: 0
   economyUI: {fileID: 0}
@@ -1095,7 +1097,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645904350613896775}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1614,7 +1616,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2309,6 +2311,7 @@ GameObject:
   - component: {fileID: 4720803331028223234}
   - component: {fileID: 1864529203}
   - component: {fileID: 251158764}
+  - component: {fileID: 7027277536557098745}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: MainCamera
@@ -2468,6 +2471,21 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &7027277536557098745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5589681228076292616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91600644b3c6c4ca28b0223d2b20f436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkingBobbingSpeed: 14
+  bobbingAmount: 0.05
+  controller: {fileID: 8098947170907065763}
 --- !u!1 &6193596616430205043
 GameObject:
   m_ObjectHideFlags: 0

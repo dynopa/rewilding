@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
 
     //private data
-    Rigidbody rb;
+    public Rigidbody rb;
     Vector3 moveDirection;
     CapsuleCollider collider;
     Camera cam;
@@ -94,7 +94,6 @@ public class PlayerController : MonoBehaviour
 
 
     float resource = 0;
-    public PrinterScrollList playerInv;
 
     //int mossVal = 5;
     //int grassVal = 7;
@@ -105,10 +104,11 @@ public class PlayerController : MonoBehaviour
     int[] uiPositions = new int[] { -63, -168, -273, -378 };
     bool holdingRightTrigger;
     bool holdingLeftTrigger;
-    bool holdingA;
+    public bool holdingA;
     bool releasedA;
     bool holdingB;
-    
+    bool clickedOnce;
+    ParticleSystem ps;
 
     //squat variables
     bool squatComplete = false;
@@ -140,7 +140,8 @@ public class PlayerController : MonoBehaviour
     public FMOD.Studio.EventInstance oDrainS;
     public FMOD.Studio.EventInstance uiSwitchS;
     public FMOD.Studio.EventInstance lowOS;
-  
+    public FMOD.Studio.EventInstance VOS;
+
 
 
     // Start is called before the first frame update
@@ -531,14 +532,26 @@ public class PlayerController : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.distance > 3f){
+            if(hit.distance > 2f){
                 return null;
             }
             if (hit.transform.name == "Button")
             {
                 if(!sleptFirstTime){
                     sleptFirstTime = true;
+                    
                     Services.EventManager.Fire(new FirstSleep());
+                }
+
+                if (!clickedOnce)
+                {
+                    if (ps != null) Destroy(ps.gameObject);
+
+                    //CHRISTIAN: Door open
+                    doorOpenS = FMODUnity.RuntimeManager.CreateInstance("event:/Door3");
+                    doorOpenS.start();
+                    clickedOnce = true;
+                    //FMODUnity.RuntimeManager.PlayOneShot("event:/Door3");
                 }
                 /*for (int i = 1; i < plantMaxCount.Count-1; i++)
                 {
@@ -550,32 +563,36 @@ public class PlayerController : MonoBehaviour
                 fadeOut.fadeOut = true;
                 Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
 
-                //CHRISTIAN: Door open
-                //is there anyway to check if the raycast is going off multipel times?
-                doorOpenS = FMODUnity.RuntimeManager.CreateInstance("event:/Door3");
-                Debug.Log("reee");
-                doorOpenS.start();
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Door3");
+                
                 return hit.transform.gameObject;
             }
-            if(create && seedsLeft >= Services.GameController.plantCost[(int)type]){
+            if (hit.transform.tag == "NarrObj")
+            {
+                //VO sound
+                VOS = FMODUnity.RuntimeManager.CreateInstance("event:/VO_Test");
+                VOS.start();
+                ps = hit.transform.gameObject.GetComponent<ParticleSystem>();
+                ps.Stop();
+                ps.gameObject.tag = "Untagged";
+                return hit.transform.gameObject;
+            }
+            if (create && seedsLeft >= Services.GameController.plantCost[(int)type]){
                 if(hit.transform.CompareTag("Plant") == false){
                     Services.PlantManager.CreateNewPlant(type,hit.point,true);
                     seedsLeft-= Services.GameController.plantCost[(int)type];
                 }
                 
             }
-            else if (create && seedsLeft <= Services.GameController.plantCost[(int)type]){
+            else if (create && seedsLeft <= Services.GameController.plantCost[(int)type])
+            {
                 //CHRISTIAN: Not enough goo
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
             }
-            else{
-                if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
-                    //Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
-                    FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
-                    //CHRISTIAN: Remove plant
+            else if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
+                //Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
+                FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
+                //CHRISTIAN: Remove plant
 
-                }
             }
             
             //UpdateCounts();
@@ -588,9 +605,11 @@ public class PlayerController : MonoBehaviour
         transform.eulerAngles = new Vector3(0,180,0);
         seedsLeft+=seedGainPerDay;
         seedsLeft = Mathf.Clamp(seedsLeft,0,seedPerDay);
+        clickedOnce = false;
         Services.PlantManager.Update();
         Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
         dayNum++;
+        
         if(dayNum > 2){
             Services.PlantManager.CreateNarrativeMoment();
         }
@@ -683,28 +702,4 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void ShowHideShop()
-    {
-        if (showShop == false)
-        {
-            economyUI.SetActive(false);
-            hud.SetActive(true);
-            crosshair.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            Time.timeScale = 1f;
-            mouseLook.EnableLook();
-            resource = playerInv.resource;
-        }
-        else if (showShop == true)
-        {
-            economyUI.SetActive(true);
-            hud.SetActive(false);
-            crosshair.SetActive(false);
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-            mouseLook.DisableLook();
-            Time.timeScale = slowSpeed;
-        }
-    }
 }

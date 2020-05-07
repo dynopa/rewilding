@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &225799519927711491
 Transform:
   m_ObjectHideFlags: 0
@@ -103,9 +103,10 @@ GameObject:
   - component: {fileID: 225799521748943275}
   - component: {fileID: 5999272454531996614}
   - component: {fileID: 3915290543264444380}
+  - component: {fileID: 1577310797783052033}
   m_Layer: 0
   m_Name: NarrativeMoment
-  m_TagString: Untagged
+  m_TagString: NarrObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -208,7 +209,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2.73
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -693,7 +694,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 20
+    maxNumParticles: 30
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -753,7 +754,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 13.6
+    angle: 3.13
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -4847,3 +4848,16 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!65 &1577310797783052033
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225799521748943274}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4989628, y: 3.29, z: 0.49896294}
+  m_Center: {x: 0, y: 1.43, z: -0.000000052154064}

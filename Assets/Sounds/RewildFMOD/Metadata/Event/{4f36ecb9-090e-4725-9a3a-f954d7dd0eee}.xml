@@ -72,9 +72,6 @@
         </relationship>
     </object>
     <object class="EventMixerMaster" id="{2e7aaa62-b84a-47ec-a6b2-494c35bd0b3e}">
-        <property name="volume">
-            <value>-5</value>
-        </property>
         <relationship name="effectChain">
             <destination>{b06e7dac-5f31-4073-a0de-f479d8a7a9cf}</destination>
         </relationship>
@@ -98,15 +95,16 @@
         <property name="timelockedOffset">
             <value>0.03085349434941935</value>
         </property>
-        <property name="volume">
-            <value>-32</value>
-        </property>
         <property name="pitch">
-            <value>-1.39999998</value>
+            <value>-3</value>
         </property>
         <property name="playCount">
             <value>3</value>
         </property>
+        <relationship name="modulators">
+            <destination>{7f2c432a-4aa5-457b-a730-3fef97aaceb0}</destination>
+            <destination>{7333155b-757c-410f-b68a-b804911dc7a5}</destination>
+        </relationship>
         <relationship name="fadeInCurve">
             <destination>{de259510-c75d-40e5-8d5b-387c4d550e44}</destination>
         </relationship>
@@ -116,7 +114,7 @@
     </object>
     <object class="EventMixerGroup" id="{5252a966-4a97-4d07-b8ee-41003da989c9}">
         <property name="volume">
-            <value>-4</value>
+            <value>-29.5</value>
         </property>
         <property name="name">
             <value>Audio 1</value>
@@ -146,6 +144,19 @@
         </property>
     </object>
     <object class="MixerBusFader" id="{8250d0d1-d8dd-4adb-a44c-ec95dea12394}"/>
+    <object class="RandomizerModulator" id="{7f2c432a-4aa5-457b-a730-3fef97aaceb0}">
+        <property name="nameOfPropertyBeingModulated">
+            <value>pitch</value>
+        </property>
+        <property name="amount">
+            <value>6.5</value>
+        </property>
+    </object>
+    <object class="RandomizerModulator" id="{7333155b-757c-410f-b68a-b804911dc7a5}">
+        <property name="nameOfPropertyBeingModulated">
+            <value>volume</value>
+        </property>
+    </object>
     <object class="FadeCurve" id="{de259510-c75d-40e5-8d5b-387c4d550e44}">
         <relationship name="startPoint">
             <destination>{9c8b9954-f1e2-4e84-951c-830abb37c8c3}</destination>
@@ -175,7 +186,7 @@
     </object>
     <object class="AutomationPoint" id="{3b658598-4c26-4735-bfda-b964f8c4d799}">
         <property name="position">
-            <value>0.040000000000000001</value>
+            <value>0.025797977555064619</value>
         </property>
         <property name="value">
             <value>1</value>

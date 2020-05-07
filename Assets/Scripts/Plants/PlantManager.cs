@@ -194,12 +194,20 @@ public class PlantManager
         }
     }
     public void CreateNarrativeMoment(){
-        //random plant
-        int plantNum = Random.Range(0, plants.Count);
+        if (GameObject.FindGameObjectsWithTag("NarrObj").Length > 0)
+        {
 
-        GameObject narrObj = GameObject.Instantiate(Resources.Load("NarrativeMoment"), plants[plantNum].gameObject.transform) as GameObject;
-        //narrObj.transform.position = new Vector3(plants[plantNum].position.x, 0f, plants[plantNum].position.z);
-        narrObj.transform.localPosition = new Vector3(0, 1f, 0);
+        }
+        else
+        {
+            //random plant
+            int plantNum = Random.Range(0, plants.Count);
+
+            GameObject narrObj = GameObject.Instantiate(Resources.Load("NarrativeMoment"), plants[plantNum].gameObject.transform) as GameObject;
+            //narrObj.transform.position = new Vector3(plants[plantNum].position.x, 0f, plants[plantNum].position.z);
+            narrObj.transform.localPosition = new Vector3(0, 0f, 0);
+        }
+        
 
     }
 }
