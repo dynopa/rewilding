@@ -65,6 +65,7 @@ public class GameController : MonoBehaviour
         plantCost =  new int[]{(int)grassData[9],(int)bushData[9],(int)flowerData[9],(int)treeData[9]};
         saveId = 1;
         date = DateTime.Now;
+        date = date.AddYears(150);
         InitializeServices();
     }
     void Update(){

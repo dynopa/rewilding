@@ -16,6 +16,6 @@ public class Floater : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localPosition = startPos + Vector3.up*Mathf.Sin(startTime+Time.time*2f)/5f;
+        transform.localPosition = startPos + Vector3.up*Mathf.Sin(startTime+Time.time*1f)/7f;
     }
 }

@@ -12,6 +12,8 @@ TagManager:
   - Plant
   - Pylon
   - Ground
+  - RecCam
+  - NarrObj
   layers:
   - Default
   - TransparentFX

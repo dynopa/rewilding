@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
 
     //private data
-    Rigidbody rb;
+    public Rigidbody rb;
     Vector3 moveDirection;
     CapsuleCollider collider;
     Camera cam;
@@ -72,7 +72,6 @@ public class PlayerController : MonoBehaviour
     float newHoleRadius = 5f;
 
 
-    bool showShop = false;
 
     //inventory data
     //float count_moss = 8f;
@@ -94,7 +93,6 @@ public class PlayerController : MonoBehaviour
 
 
     float resource = 0;
-    public PrinterScrollList playerInv;
 
     //int mossVal = 5;
     //int grassVal = 7;
@@ -105,10 +103,12 @@ public class PlayerController : MonoBehaviour
     int[] uiPositions = new int[] { -63, -168, -273, -378 };
     bool holdingRightTrigger;
     bool holdingLeftTrigger;
-    bool holdingA;
+    public bool holdingA;
     bool releasedA;
     bool holdingB;
-    
+    bool clickedOnce;
+    ParticleSystem ps;
+    public GameObject digFX;
 
     //squat variables
     bool squatComplete = false;
@@ -132,6 +132,16 @@ public class PlayerController : MonoBehaviour
 
     bool sentOutOfGoopMessage;
     bool sleptFirstTime;
+
+    //soundStuff
+    [FMODUnity.EventRef]
+    public FMOD.Studio.EventInstance doorOpenS;
+    public FMOD.Studio.EventInstance powerDownS;
+    public FMOD.Studio.EventInstance oDrainS;
+    public FMOD.Studio.EventInstance uiSwitchS;
+    public FMOD.Studio.EventInstance lowOS;
+    public FMOD.Studio.EventInstance VOS;
+
 
 
     // Start is called before the first frame update
@@ -181,6 +191,8 @@ public class PlayerController : MonoBehaviour
                     typeNum = 0;
                 }
                 type = (PlantType)typeNum;
+                //uiSwitchS = FMODUnity.RuntimeManager.CreateInstance("event:/UI_Change");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/UI Change");
                 //CHRISTIAN: UI switch plant
             }
             holdingRightTrigger = true;
@@ -200,6 +212,7 @@ public class PlayerController : MonoBehaviour
                 }
                 type = (PlantType)typeNum;
                 //CHRISTIAN: UI switch plant
+                FMODUnity.RuntimeManager.PlayOneShot("event:/UI Change");
             }
             holdingLeftTrigger = true;
             
@@ -220,6 +233,9 @@ public class PlayerController : MonoBehaviour
             if (oState == oxygenState.draining || oState == oxygenState.low)
             {
                 //CHRISTIAN: Stop oxygen drain noise and play valve seal
+               // FMOD.Studio.PLAYBACK_STATE oPState;
+                //oDrainS.getPlaybackState(out oPState);
+                oDrainS.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 oState = oxygenState.full;
             }
             else if (oState == oxygenState.none)
@@ -234,6 +250,10 @@ public class PlayerController : MonoBehaviour
             if (oState != oxygenState.draining)
             {
                 //CHRISTIAN: Oxygen drain start
+                oDrainS = FMODUnity.RuntimeManager.CreateInstance("event:/lost oxygen");
+                
+                    oDrainS.start(); 
+                
                 oState = oxygenState.draining;
             }
         }
@@ -242,6 +262,8 @@ public class PlayerController : MonoBehaviour
             if (oState == oxygenState.draining)
             {
                 //CHRISTIAN: LOW OXYGEN
+                lowOS = FMODUnity.RuntimeManager.CreateInstance("event:/LowOxy2");
+                lowOS.start();
                 oState = oxygenState.low;
             }
         }
@@ -250,6 +272,10 @@ public class PlayerController : MonoBehaviour
             if (oState == oxygenState.low)
             {
                 //CHRISTIAN: Power down noise
+                powerDownS = FMODUnity.RuntimeManager.CreateInstance("event:/Door3");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/PowerDown 2");
+                oDrainS.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                lowOS.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 //stop drain sound
                 oState = oxygenState.none;
             }
@@ -506,14 +532,26 @@ public class PlayerController : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.distance > 3f){
+            if(hit.distance > 2f){
                 return null;
             }
             if (hit.transform.name == "Button")
             {
                 if(!sleptFirstTime){
                     sleptFirstTime = true;
+                    
                     Services.EventManager.Fire(new FirstSleep());
+                }
+
+                if (!clickedOnce)
+                {
+                    if (ps != null) Destroy(ps.gameObject);
+
+                    //CHRISTIAN: Door open
+                    doorOpenS = FMODUnity.RuntimeManager.CreateInstance("event:/Door3");
+                    doorOpenS.start();
+                    clickedOnce = true;
+                    //FMODUnity.RuntimeManager.PlayOneShot("event:/Door3");
                 }
                 /*for (int i = 1; i < plantMaxCount.Count-1; i++)
                 {
@@ -525,28 +563,47 @@ public class PlayerController : MonoBehaviour
                 fadeOut.fadeOut = true;
                 Services.EventManager.Register<FadeOutComplete>(OnFadeOutComplete);
 
-                //CHRISTIAN: Door open
+                
                 return hit.transform.gameObject;
             }
-            if(create && seedsLeft >= Services.GameController.plantCost[(int)type]){
-                if(hit.transform.CompareTag("Plant") == false){
-                    Services.PlantManager.CreateNewPlant(type,hit.point,true);
-                    seedsLeft-= Services.GameController.plantCost[(int)type];
+            if (hit.transform.tag == "NarrObj")
+            {
+                //VO sound
+                VOS = FMODUnity.RuntimeManager.CreateInstance("event:/VO_Test");
+                VOS.start();
+                ps = hit.transform.gameObject.GetComponent<ParticleSystem>();
+                ps.Stop();
+                ps.gameObject.tag = "Untagged";
+                return hit.transform.gameObject;
+            }
+            if (create && seedsLeft >= Services.GameController.plantCost[(int)type])
+            {
+                if (hit.transform.CompareTag("Plant") == false)
+                {
+                    Instantiate(digFX, hit.point, Quaternion.identity);
+                    Services.PlantManager.CreateNewPlant(type, hit.point, true);
+                    seedsLeft -= Services.GameController.plantCost[(int)type];
                 }
-                
+
             }
-            else if (create && seedsLeft <= Services.GameController.plantCost[(int)type]){
+            else if (create && seedsLeft <= Services.GameController.plantCost[(int)type])
+            {
                 //CHRISTIAN: Not enough goo
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
             }
-            else{
-                if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
+
+            else
+            {
+                if (!holdingA && destroy && hit.collider.CompareTag("Plant"))
+                {
                     Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
+                    FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
                     //CHRISTIAN: Remove plant
                 }
             }
-            
-            //UpdateCounts();
-            return hit.transform.gameObject;
+
+                //UpdateCounts();
+                return hit.transform.gameObject;
         }
         return null;
     }
@@ -555,9 +612,11 @@ public class PlayerController : MonoBehaviour
         transform.eulerAngles = new Vector3(0,180,0);
         seedsLeft+=seedGainPerDay;
         seedsLeft = Mathf.Clamp(seedsLeft,0,seedPerDay);
+        clickedOnce = false;
         Services.PlantManager.Update();
         Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
         dayNum++;
+        
         if(dayNum > 2){
             Services.PlantManager.CreateNarrativeMoment();
         }
@@ -650,28 +709,4 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void ShowHideShop()
-    {
-        if (showShop == false)
-        {
-            economyUI.SetActive(false);
-            hud.SetActive(true);
-            crosshair.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            Time.timeScale = 1f;
-            mouseLook.EnableLook();
-            resource = playerInv.resource;
-        }
-        else if (showShop == true)
-        {
-            economyUI.SetActive(true);
-            hud.SetActive(false);
-            crosshair.SetActive(false);
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-            mouseLook.DisableLook();
-            Time.timeScale = slowSpeed;
-        }
-    }
 }
