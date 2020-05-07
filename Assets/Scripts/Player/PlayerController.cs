@@ -576,27 +576,33 @@ public class PlayerController : MonoBehaviour
                 ps.gameObject.tag = "Untagged";
                 return hit.transform.gameObject;
             }
-            if (create && seedsLeft >= Services.GameController.plantCost[(int)type]){
-                if(hit.transform.CompareTag("Plant") == false){
-                    Services.PlantManager.CreateNewPlant(type,hit.point,true);
-                    seedsLeft-= Services.GameController.plantCost[(int)type];
+            if (create && seedsLeft >= Services.GameController.plantCost[(int)type])
+            {
+                if (hit.transform.CompareTag("Plant") == false)
+                {
+                    Services.PlantManager.CreateNewPlant(type, hit.point, true);
+                    seedsLeft -= Services.GameController.plantCost[(int)type];
                 }
-                
+
             }
             else if (create && seedsLeft <= Services.GameController.plantCost[(int)type])
             {
                 //CHRISTIAN: Not enough goo
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
             }
-            else if(!holdingA && destroy && hit.collider.CompareTag("Plant")){
-                //Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
-                FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
-                //CHRISTIAN: Remove plant
 
+            else
+            {
+                if (!holdingA && destroy && hit.collider.CompareTag("Plant"))
+                {
+                    Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
+                    FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
+                    //CHRISTIAN: Remove plant
+                }
             }
-            
-            //UpdateCounts();
-            return hit.transform.gameObject;
+
+                //UpdateCounts();
+                return hit.transform.gameObject;
         }
         return null;
     }
