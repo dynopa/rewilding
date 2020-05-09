@@ -576,17 +576,17 @@ public class PlayerController : MonoBehaviour
                 ps.gameObject.tag = "Untagged";
                 return hit.transform.gameObject;
             }
-            if (create && seedsLeft >= Services.GameController.plantCost[(int)type])
+            if (create && seedsLeft >= Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type])
             {
                 if (hit.transform.CompareTag("Plant") == false)
                 {
                     Instantiate(digFX, hit.point, Quaternion.identity);
                     Services.PlantManager.CreateNewPlant(type, hit.point, true);
-                    seedsLeft -= Services.GameController.plantCost[(int)type];
+                    seedsLeft -= (int)Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type];
                 }
 
             }
-            else if (create && seedsLeft <= Services.GameController.plantCost[(int)type])
+            else if (create && seedsLeft <= Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type])
             {
                 //CHRISTIAN: Not enough goo
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
