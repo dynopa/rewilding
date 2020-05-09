@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour
         ReadLevers();
         saveId = 1;
         date = DateTime.Now;
+        date = date.AddYears(150);
         InitializeServices();
         //
     }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{318c016c-0fee-43f5-8250-a9ae0d2f57f6}">
+        <property name="assetPath">
+            <value>VOTest_1.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>1</value>
+        </property>
+        <property name="length">
+            <value>5.4077708333333332</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{e9512943-836e-44ce-a9a2-ddacf5ca13e3}</destination>
+        </relationship>
+    </object>
+</objects>

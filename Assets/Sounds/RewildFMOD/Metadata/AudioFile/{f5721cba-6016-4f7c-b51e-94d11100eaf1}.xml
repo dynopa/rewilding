@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{f5721cba-6016-4f7c-b51e-94d11100eaf1}">
+        <property name="assetPath">
+            <value>planting3.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>0.99193750000000003</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{e9512943-836e-44ce-a9a2-ddacf5ca13e3}</destination>
+        </relationship>
+    </object>
+</objects>
