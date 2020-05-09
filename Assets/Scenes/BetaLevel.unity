@@ -3042,6 +3042,11 @@ PrefabInstance:
       propertyPath: treeData.Array.data[5]
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4146481527077476381, guid: fc17fe94f13bb40a7be446704ec298a9,
+        type: 3}
+      propertyPath: levers
+      value: 
+      objectReference: {fileID: 4900000, guid: 209b1c941ae207845ba3da1b4ef12ab8, type: 3}
     - target: {fileID: 4146481527077476382, guid: fc17fe94f13bb40a7be446704ec298a9,
         type: 3}
       propertyPath: m_LocalPosition.x

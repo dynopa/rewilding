@@ -528,14 +528,14 @@ public class PlayerController : MonoBehaviour
                 //CHRISTIAN: Door open
                 return hit.transform.gameObject;
             }
-            if(create && seedsLeft >= Services.GameController.plantCost[(int)type]){
+            if(create && seedsLeft >= Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type]){
                 if(hit.transform.CompareTag("Plant") == false){
                     Services.PlantManager.CreateNewPlant(type,hit.point,true);
-                    seedsLeft-= Services.GameController.plantCost[(int)type];
+                    seedsLeft-= (int)Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type];
                 }
                 
             }
-            else if (create && seedsLeft <= Services.GameController.plantCost[(int)type]){
+            else if (create && seedsLeft <= Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type]){
                 //CHRISTIAN: Not enough goo
             }
             else{
