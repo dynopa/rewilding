@@ -26,11 +26,10 @@ public class PlantManager
         Services.EventManager.Register<PlantJustFed>(OnPlantFed);
         pylonPositions = new List<Vector3>();
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Pylon")){
-            CreateNewPylon(obj.transform.position);
+            CreateNewPylon(obj.transform.position,true);
         }
-        Debug.Log(pylonPositions.Count);
     }
-    public void CreateNewPylon(Vector3 pos)
+    public void CreateNewPylon(Vector3 pos, bool dome)
     {
         if(firstTreeGrown ==false){
             firstTreeGrown = true;
@@ -39,28 +38,27 @@ public class PlantManager
         RaycastHit hit;
         if (Physics.Raycast(pos, -Vector3.up, out hit))
         {
-            texEdit.PaintCircle(hit.textureCoord, Services.GameController.pylonRadius);
+            texEdit.PaintCircle(hit.textureCoord, dome ? Services.GameController.domePylonRadius : Services.GameController.pylonRadius);
         }
         pylonPositions.Add(pos);
     }
+    public void CreateNewPylon(Vector3 pos){
+        CreateNewPylon(pos, false);
+    }
     public bool CloseToPylon(Vector3 pos){
-        foreach(Vector3 v in pylonPositions){
-            if(Vector3.Distance(v,pos) < Services.GameController.pylonRadius){
+        for(int i = 0; i < pylonPositions.Count;i++){
+            Vector3 v  = pylonPositions[i];
+            float distance = i==0 ? Services.GameController.domePylonRadius : Services.GameController.pylonRadius;
+            if(Vector3.Distance(v,pos) < distance){
                 return true;
             }
         }
         return false;
     }
     public bool CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
-        Debug.Log("A");
-        bool isCloseEnough = false;
-        foreach(Vector3 v in pylonPositions){
-            if(Vector3.Distance(v,pos) < Services.GameController.pylonRadius){
-                isCloseEnough = true;
-                break;
-            }
-        }
+        bool isCloseEnough = CloseToPylon(pos);
         if(!isCloseEnough){
+            Debug.Log("Plant is not in pylon radius");
             return false;
         }
         if(!playerPlaced){
@@ -69,12 +67,13 @@ public class PlantManager
                 float maxAllowedDistance = 0f;
                 if(p.type != type){
                     //they're different
-                    maxAllowedDistance = Services.GameController.distanceForSame[(int)type];
+                    maxAllowedDistance = Services.GameController.plantInfo[(int)PlantInfo.collideDistanceForOthers,(int)type];
                 }else{
-                    maxAllowedDistance = Services.GameController.distanceForOthers[(int)type];
+                    maxAllowedDistance = Services.GameController.plantInfo[(int)PlantInfo.collideDistanceForSame,(int)type];
                 }
                 //this is for all the same
                 if(distance < maxAllowedDistance){
+                    Debug.Log("Plant is too close to other plants");
                     return false;
                 }
                 /*if(type == PlantType.Tree){
@@ -114,7 +113,7 @@ public class PlantManager
                 continue;
             }
             float distance = Vector3.Distance(p1.position,p2.position);
-            if(distance > Services.GameController.maxNeighborDistance[p1Level]){
+            if(distance > Services.GameController.plantInfo[(int)PlantInfo.maxNeighborDistance,p1Level]){
                 continue;
             }
             if(!p1.neighbors.Contains(p2)){//add this plant to its neighbor
@@ -194,6 +193,9 @@ public class PlantManager
         }
     }
     public void CreateNarrativeMoment(){
+        if(Services.GameController.makeNarrativeEvents==false){
+            return;
+        }
         if (GameObject.FindGameObjectsWithTag("NarrObj").Length > 0)
         {
 
@@ -207,7 +209,5 @@ public class PlantManager
             //narrObj.transform.position = new Vector3(plants[plantNum].position.x, 0f, plants[plantNum].position.z);
             narrObj.transform.localPosition = new Vector3(0, 0f, 0);
         }
-        
-
     }
 }
