@@ -62,9 +62,9 @@ public class Plant
     public Plant(PlantType type,Vector3 pos){
         stage = 1;
         this.type = type;
-        ratioNeeded = Services.GameController.ratioNeeds[(int)type];
-        babiesPerDay = (int)Services.GameController.babiesPerDayNum[(int)type];
-        babyLimit = (int)Services.GameController.babyLimits[(int)type];
+        ratioNeeded = Services.GameController.plantInfo[(int)PlantInfo.dependentRatio,(int)type];
+        babiesPerDay = (int)Services.GameController.plantInfo[(int)PlantInfo.babiesPerDay,(int)type];
+        babyLimit = (int)Services.GameController.plantInfo[(int)PlantInfo.babiesAllowed,(int)type];
         position = pos;
         needsMetPercent = 0;
         growthPercent = 0;
@@ -153,12 +153,8 @@ public class Plant
                     }
                 }
             }
-            
-            if(level==3){
-                Debug.Log(needsMetPercent);
-                Debug.Log(growthPercent);
-            }
-            growthPercent+=(Services.GameController.growthRate[(int)type]*needsMetPercent);
+            growthPercent+=(Services.GameController.plantInfo[(int)PlantInfo.growthRate,(int)type]*needsMetPercent);
+            Debug.Log(growthPercent);
             if(growthPercent >= stage){
                 growthPercent = 0;
                 stage++;
@@ -193,10 +189,9 @@ public class Plant
         if(grown){
             CheckNeeds();
             //grow more plants!  && needsMetPercent >= Services.GameController.needsMetToHaveBaby[(int)type])
-            if(Random.value <= Services.GameController.chanceOfBaby[(int)type]){
+            if(Random.value <= Services.GameController.plantInfo[(int)PlantInfo.babyChance,(int)type]){
                 for(int i = 0; i < babiesPerDay; i++){
                     if(HaveBaby()){
-                        Debug.Log("A");
                         numBabies++;
                     }
                 }
@@ -212,18 +207,20 @@ public class Plant
     }
     public bool HaveBaby(){
         float level = (int)type+1;
-        Vector3 newPosition = position+Random.insideUnitSphere*Random.Range(2f,4f)*(level);
+        Vector3 newPosition = position+Random.insideUnitSphere*Random.Range(Services.GameController.plantInfo[(int)PlantInfo.minBabyDistance,(int)type],Services.GameController.plantInfo[(int)PlantInfo.maxBabyDistance,(int)type])*(level);
         newPosition.y = position.y+5f;
         RaycastHit hit;
         Ray ray = new Ray(newPosition,Vector3.down);
         if (Physics.Raycast(ray, out hit)){
-            if(hit.collider.CompareTag("Ground")){
-                newPosition.y = hit.point.y;
-            }else if(hit.collider.CompareTag("Plant")){
-
-            }else{
+            if(hit.collider.CompareTag("Ground") == false && hit.collider.CompareTag("Plant") == false){
                 return false;
             }
+            if(hit.collider.CompareTag("Ground")){
+                newPosition.y = hit.point.y;
+            }else{
+                newPosition.y = position.y;
+            }
+            
             
         }else{
             newPosition.y = position.y;

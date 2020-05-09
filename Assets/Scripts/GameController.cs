@@ -13,60 +13,70 @@ public enum PlantInfo{
     dependentRatio,
     babiesAllowed,
     babiesPerDay,
-    plantCost
+    plantCost,
+    minBabyDistance,
+    maxBabyDistance
 }
 public class GameController : MonoBehaviour
 {
     public byte saveId;
     public TextMeshProUGUI dayCounter;
     public TextureEditor texEdit;
-    [NamedArray(typeof(PlantInfo))] public float[] grassData;
-    [NamedArray(typeof(PlantInfo))] public float[] bushData;
-    [NamedArray(typeof(PlantInfo))] public float[] flowerData;
-    [NamedArray(typeof(PlantInfo))] public float[] treeData;
-    [HideInInspector]
-    public float[] growthRate;
-    [HideInInspector]
-    public float[] chanceOfBaby;
-    [HideInInspector]
-    public float[] needsMetToHaveBaby;
-    [HideInInspector]
-    public float[] distanceForOthers;
-    [HideInInspector]
-    public float[] distanceForSame;
-    public float pylonRadius;
-    [HideInInspector]
-    public float[] maxNeighborDistance;
-    [HideInInspector]
-    public float[] ratioNeeds;
-    [HideInInspector]
-    public float[] babyLimits;
-    [HideInInspector]
-    public float[] babiesPerDayNum;
-    [HideInInspector]
-    public int[] plantCost;
+    public TextAsset levers;
+    public float[,] plantInfo;
     public DateTime date;
     int frame = 0;
     bool freshStart = false;
     bool fired = false;
     string[] months = new string[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     // Start is called before the first frame update
+    [HideInInspector]
+    public float pylonRadius;
+    [HideInInspector]
+    public float domePylonRadius;
+    public bool makeNarrativeEvents;
     void Awake()
     {
-        growthRate = new float[]{grassData[0],bushData[0],flowerData[0],treeData[0]};
-        chanceOfBaby = new float[]{grassData[1],bushData[1],flowerData[1],treeData[1]};
-        needsMetToHaveBaby = new float[]{grassData[2],bushData[2],flowerData[2],treeData[2]};
-        maxNeighborDistance = new float[]{grassData[3],bushData[3],flowerData[3],treeData[3]};
-        distanceForOthers = new float[]{grassData[4],bushData[4],flowerData[4],treeData[4]};
-        distanceForSame = new float[]{grassData[5],bushData[5],flowerData[5],treeData[5]};
-        ratioNeeds = new float[]{grassData[6],bushData[6],flowerData[6],treeData[6]};
-        babyLimits = new float[]{grassData[7],bushData[7],flowerData[7],treeData[7]};
-        babiesPerDayNum = new float[]{grassData[8],bushData[8],flowerData[8],treeData[8]};
-        plantCost =  new int[]{(int)grassData[9],(int)bushData[9],(int)flowerData[9],(int)treeData[9]};
+        plantInfo = new float[12,4];
+        ReadLevers();
         saveId = 1;
         date = DateTime.Now;
         date = date.AddYears(150);
         InitializeServices();
+        //
+    }
+    void ReadLevers(){
+        string leversString = levers.text;
+        string[] leverLines = leversString.Split('\n');
+        int whichPlant = -1;
+        int whichVariable = 0;
+        bool pylonStuff = true;
+        for(int i = 0; i < leverLines.Length;i++){
+            string line = leverLines[i];
+            if(line.Contains("=")){//new variable
+            string info = line.Split('=')[1].Trim();
+                if(pylonStuff){
+                    if(whichVariable == 0){
+                        pylonRadius = float.Parse(info);
+                    }else{
+                        domePylonRadius = float.Parse(info);
+                    }
+                    whichVariable++;
+                    continue;
+                }
+                plantInfo[whichVariable,whichPlant] = float.Parse(info);
+                whichVariable++;
+                continue;
+            }
+            if(line.Contains("-")){
+                if(pylonStuff){
+                    pylonStuff = false;
+                }
+                whichVariable = 0;
+                whichPlant++;
+                continue;
+            }
+        }
     }
     void Update(){
         if(!fired)

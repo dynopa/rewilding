@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TriplanarSimple
-  m_Shader: {fileID: 4800000, guid: 9630a95d775354042b835d9eeee659d9, type: 3}
+  m_Shader: {fileID: 4800000, guid: 53a6c500b0842a346962b87d611f8b63, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -75,7 +75,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 5704ac687dc7e40618a4fdedae35aae7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TopAlbedo1:
+        m_Texture: {fileID: 2800000, guid: dacad1a7e9f747841be6fb77793b181e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TopNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopNormal1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -87,7 +95,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: e699c66d095724e509fb2be3064d4c88, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TriplanarAlbedo1:
+        m_Texture: {fileID: 2800000, guid: e5de6af3e99c53848a1afe756b1fce60, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TriplanarNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarNormal1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -99,12 +115,18 @@ Material:
     - _Coverage: 20
     - _CoverageAmount: 0
     - _CoverageFalloff: 0.64
+    - _CoverageFalloff1: 0.5
     - _Float0: -1.52
     - _Metallic: 0.02
     - _Smoothness: 0
+    - _Smoothness1: 0
     - _Specular: 0.051
+    - _Specular1: 0.02
     - _WorldtoObjectSpace: 0
     - _WorldtoObjectSwitch: 1
     - __dirty: 0
+    - _alpha: 0.722
     m_Colors:
     - _Tiling: {r: 0.009, g: 0.01, b: 0, a: 0}
+    - _Tiling1: {r: 0.02, g: 0.02, b: 0, a: 0}
+    - _albeto: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0}
