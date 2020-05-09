@@ -1,6 +1,6 @@
 PYLONS
 pylonRadius = 10
-domePylonRadius = 30
+domePylonRadius = 3
 -----
 GRASS
 growthRate = 1
