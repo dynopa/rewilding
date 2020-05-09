@@ -1,9 +1,12 @@
-PYLONS
+OTHER INFO
 pylonRadius = 10
 domePylonRadius = 3
+seedGainPerDay = 5
+seedMax = 20
+startingSeed = 5
 -----
 GRASS
-growthRate = 1
+growthRate = 0.5
 babyChance = 1
 needsMetToHaveBaby = 0
 maxNeighborDistance = 2

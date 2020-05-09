@@ -271,6 +271,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ce25da3ed2e75247b8891878f43b14f, type: 3}
+--- !u!114 &182398807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8098947170907065763, guid: c3cfb223e3a714ac19b58d0cfd624d96,
+    type: 3}
+  m_PrefabInstance: {fileID: 4053080160682855936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f384465c1ea14b15935c535da509514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &185914185
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,12 +2291,12 @@ PrefabInstance:
     - target: {fileID: 7759791698659388839, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7759791698659388839, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7759791698659388839, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
@@ -2299,12 +2311,12 @@ PrefabInstance:
     - target: {fileID: 7878756733257970100, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7878756733257970100, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7878756733257970100, guid: c3cfb223e3a714ac19b58d0cfd624d96,
         type: 3}
@@ -2540,6 +2552,11 @@ PrefabInstance:
       propertyPath: levers
       value: 
       objectReference: {fileID: 4900000, guid: 209b1c941ae207845ba3da1b4ef12ab8, type: 3}
+    - target: {fileID: 4146481527077476381, guid: fc17fe94f13bb40a7be446704ec298a9,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 182398807}
     - target: {fileID: 4146481527077476382, guid: fc17fe94f13bb40a7be446704ec298a9,
         type: 3}
       propertyPath: m_LocalPosition.x

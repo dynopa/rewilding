@@ -73,8 +73,14 @@ public class PlantManager
                 }
                 //this is for all the same
                 if(distance < maxAllowedDistance){
-                    Debug.Log("Plant is too close to other plants");
-                    return false;
+                    if((int)p.type == (int)type-1){
+                        //its the thing below it, so just destroy it instead
+                        p.Destroy();
+                    }else{
+                        Debug.Log("Plant is too close to other plants");
+                        return false;
+                    }
+                    
                 }
                 /*if(type == PlantType.Tree){
                     if(distance < 4f){

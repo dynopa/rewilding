@@ -148,7 +148,6 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         sentOutOfGoopMessage = false;
-        seedsLeft = seedPerDay;
         oxygen = maxOxygen;
         spawnPosition = transform.position;
         type = PlantType.Spread;
