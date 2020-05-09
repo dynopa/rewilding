@@ -89,7 +89,6 @@ public class AudioManager : MonoBehaviour
             if (p.plantFood.isValid())
             {
                 p.shouldPlay = false;
-                UnityEngine.Debug.Log(p.shouldPlay);
                 p.plantFood.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 p.plantFood.release();
             }
