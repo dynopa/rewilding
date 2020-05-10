@@ -1,46 +1,46 @@
 PYLONS
 pylonRadius = 10
-domePylonRadius = 15
+domePylonRadius = 10
 -----
 GRASS
 growthRate = 2
 babyChance = 1
 needsMetToHaveBaby = 0
-maxNeighborDistance = 2
+maxNeighborDistance = 5
 collideDistanceForOthers = 0.5
-collideDistanceForSame = 0
+collideDistanceForSame = 1
 depedentRatio = 2
-babyLimit = 10
-babiesPerDay = 5
-plantCost = 0
+babyLimit = 5
+babiesPerDay = 2
+plantCost = 1
 minBabyDistance = 1
 maxBabyDistance = 5
 ---------
 BUSH
 growthRate = 1
-babyChance = 1
+babyChance = 0.2
 needsMetToHaveBaby = 1
 maxNeighborDistance = 2
 collideDistanceForOthers = 0.5
-collideDistanceForSame = 0
+collideDistanceForSame = 3
 depedentRatio = 2
-babyLimit = 10
-babiesPerDay = 2
-plantCost = 0
-minBabyDistance = 1
+babyLimit = 5
+babiesPerDay = 1
+plantCost = 2
+minBabyDistance = 3
 maxBabyDistance = 5
 ---------
 FLOWER
 growthRate = 1
-babyChance = 1
-needsMetToHaveBaby = 0
+babyChance = .5
+needsMetToHaveBaby = 2
 maxNeighborDistance = 2
 collideDistanceForOthers = 0.5
-collideDistanceForSame = 0
+collideDistanceForSame = 1
 depedentRatio = 2
 babyLimit = 10
 babiesPerDay = 5
-plantCost = 0
+plantCost = 3
 minBabyDistance = 1
 maxBabyDistance = 5
 ---------
@@ -49,11 +49,11 @@ growthRate = 1
 babyChance = 1
 needsMetToHaveBaby = 0
 maxNeighborDistance = 2
-collideDistanceForOthers = 0.5
-collideDistanceForSame = 0
+collideDistanceForOthers = 1
+collideDistanceForSame = 3
 depedentRatio = 2
-babyLimit = 10
-babiesPerDay = 5
-plantCost = 0
-minBabyDistance = 1
-maxBabyDistance = 5
+babyLimit = 2
+babiesPerDay = 1
+plantCost = 4
+minBabyDistance = 3
+maxBabyDistance = 8
