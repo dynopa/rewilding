@@ -1,6 +1,6 @@
 OTHER INFO
 pylonRadius = 10
-domePylonRadius = 3
+domePylonRadius = 8
 seedGainPerDay = 5
 seedMax = 20
 startingSeed = 5
@@ -10,11 +10,11 @@ growthRate = 0.5
 babyChance = 1
 needsMetToHaveBaby = 0
 maxNeighborDistance = 2
-collideDistanceForOthers = 0.5
-collideDistanceForSame = 0
+collideDistanceForOthers = 0
+collideDistanceForSame = 0.5
 depedentRatio = 2
-babyLimit = 10
-babiesPerDay = 5
+babyLimit = 4
+babiesPerDay = 2
 plantCost = 0
 minBabyDistance = 1
 maxBabyDistance = 5

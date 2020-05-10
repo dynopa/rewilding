@@ -58,6 +58,7 @@ public class Plant
     public bool withering;
     public int babiesPerDay;
     public float ratioNeeded;
+    public List<Plant> babies = new List<Plant>();
 
     public Plant(PlantType type,Vector3 pos){
         stage = 1;
@@ -111,7 +112,7 @@ public class Plant
 
     public void Update()//called each night to grow the plant
     {
-        if(grown && numBabies >= babyLimit){
+        if(grown && babies.Count >= babyLimit){
             return;
         }
         if(!grown){
@@ -225,7 +226,13 @@ public class Plant
         }else{
             newPosition.y = position.y;
         }
-        return Services.PlantManager.CreateNewPlant(type,newPosition);
+        Plant baby = Services.PlantManager.CreateNewPlant(type,newPosition);
+        if(ReferenceEquals(baby,null)){
+            return false;
+        }else{
+            babies.Add(baby);
+            return true;
+        }
     }
     //check how your needs are being met
     public void CheckNeeds(){
