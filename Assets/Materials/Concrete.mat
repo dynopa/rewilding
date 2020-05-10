@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TopAlbedo:
-        m_Texture: {fileID: 2800000, guid: f1bc415e28d17ad42a1bb8624a8a193a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8d8a68b50f00d48fbb1d938b1c0131f7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TopNormal:
@@ -68,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriplanarAlbedo:
-        m_Texture: {fileID: 2800000, guid: f1bc415e28d17ad42a1bb8624a8a193a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8d8a68b50f00d48fbb1d938b1c0131f7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriplanarNormal:
