@@ -154,23 +154,52 @@ public class Plant
                     }
                 }
             }
+            if(needsMetPercent < 0.5f){
+                needsMetPercent = Services.GameController.plantInfo[(int)PlantInfo.unsupportedGrowthRate,(int)type];
+            }
             growthPercent+=(Services.GameController.plantInfo[(int)PlantInfo.growthRate,(int)type]*needsMetPercent);
             Debug.Log(growthPercent);
             if(growthPercent >= stage){
                 growthPercent = 0;
                 stage++;
-                if(stage > level){
-                    grown = true;
-                    growthPercent = 1.0f;
-                }
-                if(stage != 2){
-                    //switch out the model
-                    GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
-                    GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
-                    plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
-                }
-                if(level == 3){
-                    Debug.Log(stage+","+grown);
+                switch(type){
+                    case PlantType.Spread://grass
+                        grown = true;
+                        growthPercent = 1.0f;
+                        break;
+                    case PlantType.Grass://Flower (HAS 3 STAGES)
+                        if(stage != 2){
+                            GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
+                            GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
+                            plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
+                        }
+                        if(stage > 3){
+                            grown = true;
+                            growthPercent = 1.0f;
+                        }
+                        break;
+                    case PlantType.Shrub://Bush
+                        if(stage != 2){
+                            GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
+                            GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
+                            plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
+                        }
+                        if(stage > 2){
+                            grown = true;
+                            growthPercent = 1.0f;
+                        }
+                        break;
+                    case PlantType.Tree:
+                        if(stage != 2){
+                            GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
+                            GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
+                            plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
+                        }
+                        if(stage > level){
+                            grown = true;
+                            growthPercent = 1.0f;
+                        }
+                        break;
                 }
                 
             }

@@ -18,20 +18,7 @@ babiesPerDay = 2
 plantCost = 0
 minBabyDistance = 1
 maxBabyDistance = 5
----------
-BUSH
-growthRate = 1
-babyChance = 1
-needsMetToHaveBaby = 0
-maxNeighborDistance = 2
-collideDistanceForOthers = 0.5
-collideDistanceForSame = 0
-depedentRatio = 2
-babyLimit = 10
-babiesPerDay = 5
-plantCost = 0
-minBabyDistance = 1
-maxBabyDistance = 5
+unSupportedGrowth = 0
 ---------
 FLOWER
 growthRate = 1
@@ -46,6 +33,22 @@ babiesPerDay = 5
 plantCost = 0
 minBabyDistance = 1
 maxBabyDistance = 5
+unSupportedGrowth = 0
+---------
+BUSH
+growthRate = 1
+babyChance = 1
+needsMetToHaveBaby = 0
+maxNeighborDistance = 2
+collideDistanceForOthers = 0.5
+collideDistanceForSame = 0
+depedentRatio = 2
+babyLimit = 10
+babiesPerDay = 5
+plantCost = 0
+minBabyDistance = 1
+maxBabyDistance = 5
+unSupportedGrowth = 0
 ---------
 TREE
 growthRate = 1
@@ -60,3 +63,4 @@ babiesPerDay = 5
 plantCost = 0
 minBabyDistance = 1
 maxBabyDistance = 5
+unSupportedGrowth = 0

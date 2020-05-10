@@ -15,7 +15,8 @@ public enum PlantInfo{
     babiesPerDay,
     plantCost,
     minBabyDistance,
-    maxBabyDistance
+    maxBabyDistance,
+    unsupportedGrowthRate
 }
 public class GameController : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class GameController : MonoBehaviour
     public PlayerController player;
     void Awake()
     {
-        plantInfo = new float[12,4];
+        plantInfo = new float[13,4];
         ReadLevers();
         saveId = 1;
         date = DateTime.Now;
