@@ -76,7 +76,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TopAlbedo1:
-        m_Texture: {fileID: 2800000, guid: e699c66d095724e509fb2be3064d4c88, type: 3}
+        m_Texture: {fileID: 2800000, guid: e5de6af3e99c53848a1afe756b1fce60, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TopNormal:
@@ -96,7 +96,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriplanarAlbedo1:
-        m_Texture: {fileID: 2800000, guid: e699c66d095724e509fb2be3064d4c88, type: 3}
+        m_Texture: {fileID: 2800000, guid: e5de6af3e99c53848a1afe756b1fce60, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriplanarNormal:
@@ -129,4 +129,4 @@ Material:
     m_Colors:
     - _Tiling: {r: 0.009, g: 0.01, b: 0, a: 0}
     - _Tiling1: {r: 0.02, g: 0.02, b: 0, a: 0}
-    - _albeto: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0}
+    - _albeto: {r: 0.34, g: 0.34, b: 0.34, a: 0}
