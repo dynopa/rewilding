@@ -15,7 +15,8 @@ public enum PlantInfo{
     babiesPerDay,
     plantCost,
     minBabyDistance,
-    maxBabyDistance
+    maxBabyDistance,
+    unsupportedGrowthRate
 }
 public class GameController : MonoBehaviour
 {
@@ -35,9 +36,10 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public float domePylonRadius;
     public bool makeNarrativeEvents;
+    public PlayerController player;
     void Awake()
     {
-        plantInfo = new float[12,4];
+        plantInfo = new float[13,4];
         ReadLevers();
         saveId = 1;
         date = DateTime.Now;
@@ -56,10 +58,22 @@ public class GameController : MonoBehaviour
             if(line.Contains("=")){//new variable
             string info = line.Split('=')[1].Trim();
                 if(pylonStuff){
-                    if(whichVariable == 0){
-                        pylonRadius = float.Parse(info);
-                    }else{
-                        domePylonRadius = float.Parse(info);
+                    switch(whichVariable){
+                        case 0:
+                            pylonRadius = float.Parse(info);
+                            break;
+                        case 1:
+                            domePylonRadius = float.Parse(info);
+                            break;
+                        case 2:
+                            player.seedGainPerDay = (int)float.Parse(info);
+                            break;
+                        case 3:
+                            player.seedPerDay = (int)float.Parse(info);
+                            break;
+                        case 4:
+                            player.seedsLeft = (int)float.Parse(info);
+                            break;
                     }
                     whichVariable++;
                     continue;

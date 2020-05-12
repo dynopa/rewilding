@@ -55,11 +55,11 @@ public class PlantManager
         }
         return false;
     }
-    public bool CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
+    public Plant CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
         bool isCloseEnough = CloseToPylon(pos);
         if(!isCloseEnough){
             Debug.Log("Plant is not in pylon radius");
-            return false;
+            return null;
         }
         if(!playerPlaced){
             foreach(Plant p in plants){
@@ -73,8 +73,14 @@ public class PlantManager
                 }
                 //this is for all the same
                 if(distance < maxAllowedDistance){
-                    Debug.Log("Plant is too close to other plants");
-                    return false;
+                    if((int)p.type == (int)type-1){
+                        //its the thing below it, so just destroy it instead
+                        p.Destroy();
+                    }else{
+                        Debug.Log("Plant is too close to other plants");
+                        return null;
+                    }
+                    
                 }
                 /*if(type == PlantType.Tree){
                     if(distance < 4f){
@@ -101,7 +107,7 @@ public class PlantManager
             newPlants.Add(plant);
         }
         Services.EventManager.Fire(new PlantCreated(plant));
-        return true;
+        return plant;
     }
     public void FindNeighbors(Plant p1){
         foreach(Plant p2 in plants){
@@ -136,6 +142,9 @@ public class PlantManager
         {
             if(other.neighbors.Contains(plant)){
                 other.RemovePlantUpdate(plant);
+            }
+            if(other.babies.Contains(plant)){
+                other.babies.Remove(plant);
             }
         }
         deadPlants.Add(plant);
