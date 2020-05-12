@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlantManager
 {
     public List<Plant> plants;
+    public int[] typeCount = new int[4];//cumulative
     public List<Plant> newPlants;
     public List<Plant> deadPlants;
     public List<Vector3> pylonPositions;
@@ -73,8 +74,8 @@ public class PlantManager
                 }
                 //this is for all the same
                 if(distance < maxAllowedDistance){
-                    if((int)p.type == (int)type-1){
-                        //its the thing below it, so just destroy it instead
+                    if((int)p.type < (int)type-1){
+                        //its below it, so just destroy it instead
                         p.Destroy();
                     }else{
                         Debug.Log("Plant is too close to other plants");
@@ -82,16 +83,27 @@ public class PlantManager
                     }
                     
                 }
-                /*if(type == PlantType.Tree){
-                    if(distance < 4f){
-                        return false;
-                    }
+            }
+            foreach(Plant p in newPlants){
+                float distance = Vector3.Distance(pos,p.position);
+                float maxAllowedDistance = 0f;
+                if(p.type != type){
+                    //they're different
+                    maxAllowedDistance = Services.GameController.plantInfo[(int)PlantInfo.collideDistanceForOthers,(int)type];
                 }else{
-                    if(distance < 0.8f+((int)type+1)*0.5f){
-                        return false;
+                    maxAllowedDistance = Services.GameController.plantInfo[(int)PlantInfo.collideDistanceForSame,(int)type];
+                }
+                //this is for all the same
+                if(distance < maxAllowedDistance){
+                    if((int)p.type < (int)type-1){
+                        //its below it, so just destroy it instead
+                        p.Destroy();
+                    }else{
+                        Debug.Log("Plant is too close to other plants");
+                        return null;
                     }
-                }*/
-                
+                    
+                }
             }
         }
         
@@ -107,6 +119,7 @@ public class PlantManager
             newPlants.Add(plant);
         }
         Services.EventManager.Fire(new PlantCreated(plant));
+        
         return plant;
     }
     public void FindNeighbors(Plant p1){
@@ -171,6 +184,9 @@ public class PlantManager
         if(Services.GameController.date.Month == 4){
             Services.EventManager.Fire(new Day2());
         }
+        foreach(Plant plant in deadPlants){
+            plants.Remove(plant);
+        }
         //Debug.Log(plants.Count);
         foreach(Plant plant in plants){
             plant.Update();
@@ -188,6 +204,14 @@ public class PlantManager
                 Services.EventManager.Fire(new TooManyPlants());
             }
         }
+        for(int i =0; i < 3;i++){
+            if(Services.GameController.player.canAccessPlant[i+1] == false){
+                //still trying to unlock this level
+                if(typeCount[i] >= Services.GameController.unlockLevels[i]){
+                    Services.GameController.player.canAccessPlant[i+1] = true;
+                }
+            }
+        }
         newPlants.Clear();
         deadPlants.Clear();
         SaveLoad.Save();
@@ -200,6 +224,17 @@ public class PlantManager
                 break;
             }
         }
+    }
+    public bool DestroyPlantFromLocation(Vector3 v){
+        //returns whether or not it actually deleted a plant
+        foreach(Plant plant in plants){
+            if(plant.dead){continue;}
+            if(Vector3.Distance(plant.position,v) <Services.GameController.deleteDistance){
+                plant.Destroy();
+                return true;
+            }
+        }
+        return false;
     }
     public void CreateNarrativeMoment(){
         if(Services.GameController.makeNarrativeEvents==false){

@@ -4,6 +4,10 @@ domePylonRadius = 8
 seedGainPerDay = 5
 seedMax = 20
 startingSeed = 5
+deleteDistance = 0.5
+numGrassToGetFlower = 10
+numFlowerToGetBush = 10
+numBushToGetTree = 10
 -----
 GRASS
 growthRate = 0.5
