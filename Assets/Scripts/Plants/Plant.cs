@@ -59,6 +59,7 @@ public class Plant
     public int babiesPerDay;
     public float ratioNeeded;
     public List<Plant> babies = new List<Plant>();
+    public bool dead = false;
 
     public Plant(PlantType type,Vector3 pos){
         stage = 1;
@@ -94,10 +95,11 @@ public class Plant
         gameObject = new GameObject(type.ToString());
         gameObject.transform.position = position;
         gameObject.tag = "Plant";
-        BoxCollider c = gameObject.AddComponent(typeof(BoxCollider)) as BoxCollider;
-        c.size = new Vector3(0.5f,0.5f,0.5f);
-        c.isTrigger = true;
+        
         if(type == PlantType.Tree){
+            BoxCollider c = gameObject.AddComponent(typeof(BoxCollider)) as BoxCollider;
+            c.size = new Vector3(0.5f,0.5f,0.5f);
+            c.isTrigger = true;
             c.isTrigger = false;
             c.size = new Vector3(c.size.x,c.size.y*10f,c.size.z);
         }
@@ -105,7 +107,7 @@ public class Plant
        
         GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
         gameObject.transform.GetChild(0).gameObject.AddComponent(typeof(ComeUpper));
-        sizeRandom = Random.Range(0.8f,1.2f);
+        sizeRandom = Random.Range(0.75f,1.5f);
         gameObject.transform.localScale = minSize*sizeRandom;
         plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
     }
@@ -204,6 +206,7 @@ public class Plant
                 
             }
             if(grown){
+                Services.PlantManager.typeCount[(int)type]++;
                 Services.EventManager.Fire(new PlantGrown(this));
                 if(type == PlantType.Tree){
                     Services.PlantManager.CreateNewPylon(position);
@@ -232,6 +235,7 @@ public class Plant
     }
     public void Destroy(){
         //make a death event
+        dead = true;
         Services.EventManager.Fire(new PlantDestroyed(this));
         GameObject.Destroy(gameObject);
     }
@@ -242,18 +246,13 @@ public class Plant
         RaycastHit hit;
         Ray ray = new Ray(newPosition,Vector3.down);
         if (Physics.Raycast(ray, out hit)){
-            if(hit.collider.CompareTag("Ground") == false && hit.collider.CompareTag("Plant") == false){
+            if(hit.collider.CompareTag("Ground") == false){//you hit something thats not ground?
                 return false;
             }
-            if(hit.collider.CompareTag("Ground")){
-                newPosition.y = hit.point.y;
-            }else{
-                newPosition.y = position.y;
-            }
-            
-            
+            newPosition.y = hit.point.y;
         }else{
-            newPosition.y = position.y;
+            //you hit nothing, somehow, you need to at least hit the ground!
+            return false;
         }
         Plant baby = Services.PlantManager.CreateNewPlant(type,newPosition);
         if(ReferenceEquals(baby,null)){
@@ -341,6 +340,7 @@ public class Plant
             grown = true;
         }
         if(grown){
+            Services.PlantManager.typeCount[(int)type]++;
             if(type == PlantType.Tree){
                 Services.PlantManager.CreateNewPylon(position);
             }

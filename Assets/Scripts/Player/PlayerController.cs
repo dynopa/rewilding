@@ -7,10 +7,11 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    
     public int seedPerDay;
     public int seedGainPerDay;
     public static PlayerController instance;
-    public bool[] canAccessPlant = new bool[] { true, true, false, false };
+    public bool[] canAccessPlant = new bool[] { true, false, false, false };
     public int dayNum;
     enum oxygenState
     {
@@ -241,7 +242,6 @@ public class PlayerController : MonoBehaviour
             {
                 //play valve seal
                 oState = oxygenState.full;
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Valve");
             }
         }
         else
@@ -503,9 +503,9 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-
+            CheckInteraction();
         }
-
+        
         //end items
 
         //time slow
@@ -513,6 +513,18 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+    }
+    void CheckInteraction()
+    {
+        float distance = 4f;
+        RaycastHit hit;
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance))
+        {
+            if (hit.transform.tag == "Item")
+            {
+
+            }
+        }
     }
     GameObject Cast(bool create, bool destroy)
     {
@@ -533,7 +545,7 @@ public class PlayerController : MonoBehaviour
 
                 if (!clickedOnce)
                 {
-                    if (ps != null && ps.isStopped) Destroy(ps.gameObject);
+                    if (ps != null) Destroy(ps.gameObject);
 
                     //CHRISTIAN: Door open
                     doorOpenS = FMODUnity.RuntimeManager.CreateInstance("event:/Door3");
@@ -577,16 +589,20 @@ public class PlayerController : MonoBehaviour
             else if (create && seedsLeft <= Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type])
             {
                 //CHRISTIAN: Not enough goo
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Not Enough Goo");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
             }
 
             else
             {
-                if (!holdingA && destroy && hit.collider.CompareTag("Plant"))
+                if (!holdingA && destroy && hit.collider != null)
                 {
-                    Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
-                    FMODUnity.RuntimeManager.PlayOneShot("event:/Unplant");
-                    //CHRISTIAN: Remove plant
+
+                    bool deleted = Services.PlantManager.DestroyPlantFromLocation(hit.point);
+                    if(deleted){
+                        FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
+                        //CHRISTIAN: Remove plant
+                    }
+                    
                 }
             }
 
