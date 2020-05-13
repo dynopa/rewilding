@@ -7,10 +7,11 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    
     public int seedPerDay;
     public int seedGainPerDay;
     public static PlayerController instance;
-    public bool[] canAccessPlant = new bool[] { true, true, false, false };
+    public bool[] canAccessPlant = new bool[] { true, false, false, false };
     public int dayNum;
     enum oxygenState
     {
@@ -593,11 +594,15 @@ public class PlayerController : MonoBehaviour
 
             else
             {
-                if (!holdingA && destroy && hit.collider.CompareTag("Plant"))
+                if (!holdingA && destroy && hit.collider != null)
                 {
-                    Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
-                    FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
-                    //CHRISTIAN: Remove plant
+
+                    bool deleted = Services.PlantManager.DestroyPlantFromLocation(hit.point);
+                    if(deleted){
+                        FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
+                        //CHRISTIAN: Remove plant
+                    }
+                    
                 }
             }
 

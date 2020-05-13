@@ -37,6 +37,14 @@ public static class SaveLoad
             Services.PlantManager.FindNeighbors(plant);
             Services.PlantManager.plants.Add(plant);
         }
+        for(int i =0; i < 3;i++){
+            if(Services.GameController.player.canAccessPlant[i+1] == false){
+                //still trying to unlock this level
+                if(Services.PlantManager.typeCount[i] >= Services.GameController.unlockLevels[i]){
+                    Services.GameController.player.canAccessPlant[i+1] = true;
+                }
+            }
+        }
     }
 }
 [System.Serializable]

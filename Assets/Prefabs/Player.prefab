@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.42798343, g: 0.87058824, b: 0.2002353, a: 0.7294118}
+  m_Color: {r: 0.50109166, g: 0.77251565, b: 0.8000001, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1062,7 +1062,7 @@ MonoBehaviour:
   verticalPos: 0
   horizontalPos: 0
   isSpeaking: 0
-  seedsLeft: 0
+  seedsLeft: 30
   rb: {fileID: 0}
   holePrefab: {fileID: 0}
   type: 0
@@ -1697,7 +1697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8745098, g: 0.2, b: 0.7294118, a: 0.7294118}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7294118}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1770,7 +1770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8745098, g: 0.2, b: 0.7294118, a: 0.7294118}
+  m_Color: {r: 0.50109166, g: 0.77251565, b: 0.8000001, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2932,7 +2932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8745098, g: 0.2, b: 0.7294118, a: 0.7294118}
+  m_Color: {r: 0.50109166, g: 0.77251565, b: 0.8000001, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

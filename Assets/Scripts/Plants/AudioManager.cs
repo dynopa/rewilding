@@ -110,7 +110,7 @@ public class AudioManager : MonoBehaviour
         foreach (Plant p in Services.PlantManager.plants)
         {
             if (p.shouldPlay == false) continue;
-            
+            if(p.dead){continue;}
             if(p.GetState == 0)
             {
                 // UnityEngine.Debug.Log(plantFood.isValid());

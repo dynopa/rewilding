@@ -37,8 +37,12 @@ public class GameController : MonoBehaviour
     public float domePylonRadius;
     public bool makeNarrativeEvents;
     public PlayerController player;
+    public float deleteDistance;
+    [HideInInspector]
+    public int[] unlockLevels;
     void Awake()
     {
+        unlockLevels = new int[3];
         plantInfo = new float[13,4];
         ReadLevers();
         saveId = 1;
@@ -73,6 +77,18 @@ public class GameController : MonoBehaviour
                             break;
                         case 4:
                             player.seedsLeft = (int)float.Parse(info);
+                            break;
+                        case 5:
+                            deleteDistance = float.Parse(info);
+                            break;
+                        case 6:
+                            unlockLevels[0] = (int)float.Parse(info);
+                            break;
+                        case 7:
+                            unlockLevels[1] = (int)float.Parse(info);
+                            break;
+                        case 8:
+                            unlockLevels[2] = (int)float.Parse(info);
                             break;
                     }
                     whichVariable++;
