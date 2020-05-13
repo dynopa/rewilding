@@ -241,6 +241,7 @@ public class PlayerController : MonoBehaviour
             {
                 //play valve seal
                 oState = oxygenState.full;
+                FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
             }
         }
         else
@@ -588,7 +589,7 @@ public class PlayerController : MonoBehaviour
             else if (create && seedsLeft <= Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type])
             {
                 //CHRISTIAN: Not enough goo
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Not Enough Goo");
             }
 
             else
