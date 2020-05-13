@@ -110,7 +110,6 @@ public class Plant
         sizeRandom = Random.Range(0.75f,1.5f);
         gameObject.transform.localScale = minSize*sizeRandom;
         plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
-        Services.PlantManager.typeCount[(int)type]++;
     }
 
     public void Update()//called each night to grow the plant
@@ -207,6 +206,7 @@ public class Plant
                 
             }
             if(grown){
+                Services.PlantManager.typeCount[(int)type]++;
                 Services.EventManager.Fire(new PlantGrown(this));
                 if(type == PlantType.Tree){
                     Services.PlantManager.CreateNewPylon(position);
@@ -340,6 +340,7 @@ public class Plant
             grown = true;
         }
         if(grown){
+            Services.PlantManager.typeCount[(int)type]++;
             if(type == PlantType.Tree){
                 Services.PlantManager.CreateNewPylon(position);
             }
