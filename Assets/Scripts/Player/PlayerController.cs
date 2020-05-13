@@ -502,9 +502,9 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CheckInteraction();
+
         }
-        
+
         //end items
 
         //time slow
@@ -512,18 +512,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-    }
-    void CheckInteraction()
-    {
-        float distance = 4f;
-        RaycastHit hit;
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance))
-        {
-            if (hit.transform.tag == "Item")
-            {
-
-            }
-        }
     }
     GameObject Cast(bool create, bool destroy)
     {
@@ -544,7 +532,7 @@ public class PlayerController : MonoBehaviour
 
                 if (!clickedOnce)
                 {
-                    if (ps != null) Destroy(ps.gameObject);
+                    if (ps != null && ps.isStopped) Destroy(ps.gameObject);
 
                     //CHRISTIAN: Door open
                     doorOpenS = FMODUnity.RuntimeManager.CreateInstance("event:/Door3");
