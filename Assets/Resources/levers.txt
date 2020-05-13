@@ -3,7 +3,7 @@ pylonRadius = 10
 domePylonRadius = 15
 seedGainPerDay = 10
 seedMax = 100
-startingSeed = 30
+startingSeed = 4
 -----
 GRASS
 growthRate = 1
