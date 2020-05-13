@@ -1,12 +1,12 @@
 OTHER INFO
 pylonRadius = 10
 domePylonRadius = 15
-seedGainPerDay = 10
+seedGainPerDay = 100
 seedMax = 100
-startingSeed = 4
+startingSeed = 3
 -----
 GRASS
-growthRate = 1
+growthRate = 2
 babyChance = 1
 needsMetToHaveBaby = 0
 maxNeighborDistance = 1
@@ -14,7 +14,7 @@ collideDistanceForOthers = 0.03
 collideDistanceForSame = 0.3
 depedentRatio = 0
 babyLimit = 20
-babiesPerDay = 3
+babiesPerDay = 4
 plantCost = 1
 minBabyDistance = 0.3
 maxBabyDistance = 1
