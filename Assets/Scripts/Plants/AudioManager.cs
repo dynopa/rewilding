@@ -7,7 +7,7 @@ using FMOD;
 public class AudioManager : MonoBehaviour
 {
     [FMODUnity.EventRef]
-    public string oncreateEvent = "event:/Dirt";
+    public string oncreateEvent = "event:/Plant";
     public string ondestroyEvent = " ";
     public string onfedEvent = " ";
     public string grassS1Event = " ";
@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
 
 
     [FMODUnity.EventRef]
-    public string onfeedEvent = "event:/Dirt";
+    public string onfeedEvent = "event:/Plant";
     //FMOD.Studio.EventInstance plantFood;
 
 
@@ -147,7 +147,7 @@ public class AudioManager : MonoBehaviour
                     p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/all_plink");
                     p.plantFood.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(p.gameObject));
                     UnityEngine.Debug.Log(IsPlaying(p.plantFood));
-                    p.plantFood.start();
+                    //p.plantFood.start();
                     UnityEngine.Debug.Log(IsPlaying(p.plantFood));
                 }
                 else

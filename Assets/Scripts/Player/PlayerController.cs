@@ -142,10 +142,14 @@ public class PlayerController : MonoBehaviour
     public FMOD.Studio.EventInstance uiSwitchS;
     public FMOD.Studio.EventInstance lowOS;
     public FMOD.Studio.EventInstance VOS;
+    public FMOD.Studio.EventInstance unplantS;
+    //public FMOD.Studio.EventInstance[] bgmS;
+
 
 
 
     // Start is called before the first frame update
+    
     void Awake()
     {
         sentOutOfGoopMessage = false;
@@ -164,12 +168,26 @@ public class PlayerController : MonoBehaviour
         lerpLength = Vector3.Distance(startCamPos, endCamPos);
 
         fadeOut.gameObject.SetActive(true);
+        
+        //might not work in awake - move to start if it doesn't
+
         //resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
         //inventory
 
     }
+
+    /*private void Start()
+    {
+        FMOD.Studio.EventInstance[] bgmS = new FMOD.Studio.EventInstance[2];
+
+        bgmS[0] = FMODUnity.RuntimeManager.CreateInstance("event:/BGM0");
+        bgmS[1] = FMODUnity.RuntimeManager.CreateInstance("event:/BGM1");
+        Debug.Log(IsPlaying(bgmS[0]));
+        bgmS[0].start();
+        Debug.Log(IsPlaying(bgmS[0]));
+    }*/
 
     // Update is called once per frame
     void Update()
@@ -242,6 +260,7 @@ public class PlayerController : MonoBehaviour
             {
                 //play valve seal
                 oState = oxygenState.full;
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Valve");
             }
         }
         else
@@ -589,7 +608,7 @@ public class PlayerController : MonoBehaviour
             else if (create && seedsLeft <= Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type])
             {
                 //CHRISTIAN: Not enough goo
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Not Enough Goo");
             }
 
             else
@@ -598,11 +617,15 @@ public class PlayerController : MonoBehaviour
                 {
 
                     bool deleted = Services.PlantManager.DestroyPlantFromLocation(hit.point);
-                    if(deleted){
-                        FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
+
+                    if (deleted){
                         //CHRISTIAN: Remove plant
+                        unplantS = FMODUnity.RuntimeManager.CreateInstance("event:/Unplant");
+                        unplantS.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(hit.point));
+                        unplantS.start();
+
                     }
-                    
+
                 }
             }
 
@@ -713,4 +736,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    bool IsPlaying(FMOD.Studio.EventInstance instance)
+    {
+        FMOD.Studio.PLAYBACK_STATE state;
+        instance.getPlaybackState(out state);
+        return state != FMOD.Studio.PLAYBACK_STATE.STOPPED;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "BGMZone0")
+        {
+            SwitchBGM(0);
+        }
+        if (collision.gameObject.name == "BGMZone1")
+        {
+            SwitchBGM(1);
+        }
+    }
+    void SwitchBGM(int bgmNum)
+    {
+
+    }
 }
