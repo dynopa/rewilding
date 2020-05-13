@@ -241,6 +241,7 @@ public class PlayerController : MonoBehaviour
             {
                 //play valve seal
                 oState = oxygenState.full;
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Valve");
             }
         }
         else
@@ -576,7 +577,7 @@ public class PlayerController : MonoBehaviour
             else if (create && seedsLeft <= Services.GameController.plantInfo[(int)PlantInfo.plantCost,(int)type])
             {
                 //CHRISTIAN: Not enough goo
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Not_Enough_Goo");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Not Enough Goo");
             }
 
             else
@@ -584,7 +585,7 @@ public class PlayerController : MonoBehaviour
                 if (!holdingA && destroy && hit.collider.CompareTag("Plant"))
                 {
                     Services.PlantManager.DestroyPlantFromGameObject(hit.collider.gameObject);
-                    FMODUnity.RuntimeManager.PlayOneShot("event:Unplant");
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Unplant");
                     //CHRISTIAN: Remove plant
                 }
             }
