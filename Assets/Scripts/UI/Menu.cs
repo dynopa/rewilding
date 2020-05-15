@@ -79,10 +79,11 @@ public class Menu : MonoBehaviour
 
     public void NextPage()
     {
-        if (credits.pageToDisplay < 4)
+        if (credits.pageToDisplay < 3)
         credits.pageToDisplay+= 1;
         else
         {
+            credits.pageToDisplay += 1;
             cr_nextButton.gameObject.SetActive(false);
         }
     }

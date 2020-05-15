@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{a81b0f29-14f5-4c17-99bd-565b4dff673a}">
+        <property name="assetPath">
+            <value>rewild1.mp3</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>384.072</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{e9512943-836e-44ce-a9a2-ddacf5ca13e3}</destination>
+        </relationship>
+    </object>
+</objects>
