@@ -13,6 +13,7 @@ public class PlantManager
     bool firstTreePlanted;
     public bool firstTreeGrown;
     bool tooManyPlants;
+    PopupManager popupManager;
 
     public int numPlants{
         get{
@@ -29,6 +30,8 @@ public class PlantManager
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Pylon")){
             CreateNewPylon(obj.transform.position,true);
         }
+
+        popupManager = Services.GameController.gameObject.GetComponent<PopupManager>();
     }
     public void CreateNewPylon(Vector3 pos, bool dome)
     {
@@ -209,6 +212,7 @@ public class PlantManager
                 //still trying to unlock this level
                 if(typeCount[i] >= Services.GameController.unlockLevels[i]){
                     Services.GameController.player.canAccessPlant[i+1] = true;
+                    popupManager.ActivateTutorial(popupManager.tutorials[i+4],20);
                 }
             }
         }

@@ -13,7 +13,7 @@ public class PopupManager : MonoBehaviour
     public TextMeshProUGUI TutText;
     public Image tutorialBG;
 
-    Tutorial[] tutorials = new Tutorial[6];
+    public Tutorial[] tutorials = new Tutorial[6];
 
     float timer = 15;
     Tutorial activeTutorial;
@@ -119,7 +119,7 @@ public class PopupManager : MonoBehaviour
     }
     
 
-    void ActivateTutorial(Tutorial tut, float timeSet)
+    public void ActivateTutorial(Tutorial tut, float timeSet)
     {
         TutText.text = tut.tutText.Replace("$", "\n");
         activeTutorial = tut;
