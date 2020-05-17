@@ -5,7 +5,7 @@ using UnityEngine;
 public class TextureEditor : MonoBehaviour
 {
     public Texture2D baseTex;
-    public Texture2D newTex;
+    //public Texture2D newTex;
     GameObject ground;
 
     void Awake()
@@ -13,8 +13,8 @@ public class TextureEditor : MonoBehaviour
         ground = GameObject.Find("Ground");
         baseTex = (Texture2D) ground.GetComponent<Renderer>().material.GetTexture("_SplatTex");
 
-        newTex = createNewText();
-        ground.GetComponent<Renderer>().material.SetTexture("_SplatTex",newTex);
+        baseTex = createNewText();
+        ground.GetComponent<Renderer>().material.SetTexture("_SplatTex",baseTex);
     }
 
     //Paints Circle on Texture
@@ -23,62 +23,51 @@ public class TextureEditor : MonoBehaviour
         rad *= 3.3f;
         //IMPLEMENT THIS INTO EVERYTHING
         pos *= baseTex.width;
-        for (int y = 0; y < newTex.height; y++)
+        for (int y = 0; y < baseTex.height; y++)
         {
-            for (int x = 0; x < newTex.width; x++)
+            for (int x = 0; x < baseTex.width; x++)
             {
                 if (Vector2.Distance(pos, new Vector2(x, y)) < rad)
                 {
                     Color color = Color.white;
-                    newTex.SetPixel(x, y, color);
+                    baseTex.SetPixel(x, y, color);
                 }
                 
             }
         }
-        newTex.Apply();
+        baseTex.Apply();
     }
 
     //Reverts Texture Back to Black
     public void FillTexture()
     {
-        for (int y = 0; y < newTex.height; y++)
+        for (int y = 0; y < baseTex.height; y++)
         {
-            for (int x = 0; x < newTex.width; x++)
+            for (int x = 0; x < baseTex.width; x++)
             {
                     Color color = Color.black;
-                    newTex.SetPixel(x, y, color);
+                    baseTex.SetPixel(x, y, color);
             }
         }
-        newTex.Apply();
+        baseTex.Apply();
     }
 
     Texture2D createNewText()
     {
-        Texture2D newTex = new Texture2D(baseTex.height, baseTex.height);
-        Color[] temp = newTex.GetPixels();
+        Color[] temp = baseTex.GetPixels();
         for(int i = 0; i < temp.Length; i++)
         {
             temp[i] = Color.black;
         }
 
-        newTex.SetPixels(temp);
-        newTex.Apply();
-        return newTex;
-    }
-
-    Texture2D copyBaseText()
-    {
-        Texture2D newTex = new Texture2D(baseTex.height, baseTex.height);
-        Color[] temp = baseTex.GetPixels();
-        newTex.SetPixels(temp);
-        newTex.Apply();
-
-        return newTex;
+        baseTex.SetPixels(temp);
+        baseTex.Apply();
+        return baseTex;
     }
 
     public bool IsGroundFertile(Vector2 pos)
     {
-        if (newTex.GetPixel((int)pos.x, (int)pos.y).Equals(Color.white))
+        if (baseTex.GetPixel((int)pos.x, (int)pos.y).Equals(Color.white))
         {
             return true;
         }
