@@ -27,6 +27,7 @@ public class PlantManager
         Services.EventManager.Register<PlantDestroyed>(OnPlantDestroyed);
         Services.EventManager.Register<PlantJustFed>(OnPlantFed);
         pylonPositions = new List<Vector3>();
+        texEdit.SetupTextures();
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Pylon")){
             CreateNewPylon(obj.transform.position,true);
         }
