@@ -1,9 +1,9 @@
 OTHER INFO
 pylonRadius = 10
 domePylonRadius = 15
-seedGainPerDay = 2
+seedGainPerDay = 5
 seedMax = 100
-startingSeed = 5
+startingSeed = 10
 deleteDistance = 0.5
 numGrassToGetFlower = 50
 numFlowerToGetBush = 10
