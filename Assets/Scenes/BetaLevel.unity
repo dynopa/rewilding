@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.134
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1693996356}
-  m_IndirectSpecularColor: {r: 0.74799484, g: 0.9029336, b: 0.82336676, a: 0.134}
+  m_IndirectSpecularColor: {r: 3.3144145, g: 4.0011654, b: 3.6473024, a: 0.134}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -56,15 +56,15 @@ LightmapSettings:
   m_LightmapEditorSettings:
     serializedVersion: 12
     m_Resolution: 2
-    m_BakeResolution: 10
-    m_AtlasSize: 512
+    m_BakeResolution: 16
+    m_AtlasSize: 1024
     m_AO: 1
     m_AOMaxDistance: 1
     m_CompAOExponent: 2.19
     m_CompAOExponentDirect: 0.86
     m_ExtractAmbientOcclusion: 0
-    m_Padding: 3
-    m_LightmapParameters: {fileID: 15204, guid: 0000000000000000f000000000000000,
+    m_Padding: 30
+    m_LightmapParameters: {fileID: 15200, guid: 0000000000000000f000000000000000,
       type: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
@@ -76,9 +76,9 @@ LightmapSettings:
     m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 16
-    m_PVRSampleCount: 100
+    m_PVRSampleCount: 124
     m_PVRBounces: 2
-    m_PVREnvironmentSampleCount: 64
+    m_PVREnvironmentSampleCount: 80
     m_PVREnvironmentReferencePointCount: 2048
     m_PVRFilteringMode: 1
     m_PVRDenoiserTypeDirect: 1
@@ -88,7 +88,7 @@ LightmapSettings:
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
     m_PVREnvironmentMIS: 1
-    m_PVRCulling: 0
+    m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
@@ -3422,11 +3422,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1305516508692017515, guid: 39e86080e084c0b4ba26c3e2a4b894e7,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15200, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 1305516508692017515, guid: 39e86080e084c0b4ba26c3e2a4b894e7,
+        type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305516510040216899, guid: 39e86080e084c0b4ba26c3e2a4b894e7,
+        type: 3}
+      propertyPath: m_StitchLightmapSeams
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4761436589303559444, guid: 39e86080e084c0b4ba26c3e2a4b894e7,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5441799527192616958, guid: 39e86080e084c0b4ba26c3e2a4b894e7,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15200, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7017216261029684926, guid: 39e86080e084c0b4ba26c3e2a4b894e7,
         type: 3}
       propertyPath: m_LocalPosition.x
