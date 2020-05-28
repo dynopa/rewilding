@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 6000453790460775213}
   m_Layer: 0
   m_Name: TempRock.003
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -609,7 +609,7 @@ GameObject:
   - component: {fileID: 5441799529036165128}
   m_Layer: 0
   m_Name: Mount.004
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -985,7 +985,7 @@ GameObject:
   - component: {fileID: 5441799527570343989}
   m_Layer: 0
   m_Name: Mount
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1602,7 +1602,7 @@ GameObject:
   - component: {fileID: 5441799528499282056}
   m_Layer: 0
   m_Name: Mount.001
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5195,7 +5195,7 @@ GameObject:
   - component: {fileID: 5441799528092146007}
   m_Layer: 0
   m_Name: TempRock.001
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5477,7 +5477,7 @@ GameObject:
   - component: {fileID: 5441799529062161667}
   m_Layer: 0
   m_Name: Mount.003
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5649,7 +5649,7 @@ GameObject:
   - component: {fileID: 5441799527532006051}
   m_Layer: 0
   m_Name: TempRock.002
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5931,7 +5931,7 @@ GameObject:
   - component: {fileID: 5441799528284566942}
   m_Layer: 0
   m_Name: Mount.002
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -17703,6 +17703,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7017216261029684926}
     m_Modifications:
+    - target: {fileID: -5375658922666216998, guid: 76fadb54b363c704c9e3220cd4f724ca,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 76fadb54b363c704c9e3220cd4f724ca,
         type: 3}
       propertyPath: m_LocalPosition.x

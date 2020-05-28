@@ -125,8 +125,8 @@ Material:
     - _WorldtoObjectSpace: 0
     - _WorldtoObjectSwitch: 1
     - __dirty: 0
-    - _alpha: 0.722
+    - _alpha: 0.779
     m_Colors:
     - _Tiling: {r: 0.009, g: 0.01, b: 0, a: 0}
     - _Tiling1: {r: 0.02, g: 0.02, b: 0, a: 0}
-    - _albeto: {r: 0.34, g: 0.34, b: 0.34, a: 0}
+    - _albeto: {r: 0.2830189, g: 0.18040825, b: 0.086320765, a: 0}

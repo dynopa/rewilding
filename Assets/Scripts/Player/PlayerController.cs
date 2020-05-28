@@ -352,14 +352,11 @@ public class PlayerController : MonoBehaviour
         //disables mouselook when esc is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //#if UNITY_EDITOR
+            #if UNITY_EDITOR
             mouseLook.DisableLook();
-            lookEnabled = false;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-            //#else
+            #else
             //Application.Quit();
-            //#endif
+            #endif
         }
         //if (lookEnabled == false && (Input.GetMouseButtonDown(1) || (!Input.GetMouseButton(1) && Input.GetMouseButtonDown(0))))
         //{
