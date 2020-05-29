@@ -13,7 +13,7 @@ public class PopupManager : MonoBehaviour
     public TextMeshProUGUI TutText;
     public Image tutorialBG;
 
-    public Tutorial[] tutorials = new Tutorial[6];
+    public Tutorial[] tutorials;
 
     float timer = 15;
     Tutorial activeTutorial;
@@ -21,11 +21,14 @@ public class PopupManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string path = "Assets/UI/Popup spreadsheets/Tutorials.tsv";
+        string path = "Assets/UI/Popup spreadsheets/Tutorials.tsv"; //replace with resources.load
+      
         string sheet = System.IO.File.ReadAllText(path);
         string[] lines = sheet.Split('\n');
+        tutorials = new Tutorial[lines.Length];
         for (int i = 0; i < lines.Length; i++)
         {
+            Debug.Log("WOOOO" + i);
             string[] columns = lines[i].Split('\t');
             tutorials[i] = new Tutorial();
             tutorials[i].num = i;
