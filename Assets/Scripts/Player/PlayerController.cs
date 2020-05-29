@@ -68,7 +68,16 @@ public class PlayerController : MonoBehaviour
     public GameObject hud;
     public GameObject crosshair;
     public Image whichSeed;
+    public TextMeshProUGUI seedCost;
     public Sprite[] seedImages;
+    public TextMeshProUGUI dayText;
+
+    public TextMeshProUGUI seedCounter;
+    public Image seedCounterImage;
+
+    public float maxOxygen;
+    public float oxygen;
+    public Image oxygenDisplay;
     //Text resourceText;
     float newHoleRadius = 5f;
 
@@ -122,14 +131,7 @@ public class PlayerController : MonoBehaviour
     float lerpLength;
     float lerpTime;
 
-    public TextMeshProUGUI dayText;
-
-    public TextMeshProUGUI seedCounter;
-    public Image seedCounterImage;
-
-    public float maxOxygen;
-    public float oxygen;
-    public Image oxygenDisplay;
+    
 
     bool sentOutOfGoopMessage;
     bool sleptFirstTime;
@@ -242,9 +244,11 @@ public class PlayerController : MonoBehaviour
 
         //UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,uiPositions[typeNum]);
         whichSeed.sprite = seedImages[typeNum];
-        seedCounter.text = seedsLeft < 10 ? "0"+seedsLeft+"/"+seedPerDay : seedsLeft+"/"+seedPerDay;
+        //seedCounter.text = seedsLeft < 10 ? "0"+seedsLeft+"/"+seedPerDay : seedsLeft+"/"+seedPerDay; switched to try not displaying max in #
+        seedCounter.text = seedsLeft < 10 ? "0"+seedsLeft+"e" : seedsLeft+"e";
         float seedPercent = (float)seedsLeft/(float)seedPerDay;
         seedCounterImage.fillAmount+= (seedPercent-seedCounterImage.fillAmount)*0.1f;
+        seedCost.text = Services.GameController.plantInfo[(int)PlantInfo.plantCost, (int)typeNum]+"e";
 
         if(Services.PlantManager.CloseToPylon(transform.position)){
             oxygen+=Time.deltaTime*10;
