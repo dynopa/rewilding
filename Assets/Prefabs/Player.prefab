@@ -835,7 +835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10e
+  m_text: 10b
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2a2b95c041a2a4756a1ba52b92b51bda, type: 2}
   m_sharedMaterial: {fileID: -266190619550471556, guid: 2a2b95c041a2a4756a1ba52b92b51bda,
@@ -1093,6 +1093,7 @@ MonoBehaviour:
   oxygen: 0
   oxygenDisplay: {fileID: 1489976411}
   holdingA: 0
+  narrClearMat: {fileID: 0}
   digFX: {fileID: 7582271973259980377, guid: 6e7e108d86a504bbe81ace890213ee11, type: 3}
 --- !u!33 &143821322280230507
 MeshFilter:
@@ -2692,7 +2693,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4e
+  m_text: 7b
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2a2b95c041a2a4756a1ba52b92b51bda, type: 2}
   m_sharedMaterial: {fileID: -266190619550471556, guid: 2a2b95c041a2a4756a1ba52b92b51bda,

@@ -213,7 +213,7 @@ public class PlantManager
                 //still trying to unlock this level
                 if(typeCount[i] >= Services.GameController.unlockLevels[i]){
                     Services.GameController.player.canAccessPlant[i+1] = true;
-                    popupManager.ActivateTutorial(popupManager.tutorials[i+4],20);
+                    //popupManager.ActivateTutorial(popupManager.tutorials[i+4],20);
                 }
             }
         }

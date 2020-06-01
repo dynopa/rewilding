@@ -118,6 +118,7 @@ public class PlayerController : MonoBehaviour
     bool holdingB;
     bool clickedOnce;
     ParticleSystem ps;
+    public Material narrClearMat;
     public GameObject digFX;
 
     //squat variables
@@ -595,6 +596,7 @@ public class PlayerController : MonoBehaviour
                 VOS.start();
                 ps = hit.transform.gameObject.GetComponent<ParticleSystem>();
                 ps.Stop();
+                ps.gameObject.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_HoloColor",Color.white);
                 ps.gameObject.tag = "Untagged";
                 return hit.transform.gameObject;
             }

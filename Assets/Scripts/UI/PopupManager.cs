@@ -29,7 +29,7 @@ public class PopupManager : MonoBehaviour
         gotTree
     }
     GrownCheck check;
-    int plantsGrown;
+    int plantsCreated;
     int startSeed;
     int grassGrown;
     int flowersGrown;
@@ -98,12 +98,12 @@ public class PopupManager : MonoBehaviour
 
     void OnGameStart(AGPEvent e)
     {
-        Debug.Log("STARTED");
+        //Debug.Log("STARTED");
         ActivateTutorial(tutorials[tutDict["LookMovePlant"]], 15);
     }
     void OnAfter30Seconds(AGPEvent e)
     {
-        Debug.Log("30s");
+        //Debug.Log("30s");
 
     }
     void OnRunOut(AGPEvent e)
@@ -124,26 +124,51 @@ public class PopupManager : MonoBehaviour
     }
     void OnFadeOutComplete(AGPEvent e)
     {
+
         hasGivenUnlockTut++;
-        Debug.Log("TOOT:"+ hasGivenUnlockTut);
         // if (activeTutorial.num == 1) DeactivateTutorial();
         //DeactivateTutorial();
-        if (check == GrownCheck.flowerUnlock && hasGivenUnlockTut == 1)
+        if (check == GrownCheck.flowerUnlock)
         {
-            DeactivateTutorial();
-            ActivateTutorial(tutorials[4],10);
-            Debug.Log("FLOWERS COUNTER");
-            ActivateCounter("Flowers grown: ", flowersGrown, Services.GameController.unlockLevels[1]);
-            hasGivenUnlockTut = 0;
-        }
-        if (check == GrownCheck.bushUnlock && hasGivenUnlockTut == 1)
+            if (hasGivenUnlockTut == 1)
+            {
+                ActivateTutorial(tutorials[4], 7);
+                Debug.Log("FLOWERS COUNTER");
+                ActivateCounter("Flowers grown: ", flowersGrown, Services.GameController.unlockLevels[1]);
+                //hasGivenUnlockTut = 0;
+            }
+            if (hasGivenUnlockTut == 4)
+            {
+                ActivateTutorial(tutorials[10], 10);
+            }
+
+
+            }
+            if (check == GrownCheck.bushUnlock)
         {
-            DeactivateTutorial();
-            ActivateTutorial(tutorials[5], 10);
-            ActivateCounter("Bushes grown: ", bushesGrown, Services.GameController.unlockLevels[2]);
-            hasGivenUnlockTut = 0;
+            if (hasGivenUnlockTut == 1)
+            {
+                DeactivateTutorial();
+                ActivateTutorial(tutorials[5], 7);
+                ActivateCounter("Bushes grown: ", bushesGrown, Services.GameController.unlockLevels[2]);
+                //hasGivenUnlockTut = 0;
+            }
+            
         }
 
+        if (check == GrownCheck.grassUnlock) //WHEN YOU UNLOCK IN MORNING
+        {
+            if (grassGrown >= Services.GameController.unlockLevels[0])
+            {
+                Debug.Log("FLOWER MSG");
+                DeactivateCounter();
+                DeactivateTutorial();
+                ActivateTutorial(tutorials[6], 15); //HEY YOU UNLOCKED FLOWERS
+                check = GrownCheck.flowerUnlock;
+                //hasGivenUnlockTut = 0;
+            }
+           
+        }
     }
     void OnDay2(AGPEvent e)
     {
@@ -162,31 +187,31 @@ public class PopupManager : MonoBehaviour
     }
     void OnFirstTreeGrown(AGPEvent e)
     {
-        Debug.Log("grown");
+        //Debug.Log("grown");
 
 
     }
     void OnTooManyPlants(AGPEvent e)
     {
-        Debug.Log("toomany");
+        //Debug.Log("toomany");
 
 
     }
     void OnPlantCreated(AGPEvent e)
     {
 
-        plantsGrown++;
-        if (plantsGrown > 2 && check == GrownCheck.thirdPlanted)
+        plantsCreated++;
+        if (plantsCreated > 2 && check == GrownCheck.thirdPlanted)
         {
             DeactivateTutorial();
             ActivateTutorial(tutorials[1], 15);
-            ActivateCounter("Grass planted: ", plantsGrown, startSeed);
+            ActivateCounter("Grass planted: ", plantsCreated, startSeed);
             check = GrownCheck.energyOut;
         }
         if (check == GrownCheck.energyOut)
         {
-            ActivateCounter("Grass planted: ", plantsGrown, startSeed);
-            if (plantsGrown >= startSeed)
+            ActivateCounter("Grass planted: ", plantsCreated, startSeed);
+            if (plantsCreated >= startSeed)
             {
                 DeactivateTutorial();
                 DeactivateCounter();
@@ -205,7 +230,18 @@ public class PopupManager : MonoBehaviour
             grassGrown++;
             if (check == GrownCheck.grassUnlock)
             {
-                ActivateCounter("Grass grown: ", grassGrown, Services.GameController.unlockLevels[0]);
+                ActivateCounter("Grass grown: ", grassGrown, Services.GameController.unlockLevels[0]); //these update the counter
+           
+                if (grassGrown >= Services.GameController.unlockLevels[0])
+                {
+                    Debug.Log("FLOWER MSG");
+      
+                    DeactivateTutorial();
+                    ActivateTutorial(tutorials[6], 20); //HEY YOU UNLOCKED FLOWERS
+                    check = GrownCheck.flowerUnlock;
+                    hasGivenUnlockTut = 0;
+                }
+
             }
         }
         if (plant.type == PlantType.Grass)
@@ -214,6 +250,14 @@ public class PopupManager : MonoBehaviour
             if (check == GrownCheck.flowerUnlock)
             {
                 ActivateCounter("Flowers grown: ", flowersGrown, Services.GameController.unlockLevels[1]);
+                if (flowersGrown >= Services.GameController.unlockLevels[1])
+                {
+                    DeactivateCounter();
+                    DeactivateTutorial();
+                    ActivateTutorial(tutorials[7], 15);
+                    check = GrownCheck.bushUnlock;
+                    hasGivenUnlockTut = 0;
+                }
             }
         }
         if (plant.type == PlantType.Shrub)
@@ -222,41 +266,25 @@ public class PopupManager : MonoBehaviour
             if (check == GrownCheck.bushUnlock)
             {
                 ActivateCounter("Bushes grown: ", bushesGrown, Services.GameController.unlockLevels[2]);
+                if (bushesGrown >= Services.GameController.unlockLevels[2])
+                {
+                    DeactivateCounter();
+                    DeactivateTutorial();
+                    ActivateTutorial(tutorials[8], 15);
+                    check = GrownCheck.gotTree;
+                    hasGivenUnlockTut = 0;
+                }
             }
         }
 
-        if (check == GrownCheck.grassUnlock && grassGrown >= Services.GameController.unlockLevels[0]) //WHEN YOU UNLOCK IN MORNING
-        {
-            DeactivateCounter();
-            DeactivateTutorial();
-            ActivateTutorial(tutorials[6],15); //HEY YOU UNLOCKED FLOWERS
-            check = GrownCheck.flowerUnlock;
-            hasGivenUnlockTut = 0;
-        }
-        if (check == GrownCheck.flowerUnlock && flowersGrown >= Services.GameController.unlockLevels[1])
-        {
-            DeactivateCounter();
-            DeactivateTutorial();
-            ActivateTutorial(tutorials[7], 15);
-            check = GrownCheck.bushUnlock;
-            hasGivenUnlockTut = 0;
-
-        }
-        if (check == GrownCheck.bushUnlock && bushesGrown >= Services.GameController.unlockLevels[2])
-        {
-            DeactivateCounter();
-            DeactivateTutorial();
-            ActivateTutorial(tutorials[8], 15);
-            check = GrownCheck.gotTree;
-            hasGivenUnlockTut = 0;
-
-        }
+       
 
     }
     
 
     public void ActivateTutorial(Tutorial tut, float timeSet)
     {
+        Debug.Log(tut.num);
         TutText.text = tut.tutText.Replace("$", "\n");
         activeTutorial = tut;
         TutText.gameObject.SetActive(true);
