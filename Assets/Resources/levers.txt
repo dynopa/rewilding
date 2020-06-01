@@ -5,7 +5,7 @@ seedGainPerDay = 5
 seedMax = 15
 startingSeed = 10
 deleteDistance = 0.5
-numGrassToGetFlower = 50
+numGrassToGetFlower = 15
 numFlowerToGetBush = 10
 numBushToGetTree = 3
 -----

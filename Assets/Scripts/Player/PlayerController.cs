@@ -245,10 +245,10 @@ public class PlayerController : MonoBehaviour
         //UiIndicator.anchoredPosition = new Vector2(UiIndicator.anchoredPosition.x,uiPositions[typeNum]);
         whichSeed.sprite = seedImages[typeNum];
         //seedCounter.text = seedsLeft < 10 ? "0"+seedsLeft+"/"+seedPerDay : seedsLeft+"/"+seedPerDay; switched to try not displaying max in #
-        seedCounter.text = seedsLeft < 10 ? "0"+seedsLeft+"e" : seedsLeft+"e";
+        seedCounter.text = seedsLeft < 10 ? "0"+seedsLeft+"b" : seedsLeft+"b";
         float seedPercent = (float)seedsLeft/(float)seedPerDay;
         seedCounterImage.fillAmount+= (seedPercent-seedCounterImage.fillAmount)*0.1f;
-        seedCost.text = Services.GameController.plantInfo[(int)PlantInfo.plantCost, (int)typeNum]+"e";
+        seedCost.text = Services.GameController.plantInfo[(int)PlantInfo.plantCost, (int)typeNum]+"b";
 
         if(Services.PlantManager.CloseToPylon(transform.position)){
             oxygen+=Time.deltaTime*10;

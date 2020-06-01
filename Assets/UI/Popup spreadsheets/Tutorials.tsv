@@ -1,8 +1,10 @@
 0	LookMovePlant	Use WASD to move and mouse to look.$Look down and hold the left mouse button to plant in fertile soil.
-1	FirstSleep	Walk up to the door and left click to cryosleep.$This recharges your energy and advances time by a month.
-2	FirstTree	Trees require many plants to be supported.$Otherwise they will wither and die.
-3	FirstTreeGrown	Each tree greatly enriches the soil around it, giving you more space to grow.
-4	DeletePlant	Right click to delete a plant.
-5	SwitchSeeds	You've unlocked flowers. Press Q/E to switch seeds.$Flowers need to be supported by 10 adjacent grass or they will wither and die.
-6	GetBush	You've unlocked bushes. Bushes need to be supported by 5 adjacent flowers.
-7	GetTree	You've unlocked trees! Trees need to be supported by 5 adjacent bushes.$When fully grown, trees will expand the fertile area in which you can plant.
+1	FinishEnergy	Plant grass until you run out of biomass.
+2	FirstSleep	Walk up to the door and left click to cryosleep.$This recharges your biomass and advances time by a month.
+3	FlowersLock	Great work. Grow 50 grass to unlock flowers.
+4	BushLock	Grow 10 flowers to unlock bushes.
+5	TreeLock	Grow 3 bushes to unlock trees.
+6	SwitchSeeds	You've unlocked flowers. Press Q/E to switch seeds.$Flowers need to be supported by 10 adjacent grass or they will wither and die.
+7	GetBush	You've unlocked bushes. Bushes need to be supported by 5 adjacent flowers.
+8	GetTree	You've unlocked trees! Trees need to be supported by 5 adjacent bushes.$When fully grown, trees will expand the fertile area in which you can plant.
+9	DemoEnd	You've completed the demo, but feel free to continue planting.$Thank you so much for playing!
