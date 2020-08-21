@@ -247,7 +247,8 @@ public class PlantManager
         }
         if (GameObject.FindGameObjectsWithTag("NarrObj").Length > 0)
         {
-
+            Debug.Log("Narrative obj found");
+            return;
         }
         else
         {

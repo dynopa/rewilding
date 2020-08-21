@@ -44,9 +44,10 @@ public class PopupManager : MonoBehaviour
     void Start()
     {
 
-        string path = "Assets/UI/Popup spreadsheets/Tutorials.tsv"; //replace with resources.load
-      
-        string sheet = System.IO.File.ReadAllText(path);
+        TextAsset path = Resources.Load("Tutorials") as TextAsset; //replace with resources.load
+
+        //string sheet = System.IO.File.ReadAllText(path);
+        string sheet = path.text;
         string[] lines = sheet.Split('\n');
         tutorials = new Tutorial[lines.Length];
         for (int i = 0; i < lines.Length; i++)
@@ -173,8 +174,8 @@ public class PopupManager : MonoBehaviour
     void OnDay2(AGPEvent e)
     {
         Debug.Log("day2");
-        
 
+        Services.GameController.makeNarrativeEvents = true;
         //ActivateTutorial(tutorials[2], 15);
 
     }

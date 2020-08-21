@@ -78,6 +78,8 @@ public class PlayerController : MonoBehaviour
     public float maxOxygen;
     public float oxygen;
     public Image oxygenDisplay;
+    public Image cursor;
+    private Color cursorCol;
     //Text resourceText;
     float newHoleRadius = 5f;
 
@@ -171,13 +173,14 @@ public class PlayerController : MonoBehaviour
         lerpLength = Vector3.Distance(startCamPos, endCamPos);
 
         fadeOut.gameObject.SetActive(true);
-        
+
         //might not work in awake - move to start if it doesn't
 
         //resourceText = GameObject.Find("ResourceText").GetComponent<Text>();
         //specialIdx = GameObject.Find("SpecialIdx").GetComponent<Image>();
 
         //inventory
+        cursorCol = new Color(246,216,0);
 
     }
 
@@ -351,6 +354,10 @@ public class PlayerController : MonoBehaviour
         }
 
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Services.PlantManager.CreateNarrativeMoment();
+        }
         //items
 
 
@@ -363,51 +370,6 @@ public class PlayerController : MonoBehaviour
             //Application.Quit();
             #endif
         }
-        //if (lookEnabled == false && (Input.GetMouseButtonDown(1) || (!Input.GetMouseButton(1) && Input.GetMouseButtonDown(0))))
-        //{
-        //    mousePos = Input.mousePosition;
-        //    Cursor.visible = false; //hides mouse cursor
-        //    Cursor.lockState = CursorLockMode.Locked; //locks mouse in center of screen
-        //}
-
-        /*if (Input.GetMouseButtonDown(1))
-        {
-            if (lookEnabled == false)
-            {
-                mouseLook.enabled = true;
-            }
-            //CheckInteraction();
-            isSpeaking = true;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-            StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
-            {
-                cam.fieldOfView = Mathf.Lerp(fov_default, fov_comms, t);
-            }));
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            //CheckInteraction();
-            isSpeaking = false;
-            if (!isFocusing)
-            {
-                StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
-                {
-                    cam.fieldOfView = Mathf.Lerp(fov_comms, fov_default, t);
-                }));
-            }
-            if (isFocusing)
-            {
-                StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
-                {
-                    cam.fieldOfView = Mathf.Lerp(fov_comms, fov_focus, t);
-                }));
-            }
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }*/
-        //focus code begin
-
 
         if (Input.GetAxis("Fire1") == 1)
         {
@@ -450,16 +412,8 @@ public class PlayerController : MonoBehaviour
                   
                 }
             }
-            //seedCounter.text = cam.transform.localEulerAngles.x.ToString();
-            //if (!isSpeaking)
-            //{
-            //    StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
-            //    {
-            //        cam.fieldOfView = Mathf.Lerp(fov_default, fov_focus, t);
-            //    }));
-            //}
+
             holdingA = true;
-            //releasedA = false;
         }
         else //on release
         {
@@ -526,8 +480,9 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CheckInteraction();
+            //CheckInteraction();
         }
+        CheckInteraction();
         
         //end items
 
@@ -539,14 +494,23 @@ public class PlayerController : MonoBehaviour
     }
     void CheckInteraction()
     {
-        float distance = 4f;
+        float distance = 2.5f;
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance))
         {
-            if (hit.transform.tag == "Item")
+            if (hit.transform.tag == "Ground")
             {
-
+                cursor.color = Color.white;
             }
+            else
+            {
+                cursor.color = Color.grey;
+            }
+        }
+        else
+        {
+            cursor.color = Color.grey;
+
         }
     }
     GameObject Cast(bool create, bool destroy)
@@ -555,7 +519,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.distance > 2f){
+            if(hit.distance > 2.5f){
                 return null;
             }
             if (hit.transform.name == "Button")
@@ -648,10 +612,11 @@ public class PlayerController : MonoBehaviour
         Services.PlantManager.Update();
         Services.EventManager.Unregister<FadeOutComplete>(OnFadeOutComplete);
         dayNum++;
-        
-        if(dayNum > 2){
+        Debug.Log("FADEOUTCOMPLETE");
+        //if(dayNum > 2){
             Services.PlantManager.CreateNarrativeMoment();
-        }
+            Debug.Log("NARRATIVE");
+        //}
     }
     void Move()
     {
