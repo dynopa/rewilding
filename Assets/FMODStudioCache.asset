@@ -35,7 +35,7 @@ MonoBehaviour:
   Path: event:/Not Enough Goo
   guid: fb446a0d680c3e4eb0e1710c609d9ba2
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -62,7 +62,7 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 14785248
-  Exists: 1
+  Exists: 0
 --- !u!114 &-7180680844583670978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   Path: event:/BGM1
   guid: f0db1b668228ed46bab6e4a04ee275eb
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   Path: event:/t3_plink
   guid: c8a554bf8f29104fb5390a07f6bf444a
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   Path: event:/t2_plink
   guid: d11d1a93e22c7149b18aad32d53d721f
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
   Path: event:/all_plink
   guid: e7e0a63bad1b004e96573fda0d3c135e
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   Path: event:/Valve
   guid: 5f751840b07e11408fc8df765145914f
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets/Sounds/RewildFMOD/Build/Desktop/Master Bank.strings.bank
-  lastModified: 637334512200000000
+  lastModified: 637261062600000000
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -212,7 +212,7 @@ MonoBehaviour:
   Path: event:/lost oxygen
   guid: 697b64ca222c3f43bb91b03e9ef7c1e5
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
   Path: event:/powerDown 2
   guid: 89c8726d4879a14cbd96c615605b7d7a
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -258,7 +258,7 @@ MonoBehaviour:
   Path: event:/withering
   guid: a45351758f4f77408c0ae0de8c56c79f
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -281,7 +281,7 @@ MonoBehaviour:
   Path: event:/t1_plink
   guid: f02c43812e09d64986f38b102463f975
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
   Path: event:/BGM0
   guid: a9de939fac74164097f9ae524ca315ff
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -327,7 +327,7 @@ MonoBehaviour:
   Path: event:/plant
   guid: b9ec364f0e0925479a3af954d7dd0eee
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: -5222345305863969707}
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   EditorEvents:
   - {fileID: 7402087603021087443}
   - {fileID: 3219374944097502783}
@@ -374,9 +374,9 @@ MonoBehaviour:
   - {fileID: -3611144778226161613}
   - {fileID: -7180680844583670978}
   - {fileID: -8616449553820651536}
-  MasterBankRef: {fileID: -7676412711899764258}
+  MasterBankRef: {fileID: 8109618079718230918}
   StringsBankRef: {fileID: -5222345305863969707}
-  stringsBankWriteTime: 637334512200000000
+  stringsBankWriteTime: 637261062600000000
   cacheVersion: 2
 --- !u!114 &686531478882480739
 MonoBehaviour:
@@ -393,7 +393,7 @@ MonoBehaviour:
   Path: event:/Dirt
   guid: 6af08d307acf474fa721df12dd79dae9
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -416,7 +416,7 @@ MonoBehaviour:
   Path: event:/plink
   guid: 391c7ae06638724d93f8dffea0c554d0
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -439,7 +439,7 @@ MonoBehaviour:
   Path: event:/UI Change
   guid: a5e1cae32b3c9045ad6c556830791388
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -462,7 +462,7 @@ MonoBehaviour:
   Path: event:/Unplant
   guid: 1c7195b5de7a2e44abac2c3d7fa9e377
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -505,7 +505,7 @@ MonoBehaviour:
   Path: event:/Door3
   guid: c6749c345c3a9247b791d08ac9c06df9
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -528,7 +528,7 @@ MonoBehaviour:
   Path: event:/plantRev
   guid: 5fbb87f09cc3ae41aaa2719ee0631119
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
@@ -551,7 +551,7 @@ MonoBehaviour:
   Path: event:/walk1
   guid: a9c0a1b523f1c943b1761d9e151b59fc
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -574,7 +574,7 @@ MonoBehaviour:
   Path: event:/t0_plink
   guid: 59991f29b961174d8951f172e80f350b
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
@@ -597,7 +597,7 @@ MonoBehaviour:
   Path: event:/UI3
   guid: 2a694192995b72439c55ec6a1322be72
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -620,7 +620,7 @@ MonoBehaviour:
   Path: event:/VO_Test
   guid: 03197a2139e9404e9dbd0c9f694633a9
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -628,6 +628,26 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 22104
+--- !u!114 &8109618079718230918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: /Users/spencer/Game projects/rewilding_unity/Assets/Sounds/RewildFMOD/Build/Desktop/Master
+    Bank.bank
+  lastModified: 637261062600000000
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 14785248
+  Exists: 1
 --- !u!114 &8295016963666414454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +663,7 @@ MonoBehaviour:
   Path: event:/lowOxy2
   guid: 6c0822de492710449e10befb0b21e7f7
   Banks:
-  - {fileID: -7676412711899764258}
+  - {fileID: 8109618079718230918}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
