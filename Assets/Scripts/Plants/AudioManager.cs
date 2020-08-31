@@ -126,28 +126,11 @@ public class AudioManager : MonoBehaviour
                 //plantFood.clearHandle();
                 if (!p.plantFood.isValid())
                 {
-                    //UnityEngine.Debug.Log("FINE");
-                    /*switch (p.type)
-                    {
-                        case (PlantType)0:
-                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/t1_plink");
-                            break;
-                        case (PlantType)1:
-                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/t2_plink");
-                            break;
-                        case (PlantType)2:
-                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/t3_plink");
-                            break;
-                        case (PlantType)3:
-                            p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/t4_plink");
-                            break;
-                        default:
-                            break;
-                    }*/
+                    
                     p.plantFood = FMODUnity.RuntimeManager.CreateInstance("event:/all_plink");
                     p.plantFood.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(p.gameObject));
                     UnityEngine.Debug.Log(IsPlaying(p.plantFood));
-                    //p.plantFood.start();
+                    p.plantFood.start();
                     UnityEngine.Debug.Log(IsPlaying(p.plantFood));
                 }
                 else

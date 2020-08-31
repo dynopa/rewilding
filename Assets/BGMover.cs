@@ -18,7 +18,7 @@ public class BGMover : MonoBehaviour
         rTransform = gameObject.GetComponent<RectTransform>();
         startPos = rTransform.anchoredPosition;
         pos1 = startPos;
-
+        lerpStartTime = Time.time;
     }
 
     // Update is called once per frame
