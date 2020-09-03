@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Tree
+  m_EditorClassIdentifier: Assembly-CSharp::PlantType
+  plantPrefab: {fileID: 0}
+  babiesAllowed: 0
+  babiesPerDay: 0
+  babyDistance_max: 0
+  babyDistance_min: 0
+  req_elevation: 0
+  req_airQuality: 0
+  req_shade: 0
+  req_moistureMin: 0
+  req_moistureMax: 0
+  req_tempMin: 0
+  req_tempMax: 0
+  req_soilMin:
+    clay: 0
+    sand: 0
+    silt: 0
+    horizon: 0
+  req_soilMax:
+    clay: 0
+    sand: 0
+    silt: 0
+    horizon: 0
+  req_nutrients:
+    nitrogen: 0
+    phosphorous: 0
+    potassium: 0
+  req_distanceForSame: 0
+  req_distanceForOther: 0
+  out_shade: 1
+  out_moisture: 0
+  out_soil:
+    clay: 0
+    sand: 0
+    silt: 0
+    horizon: 0
+  out_nutrients:
+    nitrogen: 0
+    phosphorous: 0
+    potassium: 0

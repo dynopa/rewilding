@@ -11,7 +11,7 @@ public static class SaveLoad
         save.id = Services.GameController.saveId;
         save.year = Services.GameController.date.Year;
         save.month = Services.GameController.date.Month;
-        foreach(Plant plant in Services.PlantManager.plants){
+        foreach(OldPlant plant in Services.PlantManager.plants){
             save.plants.Add(plant.Save());
         }
         string json = JsonUtility.ToJson(save);
@@ -27,12 +27,12 @@ public static class SaveLoad
         string json = System.IO.File.ReadAllText(path);
         Save save = JsonUtility.FromJson(json,typeof(Save)) as Save;
         Services.GameController.date = new DateTime(save.year,save.month,1);
-        foreach(Plant plant in Services.PlantManager.plants){
+        foreach(OldPlant plant in Services.PlantManager.plants){
             plant.Destroy();
         }
         Services.PlantManager.plants.Clear();
         foreach(PlantData data in save.plants){
-            Plant plant = new Plant((PlantType)data.plantType, data.position);
+            OldPlant plant = new OldPlant((OldPlantType)data.plantType, data.position);
             plant.LoadPlant(data);
             Services.PlantManager.FindNeighbors(plant);
             Services.PlantManager.plants.Add(plant);
