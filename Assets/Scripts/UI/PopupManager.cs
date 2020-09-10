@@ -79,7 +79,7 @@ public class PopupManager : MonoBehaviour
         Services.EventManager.Register<PlantGrown>(OnPlantGrown);
 
         check = GrownCheck.thirdPlanted;
-        startSeed = PlayerController.instance.seedsLeft;
+        startSeed = Services.PlayerController.seedsLeft;
         hasGivenUnlockTut = 0;
 
     }

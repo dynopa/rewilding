@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Plant
 {
-    //states
+    //states (unique runtime plant data)
     public GrowthState growthState;
     public int age;
+    public GameObject plantObj;
     //TODO: zone id
 
+    public Plant(PlantType planttype)
+    {
+        plantType = planttype;
+    }
 
     // ---- Scriptable object data ----
     public GameObject plantPrefab => plantType.plantPrefab;
@@ -43,10 +48,7 @@ public class Plant
     public Soil Out_soil => plantType.out_soil;
     public Nutrients Out_nutrients => plantType.out_nutrients;
 
-    public Plant(PlantType planttype)
-    {
-        plantType = planttype;
-    }
+
 }
 
 [CreateAssetMenu(fileName = "Plant")]
@@ -92,7 +94,7 @@ public class PlantType : ScriptableObject
 
 public enum GrowthState
 {
-    seedling, adult, sick, dead
+    baby, adult, sick, dead
 }
 public enum Elevation
 {

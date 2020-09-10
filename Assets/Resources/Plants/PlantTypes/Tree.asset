@@ -40,7 +40,7 @@ MonoBehaviour:
     potassium: 0
   req_distanceForSame: 0
   req_distanceForOther: 0
-  out_shade: 1
+  out_shade: 0
   out_moisture: 0
   out_soil:
     clay: 0

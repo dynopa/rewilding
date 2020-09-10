@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
 
     public int seedPerDay;
     public int seedGainPerDay;
-    public static PlayerController instance;
     private PlayerState p_state;
     private PlayerSc p_sc;
     public bool[] canAccessPlant = new bool[] { true, false, false, false };
@@ -136,7 +135,7 @@ public class PlayerController : MonoBehaviour
         spawnPosition = transform.position;
         type = OldPlantType.Spread;
         mousePos = Input.mousePosition;
-        instance = this;
+        Services.PlayerController = this;
         p_state = GetComponent<PlayerState>();
         p_sc = GetComponent<PlayerSc>();
         rb = GetComponent<Rigidbody>();
@@ -199,7 +198,9 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 hitPt = CastPoint();
             Instantiate(digFX, hitPt, Quaternion.identity);
+
             Services.PlantManager.CreateNewPlant(type, hitPt, true);
+
             seedsLeft -= (int)Services.GameController.plantInfo[(int)PlantInfo.plantCost, (int)type];
         }
         else if (seedsLeft <= Services.GameController.plantInfo[(int)PlantInfo.plantCost, (int)type])
