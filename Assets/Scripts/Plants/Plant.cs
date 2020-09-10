@@ -1,360 +1,153 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum PlantType
-{
-    Spread,Grass,Shrub,Tree,sSpecial
-}
+
 public class Plant
 {
-    public const float needsThreshold = 0.25f;
-    public int babyLimit = 2;
-    public bool grown;
-    public byte stage=1;
-    public int numBabies;
-    public Vector3 position;
-    public PlantType type;
-    public List<Plant> neighbors;//other plants THAT COULD support this plant near this plant
-    public Dictionary<PlantType,int> needs;//needs for the plant by type abstract
-    float needsMetPercent;//whether its needs are met or not
-    float growthPercent;//how far along this plant is to full-grown
-    public bool shouldPlay = true;
+    //states (unique runtime plant data)
+    public GrowthState growthState;
+    public int age;
+    public GameObject plantObj;
+    //TODO: zone id
 
-    int energyTotal = 1;//how much enery can this plant give
-    public int energyGiven = 0;
-
-    //FMOD EVENT ASSIGNMENT
-    public FMOD.Studio.EventInstance plantFood;
-    public float sizeRandom;
-
-
-
-
-
-    public bool CanGiveEnergy{
-        get{
-            return true;//energyGiven < energyTotal && needsMetPercent >= needsThreshold;
-        }
-    }
-    public int GetState{
-        get{
-            if(withering){
-                return 3;
-            }
-            if(needsMetPercent < 0.5f){
-                return 2;
-            }
-            if(needsMetPercent > 0.5f){
-                return 0;
-            }
-            return 1;
-        }
-    }
-    public GameObject gameObject;
-    MeshRenderer plantDisplay;
-    Vector3 minSize = new Vector3(0.25f,0.25f,0.25f);
-    Vector3 maxSize = Vector3.one;
-
-    public bool withering;
-    public int babiesPerDay;
-    public float ratioNeeded;
-    public List<Plant> babies = new List<Plant>();
-    public bool dead = false;
-
-    public Plant(PlantType type,Vector3 pos){
-        stage = 1;
-        this.type = type;
-        ratioNeeded = Services.GameController.plantInfo[(int)PlantInfo.dependentRatio,(int)type];
-        babiesPerDay = (int)Services.GameController.plantInfo[(int)PlantInfo.babiesPerDay,(int)type];
-        babyLimit = (int)Services.GameController.plantInfo[(int)PlantInfo.babiesAllowed,(int)type];
-        position = pos;
-        needsMetPercent = 0;
-        growthPercent = 0;
-        neighbors = new List<Plant>();
-        needs = new Dictionary<PlantType, int>();
-        switch(type){
-            case PlantType.Grass:
-                needs.Add(PlantType.Spread,2);
-                break;
-            case PlantType.Shrub:
-                /*needs.Add(PlantType.Spread,3);
-                needsActual.Add(PlantType.Spread,0);
-                needsMet.Add(PlantType.Spread,false);*/
-                needs.Add(PlantType.Grass,2);
-                break;
-            case PlantType.Tree:
-                /*needs.Add(PlantType.Spread,4);
-                needsActual.Add(PlantType.Spread,0);
-                needsMet.Add(PlantType.Spread,false);
-                needs.Add(PlantType.Grass,3);
-                needsActual.Add(PlantType.Grass,0);
-                needsMet.Add(PlantType.Grass,false);*/
-                needs.Add(PlantType.Shrub,2);
-                break;
-        }
-        gameObject = new GameObject(type.ToString());
-        gameObject.transform.position = position;
-        gameObject.tag = "Plant";
-        
-        if(type == PlantType.Tree){
-            BoxCollider c = gameObject.AddComponent(typeof(BoxCollider)) as BoxCollider;
-            c.size = new Vector3(0.5f,0.5f,0.5f);
-            c.isTrigger = true;
-            c.isTrigger = false;
-            c.size = new Vector3(c.size.x,c.size.y*10f,c.size.z);
-        }
-        gameObject.transform.localEulerAngles = new Vector3(0,Random.Range(0,360),0);
-       
-        GameObject.Instantiate(Resources.Load(type.ToString()+"_"+stage),gameObject.transform);
-        gameObject.transform.GetChild(0).gameObject.AddComponent(typeof(ComeUpper));
-        sizeRandom = Random.Range(0.75f,1.5f);
-        gameObject.transform.localScale = minSize*sizeRandom;
-        plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
-    }
-
-    public void Update()//called each night to grow the plant
+    public Plant(PlantType planttype)
     {
-        if(grown && babies.Count >= babyLimit){
-            return;
-        }
-        if(!grown){
-            float level = (int)type+1;
-            CheckNeeds();
-            
-            if(!withering){
-                if(needsMetPercent < 0.5f){
-                    //make sure it will play bum note
-                    shouldPlay = true;
-                    withering = true;
-                   
-                }
-            }else{
-                if(needsMetPercent > 0f){
-                    withering = false;
-                    Services.EventManager.Fire(new PlantJustFed(this));
-                   // Debug.Log("Hello");
-                    //Services.EventManager.Fire
-                }
-                else{
-                    Destroy();
-                }
-            }
-            //growthPercent+=0.05f*needsMetPercent*(1.0f/level)*4;
-            if(ReferenceEquals(plantDisplay,null)){
-                if(withering){
-                    plantDisplay.material.color = Color.black;
-                }else{
-                    if(needsMetPercent < 0.5f){
-                        //about to wither
-                        plantDisplay.material.color = Color.white;
-                    }else if(needsMetPercent < 1.0f){
-                        //half!
-                        plantDisplay.material.color = Color.gray;
-                    }else{
-                        //good
-                        plantDisplay.material.color = Color.white;
-                    }
-                }
-            }
-            if(needsMetPercent < 0.5f){
-                needsMetPercent = Services.GameController.plantInfo[(int)PlantInfo.unsupportedGrowthRate,(int)type];
-            }
-            growthPercent+=(Services.GameController.plantInfo[(int)PlantInfo.growthRate,(int)type]*needsMetPercent);
-            Debug.Log(growthPercent);
-            if(growthPercent >= stage){
-                growthPercent = 0;
-                stage++;
-                switch(type){
-                    case PlantType.Spread://grass
-                        grown = true;
-                        growthPercent = 1.0f;
-                        break;
-                    case PlantType.Grass://Flower (HAS 3 STAGES)
-                        if(stage != 2){
-                            GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
-                            GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
-                            plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
-                        }
-                        if(stage > 3){
-                            grown = true;
-                            growthPercent = 1.0f;
-                        }
-                        break;
-                    case PlantType.Shrub://Bush
-                        if(stage != 2){
-                            GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
-                            GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
-                            plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
-                        }
-                        if(stage > 2){
-                            grown = true;
-                            growthPercent = 1.0f;
-                        }
-                        break;
-                    case PlantType.Tree:
-                        if(stage != 2){
-                            GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
-                            GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
-                            plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
-                        }
-                        if(stage > level){
-                            grown = true;
-                            growthPercent = 1.0f;
-                        }
-                        break;
-                }
-                
-            }
-            if(grown){
-                Services.PlantManager.typeCount[(int)type]++;
-                Services.EventManager.Fire(new PlantGrown(this));
-                if(type == PlantType.Tree){
-                    Services.PlantManager.CreateNewPylon(position);
-                }
-            }
-            gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent)*sizeRandom;
-            return;
-        }
-        /*if(needsMetPercent> needsThreshold){
-            growthPercent+=0.1f*needsMetPercent;
-        }*/
-        
-        if(grown){
-            CheckNeeds();
-            //grow more plants!  && needsMetPercent >= Services.GameController.needsMetToHaveBaby[(int)type])
-            if(Random.value <= Services.GameController.plantInfo[(int)PlantInfo.babyChance,(int)type]){
-                for(int i = 0; i < babiesPerDay; i++){
-                    if(HaveBaby()){
-                        numBabies++;
-                    }
-                }
-                
-            }
-            
-        }
-    }
-    public void Destroy(){
-        //make a death event
-        dead = true;
-        Services.EventManager.Fire(new PlantDestroyed(this));
-        GameObject.Destroy(gameObject);
-    }
-    public bool HaveBaby(){
-        float level = (int)type+1;
-        Vector3 newPosition = position+Random.insideUnitSphere*Random.Range(Services.GameController.plantInfo[(int)PlantInfo.minBabyDistance,(int)type],Services.GameController.plantInfo[(int)PlantInfo.maxBabyDistance,(int)type])*(level);
-        newPosition.y = position.y+5f;
-        RaycastHit hit;
-        Ray ray = new Ray(newPosition,Vector3.down);
-        if (Physics.Raycast(ray, out hit)){
-            if(hit.collider.CompareTag("Ground") == false){//you hit something thats not ground?
-                return false;
-            }
-            newPosition.y = hit.point.y;
-        }else{
-            //you hit nothing, somehow, you need to at least hit the ground!
-            return false;
-        }
-        Plant baby = Services.PlantManager.CreateNewPlant(type,newPosition);
-        if(ReferenceEquals(baby,null)){
-            return false;
-        }else{
-            babies.Add(baby);
-            return true;
-        }
-    }
-    //check how your needs are being met
-    public void CheckNeeds(){
-        bool met = needsMetPercent>=needsThreshold;
-        needsMetPercent = 0;
-        if(type == PlantType.Spread){
-            needsMetPercent = 1;
-        }else{
-            int numMyLevel = 1;
-            int numLowerLevel = 0;
-            foreach(Plant neighbor in neighbors){
-                if(neighbor.type == type){
-                    numMyLevel++;
-                }else{
-                    numLowerLevel++;
-                }
-            }
-            if(numLowerLevel >= numMyLevel*ratioNeeded){
-                //Debug.Log("Hello");
-                needsMetPercent = 1.0f;
-            }else if(numLowerLevel >= numMyLevel*ratioNeeded/2f){
-                needsMetPercent = 0.5f;
-            }else{
-                needsMetPercent = 0;
-            }
-        }
-        
-        if(met == false){
-            if(needsMetPercent >= needsThreshold){
-                Services.EventManager.Fire(new PlantJustFed(this));
-                //Debug.Log("H");
-            }
-        }
-    }
-    public bool CheckNeedThisPlant(Plant plant){
-        return needs.ContainsKey(plant.type) || plant.type == type;
+        plantType = planttype;
     }
 
-    //this is called when a new plant is added to your neighbors
-    public void NewPlantUpdate(Plant newPlant){
-        //you need it!
-        CheckNeeds();
-    }
-    //when a plant you are neighbors with is updated to be able to need fulfilling
-    public void PlantFullUpdate(Plant newPlant){
-        CheckNeeds();
-    }
-    //this is called when a plant is removed from your neighbors
-    public void RemovePlantUpdate(Plant newPlant){
-        neighbors.Remove(newPlant);
-        CheckNeeds();
-    }
-    public PlantData Save(){
-        PlantData data = new PlantData();
-        data.position = position;
-        data.plantType = (int)type;
-        data.stage = stage;
-        data.grown = grown;
-        data.growthPercent = growthPercent;
-        data.withering = withering;
-        return data;
-    }
-    public void LoadPlant(PlantData data){
-        position = data.position;
-        type = (PlantType)data.plantType;
-        stage = data.stage;
-        if(stage != 1){
-            GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
-            GameObject.Instantiate(Resources.Load(type.ToString()+"_"+(stage-1)),gameObject.transform);
-            plantDisplay = gameObject.GetComponentInChildren<MeshRenderer>();
+    // ---- Scriptable object data ----
+    public GameObject plantPrefab => plantType.plantPrefab;
+    public PlantType plantType;
+
+    //reproduction behavior
+    public int BabiesAllowed => plantType.babiesAllowed;
+    public int BabiesPerDay => plantType.babiesPerDay;
+    public float BabyDistance_max => plantType.babyDistance_max;
+    public float BabyDistance_min => plantType.babyDistance_min;
+    
+    //trait requirements
+    public Elevation Req_elevation => plantType.req_elevation;
+    public int Req_airQuality => plantType.req_airQuality;
+
+    //factor requirements
+    public Shade Req_shade => plantType.req_shade; //none,half,full
+    public float Req_moistureMin => plantType.req_moistureMin;
+    public float Req_moistureMax => plantType.req_moistureMax;
+    public float Req_tempMin => plantType.req_tempMin;
+    public float Req_tempMax => plantType.req_tempMax;
+    public Soil Req_soilMin => plantType.req_soilMin;
+    public Soil Req_soilMax => plantType.req_soilMax;
+    public Nutrients Req_nutrients => plantType.req_nutrients;
+
+    public float Req_distanceForSame => plantType.req_distanceForSame;
+    public float Req_distanceForOther => plantType.req_distanceForOther;
+
+    //factor outputs
+    public Shade Out_shade => plantType.out_shade; //none,half,full
+    public float Out_moisture => plantType.out_moisture;
+    public Soil Out_soil => plantType.out_soil;
+    public Nutrients Out_nutrients => plantType.out_nutrients;
+
+
+}
+
+[CreateAssetMenu(fileName = "Plant")]
+public class PlantType : ScriptableObject
+{
+    public GameObject plantPrefab;
+
+    //reproduction behavior
+    public int babiesAllowed;
+    public int babiesPerDay;
+    [Range(0, 20)]
+    public float babyDistance_max;
+    [Range(0, 20)]
+    public float babyDistance_min;
+
+    //trait requirements
+    public Elevation req_elevation;
+    [Range(0, 10)]
+    public int req_airQuality;
+
+    //factor requirements
+    public Shade req_shade; //none,half,full
+    [Range(0, 1)]
+    public float req_moistureMin, req_moistureMax;
+    public float req_tempMin, req_tempMax;
+    public Soil req_soilMin, req_soilMax;
+    public Nutrients req_nutrients;
+
+    [Range(0, 20)]
+    public float req_distanceForSame;
+    [Range(0, 20)]
+    public float req_distanceForOther;
+
+    //factor outputs
+    public Shade out_shade; //none,half,full
+    [Range(-1, 1)]
+    public float out_moisture;
+
+    [SerializeField]
+    public Soil out_soil;
+    public Nutrients out_nutrients;
+}
+
+public enum GrowthState
+{
+    baby, adult, sick, dead
+}
+public enum Elevation
+{
+    low,mid,high
+}
+public enum Shade
+{
+    none,half,full
+}
+
+[System.Serializable]
+public class Soil
+{
+    [Range(-10, 10)]
+    public int clay;
+    [Range(-10, 10)]
+    public int sand;
+    [Range(-10, 10)]
+    public int silt;
+    [Range(-1, 1)]
+    public float horizon;
+
+    public Soil(int clay, int sand, int silt, float horizon) //TODO: Make sure this rounds properly?
+    {
+        int sum = clay + sand + silt;
+        if (sum > 10)
+        {
+            clay = 10 * (clay / sum);
+            sand = 10 * (sand / sum);
+            silt = 10 * (silt / sum);
         }
-        grown = data.grown;
-        growthPercent = data.growthPercent;
-        withering = data.withering;
-        if(growthPercent >= 1.0f){
-            growthPercent = 1.0f;
-            grown = true;
-        }
-        if(grown){
-            Services.PlantManager.typeCount[(int)type]++;
-            if(type == PlantType.Tree){
-                Services.PlantManager.CreateNewPylon(position);
-            }
-        }
-        gameObject.transform.localScale = Vector3.Lerp(minSize,maxSize,growthPercent);
+        this.clay = clay;
+        this.sand = sand;
+        this.silt = silt;
+        this.horizon = horizon;
     }
 }
+
 [System.Serializable]
-public class PlantData
+public class Nutrients
 {
-    public Vector3 position;
-    public int plantType;
-    public byte stage;
-    public bool grown;
-    public float growthPercent;
-    public bool withering;
+    [Range(-10, 10)]
+    public int nitrogen;
+    [Range(-10, 10)]
+    public int phosphorous;
+    [Range(-10, 10)]
+    public int potassium;
+
+
+    public Nutrients(int nitrogen, int phosphorous, int potassium)
+    {
+        this.nitrogen = nitrogen;
+        this.phosphorous = phosphorous;
+        this.potassium = potassium;
+    }
 }

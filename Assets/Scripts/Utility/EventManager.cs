@@ -69,24 +69,24 @@ public abstract class AGPEvent
 
 public class PlantDestroyed : AGPEvent
 {
-	public Plant plant;
+	public OldPlant plant;
 
-	public PlantDestroyed(Plant plant){
+	public PlantDestroyed(OldPlant plant){
 		this.plant = plant;
 	}
 }
 public class PlantJustFed : AGPEvent
 {
-	public Plant plant;
-	public PlantJustFed(Plant plant){
+	public OldPlant plant;
+	public PlantJustFed(OldPlant plant){
 		this.plant = plant;
 	}
 }
 
 public class PlantJustUnFed : AGPEvent
 {
-    public Plant plant;
-    public PlantJustUnFed(Plant plant)
+    public OldPlant plant;
+    public PlantJustUnFed(OldPlant plant)
     {
         this.plant = plant;
     }
@@ -94,14 +94,14 @@ public class PlantJustUnFed : AGPEvent
 
 public class PlantCreated : AGPEvent
 {
-    public Plant plant;
-	public PlantCreated(Plant plant){
+    public OldPlant plant;
+	public PlantCreated(OldPlant plant){
 		this.plant = plant;
 	}
 }
 public class PlantGrown : AGPEvent{
-	public Plant plant;
-	public PlantGrown(Plant plant){
+	public OldPlant plant;
+	public PlantGrown(OldPlant plant){
 		this.plant = plant;
 	}
 }

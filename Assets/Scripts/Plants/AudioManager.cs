@@ -52,7 +52,7 @@ public class AudioManager : MonoBehaviour
         //Need To check if all FMOD get components work with decentralized eventsystem.
         //GetComponent<FMODUnity.StudioEvent.Emitter>().Play();
         var plantEvent = (PlantGrown)e;
-        Plant plant = plantEvent.plant;
+        OldPlant plant = plantEvent.plant;
         FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, plant.position);
 
     }
@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour
     void OnPlantCreated(AGPEvent e)
     {
         var plantEvent = (PlantCreated)e;
-        Plant plant = plantEvent.plant;
+        OldPlant plant = plantEvent.plant;
         //Play creation sound
         FMODUnity.RuntimeManager.PlayOneShot(oncreateEvent, plant.position);
     }
@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour
     void onPlantDestroyed(AGPEvent e)
     {
         var plantEvent = (PlantDestroyed)e;
-        Plant plant = plantEvent.plant;
+        OldPlant plant = plantEvent.plant;
         FMODUnity.RuntimeManager.PlayOneShot(ondestroyEvent, plant.position);
 
     }
@@ -76,7 +76,7 @@ public class AudioManager : MonoBehaviour
     void OnPlantFed(AGPEvent e)
     {
         var plantEvent = (PlantJustFed)e;
-        Plant plant = plantEvent.plant;
+        OldPlant plant = plantEvent.plant;
         FMODUnity.RuntimeManager.PlayOneShot(ondestroyEvent, plant.position);
         UnityEngine.Debug.Log("REEEEEE");
         UnityEngine.Debug.Log("REEEEEE");
@@ -84,7 +84,7 @@ public class AudioManager : MonoBehaviour
     }
     void OnFadeOutComplete(AGPEvent e)
     {
-        foreach (Plant p in Services.PlantManager.plants)
+        foreach (OldPlant p in Services.PlantManager.plants)
         {
             if (p.plantFood.isValid())
             {
@@ -107,7 +107,7 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-        foreach (Plant p in Services.PlantManager.plants)
+        foreach (OldPlant p in Services.PlantManager.plants)
         {
             if (p.shouldPlay == false) continue;
             if(p.dead){continue;}

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlantManager
 {
-    public List<Plant> plants;
+    public List<OldPlant> plants;
     public int[] typeCount = new int[4];//cumulative
-    public List<Plant> newPlants;
-    public List<Plant> deadPlants;
+    public List<OldPlant> newPlants;
+    public List<OldPlant> deadPlants;
     public List<Vector3> pylonPositions;
     public TextureEditor texEdit;
     bool firstTreePlanted;
@@ -21,9 +21,9 @@ public class PlantManager
         }
     }
     public void Initialize(){
-        plants = new List<Plant>();
-        newPlants = new List<Plant>();
-        deadPlants = new List<Plant>();
+        plants = new List<OldPlant>();
+        newPlants = new List<OldPlant>();
+        deadPlants = new List<OldPlant>();
         Services.EventManager.Register<PlantDestroyed>(OnPlantDestroyed);
         Services.EventManager.Register<PlantJustFed>(OnPlantFed);
         pylonPositions = new List<Vector3>();
@@ -60,14 +60,14 @@ public class PlantManager
         }
         return false;
     }
-    public Plant CreateNewPlant(PlantType type, Vector3 pos, bool playerPlaced = false){
+    public OldPlant CreateNewPlant(OldPlantType type, Vector3 pos, bool playerPlaced = false){
         bool isCloseEnough = CloseToPylon(pos);
         if(!isCloseEnough){
             Debug.Log("Plant is not in pylon radius");
             return null;
         }
         if(!playerPlaced){
-            foreach(Plant p in plants){
+            foreach(OldPlant p in plants){
                 float distance = Vector3.Distance(pos,p.position);
                 float maxAllowedDistance = 0f;
                 if(p.type != type){
@@ -88,7 +88,7 @@ public class PlantManager
                     
                 }
             }
-            foreach(Plant p in newPlants){
+            foreach(OldPlant p in newPlants){
                 float distance = Vector3.Distance(pos,p.position);
                 float maxAllowedDistance = 0f;
                 if(p.type != type){
@@ -111,8 +111,8 @@ public class PlantManager
             }
         }
         
-        Plant plant = new Plant(type, pos);
-        if(type == PlantType.Tree && firstTreePlanted == false){
+        OldPlant plant = new OldPlant(type, pos);
+        if(type == OldPlantType.Tree && firstTreePlanted == false){
             firstTreePlanted = true;
             Services.EventManager.Fire(new FirstTreePlanted());
         }
@@ -126,8 +126,8 @@ public class PlantManager
         
         return plant;
     }
-    public void FindNeighbors(Plant p1){
-        foreach(Plant p2 in plants){
+    public void FindNeighbors(OldPlant p1){
+        foreach(OldPlant p2 in plants){
             byte p1Level = (byte)p1.type;
             byte p2Level = (byte)p2.type;
             if(p1Level == p2Level || Mathf.Abs(p1Level-p2Level) == 1){
@@ -153,9 +153,9 @@ public class PlantManager
     void OnPlantDestroyed(AGPEvent e){
         //var event = (PlantDestroyed) e;
         var pd = (PlantDestroyed)e;
-        Plant plant = pd.plant;
+        OldPlant plant = pd.plant;
         //remove plants from other people's lists
-        foreach (Plant other in plants)
+        foreach (OldPlant other in plants)
         {
             if(other.neighbors.Contains(plant)){
                 other.RemovePlantUpdate(plant);
@@ -170,11 +170,11 @@ public class PlantManager
     //this should only happen if a plant JUST reached a point where it can support others
     void OnPlantFed(AGPEvent e){
         var pjf = (PlantJustFed)e;
-        Plant plant = pjf.plant;
+        OldPlant plant = pjf.plant;
         if(plant.CanGiveEnergy == false){
             return;
         }
-        foreach(Plant other in plants){
+        foreach(OldPlant other in plants){
             if(other.CheckNeedThisPlant(plant)){
                 other.PlantFullUpdate(plant);
             }
@@ -188,18 +188,18 @@ public class PlantManager
         if(Services.GameController.date.Month == 4){
             Services.EventManager.Fire(new Day2());
         }
-        foreach(Plant plant in deadPlants){
+        foreach(OldPlant plant in deadPlants){
             plants.Remove(plant);
         }
         //Debug.Log(plants.Count);
-        foreach(Plant plant in plants){
+        foreach(OldPlant plant in plants){
             plant.Update();
         }
         //this deals with new plants grown from other plants
-        foreach(Plant plant in newPlants){
+        foreach(OldPlant plant in newPlants){
             plants.Add(plant);
         }
-        foreach(Plant plant in deadPlants){
+        foreach(OldPlant plant in deadPlants){
             plants.Remove(plant);
         }
         if(tooManyPlants == false){
@@ -222,7 +222,7 @@ public class PlantManager
         SaveLoad.Save();
     }
     public void DestroyPlantFromGameObject(GameObject g){
-        foreach (Plant plant in plants)
+        foreach (OldPlant plant in plants)
         {
             if(plant.gameObject == g){
                 plant.Destroy();
@@ -232,7 +232,7 @@ public class PlantManager
     }
     public bool DestroyPlantFromLocation(Vector3 v){
         //returns whether or not it actually deleted a plant
-        foreach(Plant plant in plants){
+        foreach(OldPlant plant in plants){
             if(plant.dead){continue;}
             if(Vector3.Distance(plant.position,v) <Services.GameController.deleteDistance){
                 plant.Destroy();

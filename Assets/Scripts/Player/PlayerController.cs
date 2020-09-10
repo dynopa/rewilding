@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
 
     public int seedPerDay;
     public int seedGainPerDay;
-    public static PlayerController instance;
     private PlayerState p_state;
     private PlayerSc p_sc;
     public bool[] canAccessPlant = new bool[] { true, false, false, false };
@@ -66,7 +65,7 @@ public class PlayerController : MonoBehaviour
     //raycast data
     public GameObject holePrefab;
 
-    public PlantType type;
+    public OldPlantType type;
 
     //UI Data
     public GameObject economyUI;
@@ -134,9 +133,9 @@ public class PlayerController : MonoBehaviour
     {
         sentOutOfGoopMessage = false;
         spawnPosition = transform.position;
-        type = PlantType.Spread;
+        type = OldPlantType.Spread;
         mousePos = Input.mousePosition;
-        instance = this;
+        Services.PlayerController = this;
         p_state = GetComponent<PlayerState>();
         p_sc = GetComponent<PlayerSc>();
         rb = GetComponent<Rigidbody>();
@@ -199,7 +198,9 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 hitPt = CastPoint();
             Instantiate(digFX, hitPt, Quaternion.identity);
+
             Services.PlantManager.CreateNewPlant(type, hitPt, true);
+
             seedsLeft -= (int)Services.GameController.plantInfo[(int)PlantInfo.plantCost, (int)type];
         }
         else if (seedsLeft <= Services.GameController.plantInfo[(int)PlantInfo.plantCost, (int)type])
@@ -364,7 +365,6 @@ public class PlayerController : MonoBehaviour
         running = isRunning;
         if (isRunning)
         {
-            safeRelease = false;
             StartCoroutine(Coroutines.DoOverEasedTime(0.1f, Easing.Linear, t =>
             {
                 cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 50, t);
@@ -404,15 +404,15 @@ public class PlayerController : MonoBehaviour
                     typeNum--;
                 }
             }
-            type = (PlantType)typeNum;
+            type = (OldPlantType)typeNum;
         }
-        type = (PlantType)typeNum;
+        type = (OldPlantType)typeNum;
 
         FMODUnity.RuntimeManager.PlayOneShot("event:/UI Change");
         whichSeed.sprite = seedImages[typeNum];
         seedCost.text = Services.GameController.plantInfo[(int)PlantInfo.plantCost, (int)typeNum] + "b";
     }
-    void UpdateCounts()
+    private void UpdateCounts()
     {
         //resourceText.text = resource.ToString() + "r";
         for (int i = 1; i < plantCount.Count; i++)
@@ -422,7 +422,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log(plantCount[i] / plantMaxCount[i]);
         }
     }
-    bool IsPlaying(FMOD.Studio.EventInstance instance)
+    private bool IsPlaying(FMOD.Studio.EventInstance instance)
     {
         FMOD.Studio.PLAYBACK_STATE state;
         instance.getPlaybackState(out state);

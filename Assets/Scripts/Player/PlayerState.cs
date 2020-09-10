@@ -10,11 +10,13 @@ public enum lookObject
 public class PlayerState : MonoBehaviour
 {
     private Camera cam;
-    
+
+
     // Start is called before the first frame update
     void Awake()
     {
         cam = Camera.main;
+        Services.PlayerState = this;
     }
 
     // Update is called once per frame

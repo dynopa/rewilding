@@ -79,7 +79,7 @@ public class PopupManager : MonoBehaviour
         Services.EventManager.Register<PlantGrown>(OnPlantGrown);
 
         check = GrownCheck.thirdPlanted;
-        startSeed = PlayerController.instance.seedsLeft;
+        startSeed = Services.PlayerController.seedsLeft;
         hasGivenUnlockTut = 0;
 
     }
@@ -224,9 +224,9 @@ public class PopupManager : MonoBehaviour
     void OnPlantGrown(AGPEvent e)
     {
         var plantEvent = (PlantGrown)e;
-        Plant plant = plantEvent.plant;
+        OldPlant plant = plantEvent.plant;
 
-        if (plant.type == PlantType.Spread)
+        if (plant.type == OldPlantType.Spread)
         {
             grassGrown++;
             if (check == GrownCheck.grassUnlock)
@@ -245,7 +245,7 @@ public class PopupManager : MonoBehaviour
 
             }
         }
-        if (plant.type == PlantType.Grass)
+        if (plant.type == OldPlantType.Grass)
         {
             flowersGrown++;
             if (check == GrownCheck.flowerUnlock)
@@ -261,7 +261,7 @@ public class PopupManager : MonoBehaviour
                 }
             }
         }
-        if (plant.type == PlantType.Shrub)
+        if (plant.type == OldPlantType.Shrub)
         {
             bushesGrown++;
             if (check == GrownCheck.bushUnlock)
